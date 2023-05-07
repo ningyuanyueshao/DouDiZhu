@@ -16,7 +16,7 @@ public class Client {
         System.out.println("该客户端开始连接服务器");
 
         Socket clientSocket = new Socket(hostIPAddress,serverPort);
-        //主要操作应该都在这里面
+        //TODO:主要操作应该都在这里面
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
         PrintWriter printWriter = new PrintWriter(clientSocket.getOutputStream());
         String from = "";
