@@ -20,7 +20,7 @@ public class A extends JFrame implements ActionListener {
 
         // 读取背景图片
         try {
-            backgroundImage = ImageIO.read(new File("background.jpg"));
+            backgroundImage = ImageIO.read(new File("E:\\ideaworkspace\\1\\DouDiZhu\\src\\bgd2.jpg"));
         } catch (IOException ex) {
             ex.printStackTrace();
         }
