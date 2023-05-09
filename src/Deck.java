@@ -8,7 +8,7 @@ public class Deck {
 
     public Deck()
     {
-        String[] suits = {"♠", "♥", "♣", "♦"};
+        String[] suits = {"黑桃", "红心", "梅花", "方块"};
         String[] ranks = {"A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"};
         cards = new ArrayList<Card>();
         //添加每一张牌
@@ -20,6 +20,10 @@ public class Deck {
                 cards.add(card);
             }
         }
+        Card bigCard = new Card("大王","0");
+        cards.add(bigCard);
+        Card smallCard = new Card("小王","0");
+        cards.add(smallCard);
     }
 
     public void shuffle()

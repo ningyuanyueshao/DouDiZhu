@@ -20,7 +20,7 @@ public class ClientThread extends Thread{
     String from = "";
     String to = "";
     public ClientThread(String name, Socket clientSocket,Room[] roomSet) {
-        super(name); //线程名称就是用户名
+        super(name); //线程名称就是用户序号
         this.clientSocket = clientSocket;
         this.roomSet = roomSet;
     }
@@ -42,6 +42,7 @@ public class ClientThread extends Thread{
                     to = to.concat(String.valueOf(room.roomNumber));
             }
             printWriter.println(to);
+            System.out.println("服务端一开始给予的信息为"+to);
             while((from = bufferedReader.readLine()) != null){//从输入输出流获取交互信息
                 System.out.println("客户端给的信息为"+ from);
                 switch (from.charAt(0)){
