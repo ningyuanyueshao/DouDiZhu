@@ -1,30 +1,52 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import javax.imageio.ImageIO;
 
 public class A extends JFrame implements ActionListener {
     private JButton singlePlayerButton;
     private JButton multiplayerButton;
     private JButton exitButton;
+    private BufferedImage backgroundImage;
 
     public A() {
         super("游戏主菜单");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(300, 200);
+        setSize(300, 400);
         setLocationRelativeTo(null);
+
+        // 读取背景图片
+        try {
+            backgroundImage = ImageIO.read(new File("background.jpg"));
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
 
         // 创建按钮
         singlePlayerButton = new JButton("单机游戏");
         multiplayerButton = new JButton("连接游戏");
         exitButton = new JButton("退出");
 
-        // 添加按钮到面板
+        // 创建面板并添加按钮
         JPanel panel = new JPanel(new GridLayout(3, 1));
+        panel.setOpaque(false); // 设置面板透明
         panel.add(singlePlayerButton);
         panel.add(multiplayerButton);
         panel.add(exitButton);
-        add(panel);
+
+        // 添加面板到JFrame的ContentPane
+        setContentPane(new JPanel() {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);
+            }
+        });
+        getContentPane().setLayout(new BorderLayout());
+        getContentPane().add(panel, BorderLayout.CENTER);
 
         // 添加按钮的ActionListener
         singlePlayerButton.addActionListener(this);
