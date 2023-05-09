@@ -3,6 +3,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.List;
 
 /**
  * @author seaside
@@ -12,9 +13,10 @@ public class Client {
     public static void main(String[] args) throws IOException {
         //这里调用图形化的初始界面
 
+
         //若用户选择了在线游戏，再进行连接
         //需要主机IP地址和端口
-        String hostIPAddress = "2.0.0.1";
+        String hostIPAddress = "10.128.199.86"; //这个是打开wifi的属性中得到的，不知道能不能用？？？？？
         int serverPort = 8080;
         System.out.println("该客户端开始连接服务器");
         Socket clientSocket = new Socket(hostIPAddress,serverPort);
@@ -43,6 +45,6 @@ public class Client {
         } catch (Exception e) {
             System.out.println("连接中断或出错");
         }
-
     }
+
 }

@@ -14,9 +14,11 @@ public class ClientThread extends Thread{
     //在上面的代码中，当客户端关闭连接时，while 循环条件会变为 false，然后通过 socket.close() 关闭套接字。这将导致服务端的 InputStream.read() 方法返回 -1，从而结束服务端的读取循环。
     //在实际开发中，您可能需要处理客户端异常关闭连接的情况，例如在 IOException 异常中捕获客户端连接的关闭。您也可以在客户端发送特定的协议消息来显式地告知服务器端客户端已经关闭连接
 
-    //要不在这里记录房间号，房间只是用来共享变量，就不要把线程放进去了
+
     Room[] roomSet;
     int room;
+    String from = "";
+    String to = "";
     public ClientThread(String name, Socket clientSocket,Room[] roomSet) {
         super(name); //线程名称就是用户名
         this.clientSocket = clientSocket;
@@ -34,10 +36,10 @@ public class ClientThread extends Thread{
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
             //这个是字符流。要用这个发送吗？？？感觉信息不应该是简简单单的字符串，应该包含有 操作类型、信息、检验等吧
             PrintWriter printWriter = new PrintWriter(outputStream,true);//true表示自动刷新，即会立刻传输数据
-            String from = "";
-            String to = "1:";
+            to = "1:";
             for (Room room : roomSet) {
-                to = to.concat(String.valueOf(room.roomNumber));
+                if(room.playerSize != 3) //不等于3说明还没满，可以加入
+                    to = to.concat(String.valueOf(room.roomNumber));
             }
             printWriter.println(to);
             while((from = bufferedReader.readLine()) != null){//从输入输出流获取交互信息

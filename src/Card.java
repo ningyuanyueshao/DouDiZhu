@@ -10,7 +10,7 @@ public class Card {
         this.rank = rank;
     }
     //setter and getter
-    public String getsuit()
+    public String getSuit()
     {
         return suit;
     }
