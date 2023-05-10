@@ -20,7 +20,7 @@ public class ClientThread extends Thread{
     String from = "";
     String to = "";
     public ClientThread(String name, Socket clientSocket,Room[] roomSet) {
-        super(name); //线程名称就是用户名
+        super(name); //线程名称就是用户序号，TODO：感觉没什么用
         this.clientSocket = clientSocket;
         this.roomSet = roomSet;
     }
@@ -36,30 +36,16 @@ public class ClientThread extends Thread{
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
             //这个是字符流。要用这个发送吗？？？感觉信息不应该是简简单单的字符串，应该包含有 操作类型、信息、检验等吧
             PrintWriter printWriter = new PrintWriter(outputStream,true);//true表示自动刷新，即会立刻传输数据
-            to = "1:";
-            for (Room room : roomSet) {
-                if(room.playerSize != 3) //不等于3说明还没满，可以加入
-                    to = to.concat(String.valueOf(room.roomNumber));
-            }
+            to = "1:连接成功";
+            /*
+            }*/
             printWriter.println(to);
+            System.out.println("服务端一开始给予的信息为"+to);
+            //TODO 现在是有收才有发，最好是没收也能发
             while((from = bufferedReader.readLine()) != null){//从输入输出流获取交互信息
+                //TODO:主要操作应该都在这里面
                 System.out.println("客户端给的信息为"+ from);
-                switch (from.charAt(0)){
-                    case '2':
-                        System.out.println("用户选择房间"+from.charAt(2));
-                        room = from.charAt(2) - '0'; //确定该用户所处的房间
-                        roomSet[room].setEveryClientThread(this);
-                        try {
-                            Thread.sleep(20000); //用于测试，后面有to的更新了就可以删掉
-                        } catch (InterruptedException e) {
-                            System.out.println(e);
-                        }
-                        break;
-                    case '4':
-                        System.out.println("用户准备就绪，可以发牌了");
-                        break;
-                }
-                //根据交互信息的类型进行不同的操作
+                to = serverOperators(from,roomSet,room);
                 System.out.println("服务端返回的信息为"+to);
                 printWriter.println(to);
             }
@@ -68,4 +54,27 @@ public class ClientThread extends Thread{
             //出错应该尝试重连吧？？？？？
         }
     }
+
+    public static String serverOperators(String from,Room[] roomSet, int room){
+        String to = "";
+        switch (from.charAt(0)){
+            case '2': //客户端给的是用户名
+                //进行数据库操作
+                //返回空余房间
+                to = getSpareRooms(roomSet);
+                break;
+            case '4':
+                System.out.println("用户准备就绪，可以发牌了");
+                break;
+        }
+        return to;
+    } //根据收到的字符串的第一位执行相应操作
+    public static String getSpareRooms(Room[] roomSet){
+        String temp = "3:";
+        for (Room room : roomSet) {
+            if (room.playerSize != 3) //不等于3说明还没满，可以加入
+                temp = temp.concat(String.valueOf(room.roomNumber));
+        }
+        return temp;
+    } //得到空闲的房间号
 }

@@ -18,7 +18,7 @@ public class Background extends JFrame implements ActionListener{
         panel.setLayout(null);
 
         // 创建一个JLabel，并将图片作为背景添加到JPanel容器中
-        ImageIcon backgroundImage = new ImageIcon("E:\\ideaworkspace\\1\\DouDiZhu\\src\\img\\bgd2.jpg");
+        ImageIcon backgroundImage = new ImageIcon("src//img//bgd2.jpg");
         JLabel backgroundLabel = new JLabel(backgroundImage);
         backgroundLabel.setBounds(16, 0, backgroundImage.getIconWidth(), backgroundImage.getIconHeight());
         //这里注意，要后放背景图片，先放的会覆盖后放的
