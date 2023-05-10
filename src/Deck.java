@@ -11,7 +11,7 @@ public class Deck {
         String[] suits = {"黑桃", "红心", "梅花", "方块"};
         String[] ranks = {"A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"};
         cards = new ArrayList<Card>();
-        //添加每一张牌
+        //添加每一张牌,不需要添加四次么？
         for(String suit : suits)
         {
             for (String rank : ranks)
