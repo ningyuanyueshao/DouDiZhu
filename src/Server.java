@@ -19,14 +19,12 @@ public class Server {
         for (int roomNumber = 0; roomNumber < roomSize; roomNumber++) {
             roomSet[roomNumber] = new Room(roomNumber); //一开始先创建十个房间
         }
-        int count = 1; //TODO:用户序号，1 2 3 循环吧？？？？但如果按加入房间的机制的话就不需要用户序号来标识了吧？？感觉没什么用
+        int count = 1; //用户序号，拿来标识线程
         while(true) {//这个循环按理来说要一直进行
             Socket clientSocket = serverSocket.accept(); //得到来自客户端的套接字连接。java中的socket默认使用TCP连接
             ClientThread clientThread = new ClientThread(String.valueOf(count), clientSocket,roomSet);
             System.out.println("用户（序号"+ count +"）连接成功");
-            count = (count + 1) % 4;
-            if(count == 0)
-                count++;
+            count = count + 1;
             clientThread.start();
         }
     }
