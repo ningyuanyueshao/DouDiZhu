@@ -2,14 +2,14 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 
 public class Background extends JFrame implements ActionListener{
     private RoundRectButton singlePlayerButton;
     private RoundRectButton multiPlayerButton;
     private RoundRectButton exitButton;
-    private String playername;
+    public boolean wantGetConnected = false;
+    public boolean wantSingleConnected = false;
+    private String playername = "";
     public Background() {
         setTitle("斗地主游戏");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -59,9 +59,11 @@ public class Background extends JFrame implements ActionListener{
         if (e.getSource() == singlePlayerButton) {
             // 处理单机游戏按钮被按下的事件
             JOptionPane.showMessageDialog(this, "欢迎进入单机游戏！");
+            wantSingleConnected = true;
         } else if (e.getSource() == multiPlayerButton) {
             // 处理连接游戏按钮被按下的事件
             JOptionPane.showMessageDialog(this, "欢迎进入联机游戏！");
+            wantGetConnected = true;
             playername = JOptionPane.showInputDialog(this,"请输入用户昵称：");
             JOptionPane.showMessageDialog(this,"欢迎用户"+playername+"！正在匹配玩家...");
         } else if (e.getSource() == exitButton) {
@@ -71,6 +73,7 @@ public class Background extends JFrame implements ActionListener{
                 System.exit(0);
             }
         }
+
     }
     public String getPlayername()
     {
