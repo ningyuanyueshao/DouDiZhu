@@ -9,6 +9,7 @@ public class Background extends JFrame implements ActionListener{
     private RoundRectButton singlePlayerButton;
     private RoundRectButton multiPlayerButton;
     private RoundRectButton exitButton;
+    private String playername;
     public Background() {
         setTitle("斗地主游戏");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -61,7 +62,7 @@ public class Background extends JFrame implements ActionListener{
         } else if (e.getSource() == multiPlayerButton) {
             // 处理连接游戏按钮被按下的事件
             JOptionPane.showMessageDialog(this, "欢迎进入联机游戏！");
-            String playername = JOptionPane.showInputDialog(this,"请输入用户昵称：");
+            playername = JOptionPane.showInputDialog(this,"请输入用户昵称：");
             JOptionPane.showMessageDialog(this,"欢迎用户"+playername+"！正在匹配玩家...");
         } else if (e.getSource() == exitButton) {
             // 处理退出按钮被按下的事件
@@ -71,7 +72,10 @@ public class Background extends JFrame implements ActionListener{
             }
         }
     }
-
+    public String getPlayername()
+    {
+        return playername;
+    }
 
     public static void main(String[] args) {
         new Background();
