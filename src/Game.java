@@ -8,7 +8,7 @@ public class Game {
     private int turn;
 
     public Game(List<String> playerNames)
-    {
+    {//游戏创建
         players = new ArrayList<Player>();
         for (String name : playerNames) {
             Player player = new Player(name);
@@ -18,8 +18,11 @@ public class Game {
         deck.shuffle();
         turn = 0;
     }
+    public Game(){
+
+    }
     public void dealCards(int count)
-    {
+    {//每人拿到一张牌
         for(Player player : players)
         {
             List<Card> hand = deck.deal(count);

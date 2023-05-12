@@ -4,6 +4,10 @@ public class Card {
     private String suit;//花色
     private String rank;//大小
 
+    // 构造方法
+    public Card(){
+
+    }
     public Card(String suit, String rank)
     {
         this.suit = suit;
@@ -27,17 +31,11 @@ public class Card {
     {
         this.rank = rank;
     }
-    // 构造方法
-    public Card(){
-
-    }
-
-
+    
     public boolean equals(Card card)
     {
         return this.suit==suit&&this.rank==rank;
     }
-
     public String toString()
     {
         return suit + rank;
