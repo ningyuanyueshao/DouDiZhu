@@ -9,15 +9,17 @@ import java.net.Socket;
  * 2023-05-07 11:06
  */
 public class Client {
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, InterruptedException {
         //这里调用图形化的初始界面
         Background background = new Background();
+        new Thread(background).start();
         while(true){
-            if(background.wantGetConnected == true){
+            Thread.sleep(10); //让主线程停顿，使得能够接收background线程中值的变化
+            if(background.wantGetConnected){
                 connectedPlay(background);
                 break;
             }
-            if(background.wantSingleConnected == true){
+            if(background.wantSingleConnected){
                 //Todo:单机游戏
                 break;
             }
@@ -68,6 +70,11 @@ public class Client {
         //如果要在while中读取图形化的getUsername，感觉会很浪费性能，但这段时间内又只能干这件事，好像浪费也没啥？？？？？
         String username;
         while(true){
+            try {
+                Thread.sleep(10); //让主线程停顿，使得能够接收background线程中值的变化
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
             username = background.getPlayername();
             System.out.println(username);
             if(!username.equals(""))
@@ -76,4 +83,5 @@ public class Client {
         Username = Username.concat(username);
         return Username;
     } //返回用户名
+
 }
