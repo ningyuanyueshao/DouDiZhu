@@ -34,7 +34,7 @@ public class Card {
     
     public boolean equals(Card card)
     {
-        return this.suit==suit&&this.rank==rank;
+        return this.rank==rank;//花色没必要
     }
     public String toString()
     {
