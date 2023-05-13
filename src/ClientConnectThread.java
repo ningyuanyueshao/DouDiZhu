@@ -1,7 +1,4 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
+import java.io.*;
 import java.net.Socket;
 
 /**
@@ -57,13 +54,14 @@ public class ClientConnectThread extends Thread{
                 to = getUsername(background);
                 break;
             case '3':
+                to = getRoomChoosed(from,background);
+                break;
         }
         return to;
     }//根据收到的字符串的第一位执行相应操作
 
     public static String getUsername(Background background){
         String Username = "2:";
-        //如果要在while中读取图形化的getUsername，感觉会很浪费性能，但这段时间内又只能干这件事，好像浪费也没啥？？？？？
         String username;
         while(true){
             try {
@@ -78,4 +76,16 @@ public class ClientConnectThread extends Thread{
         Username = Username.concat(username);
         return Username;
     } //返回用户名
+
+    public static String getRoomChoosed(String from,Background background){
+        String chosenRoom = "4:";
+        String temp = from.substring(from.indexOf(':')+1);
+        int length = temp.length();
+        int[] rooms = new int[length];
+        for (int i = 0; i < length; i++) {
+            rooms[i] = temp.charAt(i) - '0';
+        }
+        background.setRoomsCanPlay(rooms);
+        return chosenRoom;
+    }
 }

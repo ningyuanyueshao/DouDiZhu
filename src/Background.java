@@ -10,7 +10,8 @@ public class Background extends JFrame implements ActionListener{
     public boolean wantGetConnected = false;
     public boolean wantSingleConnected = false;
     private String playername = "";
-
+    public int[] roomsCanPlay = null;
+    public int choseRoom = -1;
     public Background() {
         setTitle("斗地主游戏");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -66,6 +67,11 @@ public class Background extends JFrame implements ActionListener{
             JOptionPane.showMessageDialog(this, "欢迎进入联机游戏！");
             wantGetConnected = true;
             playername = JOptionPane.showInputDialog(this,"请输入用户昵称：");
+            while(true){
+                if(roomsCanPlay != null)
+                    break;
+            }
+            //Todo：这边让用户选择房间号，可以采用输入的方式，选择好就改变chosenRoom的值，网络连接处会循环检查
             JOptionPane.showMessageDialog(this,"欢迎用户"+playername+"！正在匹配玩家...");
         } else if (e.getSource() == exitButton) {
             // 处理退出按钮被按下的事件
@@ -81,4 +87,7 @@ public class Background extends JFrame implements ActionListener{
         return playername;
     }
 
+    public void setRoomsCanPlay(int[] rooms){
+        roomsCanPlay = rooms;
+    }
 }

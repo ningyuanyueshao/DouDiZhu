@@ -15,7 +15,7 @@ public class Client {
             }
             if(background.wantGetConnected){
                 ClientConnectThread clientConnectThread = new ClientConnectThread(background);
-                clientConnectThread.start(); //调用网络连接线程，减少网络连接等带来的图形化界面停顿影响
+                clientConnectThread.start(); //额外创建一个线程用来网络连接，减少网络连接等带来的图形化界面停顿影响
                 break;
             }
             if(background.wantSingleConnected){
