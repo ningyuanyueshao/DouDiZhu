@@ -2,6 +2,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Arrays;
+import java.util.List;
 
 public class Background extends JFrame implements ActionListener{
     private RoundRectButton singlePlayerButton;
@@ -68,11 +70,40 @@ public class Background extends JFrame implements ActionListener{
             wantGetConnected = true;
             playername = JOptionPane.showInputDialog(this,"请输入用户昵称：");
             while(true){
+                try
+                {
+                    Thread.sleep(10);
+                } catch (InterruptedException ex)
+                {
+                    ex.printStackTrace();
+                }
                 if(roomsCanPlay != null)
                     break;
             }
             //Todo：这边让用户选择房间号，可以采用输入的方式，选择好就改变chosenRoom的值，网络连接处会循环检查
+            int temp = -1;
+            while (choseRoom == -1)
+            {
+                try {
+                    Thread.sleep(10); //让主线程停顿，使得能够接收background线程中值的变化
+                } catch (InterruptedException f) {
+                    f.printStackTrace();
+                }
+                temp = Integer.parseInt(JOptionPane.showInputDialog(this,"请用户选择房间号,从"+ Arrays.toString(roomsCanPlay)+"中选择"));
+                for (int i = 0; i < roomsCanPlay.length; i++)
+                {
+                    if (temp == roomsCanPlay[i])
+                    {
+                        choseRoom = temp;
+                    }
+                }
+                if (choseRoom==-1)
+                {
+                    JOptionPane.showMessageDialog(this,"输入的房间号不符合规定，请重新输入");
+                }
+            }
             JOptionPane.showMessageDialog(this,"欢迎用户"+playername+"！正在匹配玩家...");
+            System.out.println(getPlayername());
         } else if (e.getSource() == exitButton) {
             // 处理退出按钮被按下的事件
             int choice = JOptionPane.showConfirmDialog(this, "确定要退出吗？");

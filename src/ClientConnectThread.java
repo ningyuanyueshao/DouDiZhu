@@ -86,6 +86,18 @@ public class ClientConnectThread extends Thread{
             rooms[i] = temp.charAt(i) - '0';
         }
         background.setRoomsCanPlay(rooms);
+        while(true){
+            try
+            {
+                Thread.sleep(10);
+            } catch (InterruptedException e)
+            {
+                e.printStackTrace();
+            }
+            if(background.choseRoom != -1)
+                break;
+        }
+        chosenRoom = chosenRoom.concat(String.valueOf(background.choseRoom));
         return chosenRoom;
     }
 }
