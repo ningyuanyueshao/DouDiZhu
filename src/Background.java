@@ -1,7 +1,11 @@
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.util.Arrays;
 
 public class Background extends JFrame implements ActionListener{
@@ -54,6 +58,16 @@ public class Background extends JFrame implements ActionListener{
         // 将JPanel容器添加到JFrame窗口中
         getContentPane().add(panel);
         setSize(windowsWidth, windowsHeight);
+
+        //播放音乐
+        try {
+            AudioInputStream inputStream = AudioSystem.getAudioInputStream(new File("E:\\ideaworkspace\\DouDiZhu\\src\\sound\\纯音乐 - 欢乐斗地主.wav"));
+            Clip clip = AudioSystem.getClip();
+            clip.open(inputStream);
+            clip.loop(Clip.LOOP_CONTINUOUSLY);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         singlePlayerButton.addActionListener(this);
         multiPlayerButton.addActionListener(this);
