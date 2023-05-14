@@ -60,7 +60,7 @@ public class Background extends JFrame implements ActionListener{
         exitButton.addActionListener(this);
 
         setVisible(true);
-        setResizable(false);
+        setResizable(false);//让窗口大小固定，不让用户更改位置，更美观
     }
 
     public void actionPerformed(ActionEvent e) {
