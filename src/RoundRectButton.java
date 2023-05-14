@@ -13,7 +13,7 @@ public class  RoundRectButton extends JButton
     }
     protected void paintComponent(Graphics g) {
         if (getModel().isArmed()) {
-            g.setColor(new Color(44, 153, 39));//按下后按钮变成深绿色
+            g.setColor(new Color(59, 173, 54));//按下后按钮变成绿色
         } else {
             g.setColor(getBackground());
         }
