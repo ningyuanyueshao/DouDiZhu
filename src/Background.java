@@ -103,7 +103,7 @@ public class Background extends JFrame implements ActionListener{
                 if(roomsCanPlay != null)
                     break;
             }
-            int temp = -1;
+            int temp;
             while (choseRoom == -1)
             {
                 try {
@@ -112,11 +112,12 @@ public class Background extends JFrame implements ActionListener{
                     f.printStackTrace();
                 }
                 temp = Integer.parseInt(JOptionPane.showInputDialog(this,"请用户选择房间号,从"+ Arrays.toString(roomsCanPlay)+"中选择"));
-                for (int i = 0; i < roomsCanPlay.length; i++)
+                for (int j : roomsCanPlay)
                 {
-                    if (temp == roomsCanPlay[i])
+                    if (temp == j)
                     {
                         choseRoom = temp;
+                        break;
                     }
                 }
                 if (choseRoom==-1)
