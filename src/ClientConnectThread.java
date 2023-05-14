@@ -60,6 +60,8 @@ public class ClientConnectThread extends Thread{
                 break;
             case '5':
                 //TODO：此时可以调用图形化界面显示游戏内部房间信息
+//                创建界面类，按background模板写，放到这里
+//                case5是进桌等人的状态
                 System.out.println("加入房间并显示当前房间内有多少人");
                 to = null;
                 break;
