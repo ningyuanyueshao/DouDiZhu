@@ -52,13 +52,28 @@ public class Room{
 
     public String getPlayersNow(){
         String to = "5:";
-        for (int i = 0; i < clientThreads.length; i++) {
-            if (clientThreads[i] != null) {
-                to = to.concat(i + clientThreads[i].username); //i表示几号位
+        if(clientThreads[0] == null)
+            to = to.concat("9");//客户端收到9说明房间内一开始没有其他用户
+        else {
+            for (int i = 0; i < clientThreads.length; i++) {
+                if (clientThreads[i] != null) {
+                    to = to.concat(i + clientThreads[i].username + ";"); //i表示几号位
+                }
             }
         }
         return to;
     }//得到该房间当前人数和对应用户名
+
+    public void deletePlayer(ClientThread clientThread){
+        //如何判断线程相等
+        for (int i = 0; i < clientThreads.length; i++) {
+            if(clientThread.equals(clientThreads[i])){
+                clientThreads[i] = null;
+                playerSize--;
+                System.out.println("该房间内的用户"+i+"的线程已被剔除");
+            }
+        }
+    }//当用户退出的时候，从房间中剔除该用户
 
     //可以在这个房间里调用每个线程类的方法，就可以修改每个线程里的from和to了
 

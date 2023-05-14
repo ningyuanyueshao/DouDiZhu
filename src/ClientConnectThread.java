@@ -40,7 +40,7 @@ public class ClientConnectThread extends Thread{
                 //根据交互信息的类型进行不同的操作
                 to = clientOperators(from,background);
                 if(to == null)
-                    continue; //若为空，说明不用发
+                    continue; //若为空，说明不用发，就实现有收可以不发
                 printWriter.println(to);
                 System.out.println("客户端返回的信息为"+ to);
             }
@@ -60,10 +60,12 @@ public class ClientConnectThread extends Thread{
                 break;
             case '5':
                 //TODO：此时可以调用图形化界面显示游戏内部房间信息
+                System.out.println("加入房间并显示当前房间内有多少人");
                 to = null;
                 break;
             case '6':
                 //TODO：此时可以调用图形化界面显示有人加入房间
+                System.out.println("有新用户加入房间");
                 to = null;
                 break;
         }
@@ -79,7 +81,7 @@ public class ClientConnectThread extends Thread{
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            username = background.getPlayername();
+            username = background.getPlayerName();
             if(!username.equals(""))
                 break;
         }

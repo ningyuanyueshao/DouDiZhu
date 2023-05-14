@@ -47,7 +47,7 @@ public class ClientThread extends Thread{
             while((from = bufferedReader.readLine()) != null){//从输入输出流获取交互信息
                 //TODO:主要操作应该都在这里面
                 System.out.println("客户端给的信息为"+ from);
-                to = serverOperators(from,roomSet,room);
+                to = serverOperators(from,roomSet);
                 if(to == null)
                     continue; //若为空，说明不用发
                 System.out.println("服务端返回的信息为"+to);
@@ -55,15 +55,16 @@ public class ClientThread extends Thread{
             }
         } catch (IOException e) {
             System.out.println("终止连接或数据传输出错");
-            //出错应该尝试重连吧？？？？？
+            roomSet[room].deletePlayer(this);
+            //出错应该尝试重连吧？？？？？还是说不会出错？？？？
         }
     }
 
-    public String serverOperators(String from,Room[] roomSet, int room){
+    public String serverOperators(String from,Room[] roomSet){
         String to = "";
         switch (from.charAt(0)){
             case '2':
-                username = from.substring(':'+1); //得到用户名
+                username = from.substring(from.indexOf(':')+1); //得到用户名
                 //TODO：进行数据库操作
                 to = getSpareRooms(roomSet);//返回空余房间
                 break;

@@ -126,7 +126,6 @@ public class Background extends JFrame implements ActionListener{
                 }
             }
             JOptionPane.showMessageDialog(this,"欢迎用户"+playerName+"！正在匹配玩家...");
-            System.out.println(getPlayername());
         } else if (e.getSource() == exitButton) {
             // 处理退出按钮被按下的事件
             int choice = JOptionPane.showConfirmDialog(this, "确定要退出吗？");
@@ -135,7 +134,7 @@ public class Background extends JFrame implements ActionListener{
             }
         }
     }
-    public String getPlayername()
+    public String getPlayerName()
     {
         return playerName;
     }
