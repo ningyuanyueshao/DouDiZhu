@@ -27,6 +27,10 @@ public class Background extends JFrame implements ActionListener{
         int buttonWidth = windowsWidth/11;
         int buttonHeight = windowsHeight/11;
 
+        // 加载图像文件并将其设置为窗口图标
+        Image icon = Toolkit.getDefaultToolkit().getImage("src/img/icon.png");
+        setIconImage(icon);
+
         // 创建一个JPanel容器并设置布局为null
         JPanel panel = new JPanel();
         panel.setLayout(null);
