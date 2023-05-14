@@ -33,12 +33,14 @@ public class ClientConnectThread extends Thread{
         String from = "";
         String to = "";
         try{
-            //TODO 现在是有收才有发，最好是没收也能发
+            //TODO 现在是有收才有发，最好是没收也能发,有收可以不发
             while((from = bufferedReader.readLine())!=null){//在这里使用输入输出流与服务器端进行交互。
                 //TODO:和服务器的主要操作应该都在这里面
                 System.out.println("得到服务器端给的信息为"+ from);
                 //根据交互信息的类型进行不同的操作
                 to = clientOperators(from,background);
+                if(to == null)
+                    continue; //若为空，说明不用发
                 printWriter.println(to);
                 System.out.println("客户端返回的信息为"+ to);
             }
@@ -55,6 +57,14 @@ public class ClientConnectThread extends Thread{
                 break;
             case '3':
                 to = getRoomChoosed(from,background);
+                break;
+            case '5':
+                //TODO：此时可以调用图形化界面显示游戏内部房间信息
+                to = null;
+                break;
+            case '6':
+                //TODO：此时可以调用图形化界面显示有人加入房间
+                to = null;
                 break;
         }
         return to;

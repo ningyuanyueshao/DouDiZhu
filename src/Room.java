@@ -1,4 +1,3 @@
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -17,22 +16,17 @@ public class Room{
     ClientThread tempClientThread;//tempClientThread表示要被调用的线程
 
     public void setEveryClientThread(ClientThread clientThread){
-        switch (clientThread.getName()){
-            case "1":
-                clientThreads[0] = clientThread;
+        int i;
+        for (i = 0; i < 3; i++) {
+            if(clientThreads[i] == null) {
+                clientThreads[i] = clientThread;
                 this.playerSize++;
-                System.out.println("该房间内的用户1的线程已被获取");
+                System.out.println("该房间内的用户"+ i + "的线程已被获取");
                 break;
-            case "2":
-                clientThreads[1] = clientThread;
-                this.playerSize++;
-                System.out.println("该房间内的用户2的线程已被获取");
-                break;
-            case "3":
-                clientThreads[2] = clientThread;
-                this.playerSize++;
-                System.out.println("该房间内的用户3的线程已被获取");
-                break;
+            }
+        }
+        for (int j = 0; j < i; j++) {
+            clientThreads[j].informClientRoomNewPlayer(i,clientThreads[i].username);//位置分为012号位，按照加入次序分配
         }
     } //线程通过调用该方法来为房间里的三个线程类变量赋值，这样之后就可以利用该房间访问到其他线程
 
@@ -55,6 +49,16 @@ public class Room{
         }
         tempClient.to = temp;
     } //给单个线程发牌
+
+    public String getPlayersNow(){
+        String to = "5:";
+        for (int i = 0; i < clientThreads.length; i++) {
+            if (clientThreads[i] != null) {
+                to = to.concat(i + clientThreads[i].username); //i表示几号位
+            }
+        }
+        return to;
+    }//得到该房间当前人数和对应用户名
 
     //可以在这个房间里调用每个线程类的方法，就可以修改每个线程里的from和to了
 
