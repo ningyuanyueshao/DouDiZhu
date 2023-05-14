@@ -3,61 +3,66 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Arrays;
-import java.util.List;
 
 public class Background extends JFrame implements ActionListener{
-    private RoundRectButton singlePlayerButton;
-    private RoundRectButton multiPlayerButton;
-    private RoundRectButton exitButton;
+    private final RoundRectButton singlePlayerButton;
+    private final RoundRectButton multiPlayerButton;
+    private final RoundRectButton exitButton;
     public boolean wantGetConnected = false;
     public boolean wantSingleConnected = false;
-    private String playername = "";
+    public int width = Toolkit.getDefaultToolkit().getScreenSize().width;
+    public int height = Toolkit.getDefaultToolkit().getScreenSize().height;
+    private String playerName = "";
     public int[] roomsCanPlay = null;
     public int choseRoom = -1;
     public Background() {
         setTitle("斗地主游戏");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        int windowsWidth = width;
+        int windowsHeight = height;
+        int buttonWidth = windowsWidth/11;
+        int buttonHeight = windowsHeight/11;
 
         // 创建一个JPanel容器并设置布局为null
         JPanel panel = new JPanel();
         panel.setLayout(null);
 
-        // 创建一个JLabel，并将图片作为背景添加到JPanel容器中
-        ImageIcon backgroundImage = new ImageIcon("src//img//bgd2.jpg");
+        // 创建一个JLabel，并将图片作为背景添加到JPanel容器中。这里注意，要后放背景图片，先放的会覆盖后放的
+        ImageIcon backgroundImage = new ImageIcon("src/img/bgd2.png");
         JLabel backgroundLabel = new JLabel(backgroundImage);
-        backgroundLabel.setBounds(16, 0, backgroundImage.getIconWidth(), backgroundImage.getIconHeight());
-        //这里注意，要后放背景图片，先放的会覆盖后放的
-
+        backgroundLabel.setBounds(0, 0, backgroundImage.getIconWidth(), backgroundImage.getIconHeight());
 
         // 添加三个按钮到JPanel容器中
         singlePlayerButton = new RoundRectButton("单机游戏");
-        singlePlayerButton.setBounds(860, 700, 200, 80);
+        singlePlayerButton.setBounds(windowsWidth/2-buttonWidth/2, windowsHeight/2+buttonHeight, buttonWidth, buttonHeight);
         Font font = new Font("华文新魏", Font.PLAIN, 26); // 创建字体对象
         singlePlayerButton.setFont(font); // 设置按钮字体
         panel.add(singlePlayerButton);
 
         multiPlayerButton = new RoundRectButton("联机游戏");
-        multiPlayerButton.setBounds(860, 800, 200, 80);
+        multiPlayerButton.setBounds(windowsWidth/2-buttonWidth/2, windowsHeight /2+2*buttonHeight+20, buttonWidth, buttonHeight);
         multiPlayerButton.setFont(font);
         panel.add(multiPlayerButton);
 
         exitButton = new RoundRectButton("退出");
-        exitButton.setBounds(860, 900, 200, 80);
+        exitButton.setBounds(windowsWidth/2-buttonWidth/2, windowsHeight /2+3*buttonHeight+40, buttonWidth, buttonHeight);
         exitButton.setFont(font);
         panel.add(exitButton);
 
         panel.add(backgroundLabel);
+
         // 将JPanel容器添加到JFrame窗口中
         getContentPane().add(panel);
-        setSize(1920, 1080);
-
+        setSize(windowsWidth, windowsHeight);
 
         singlePlayerButton.addActionListener(this);
         multiPlayerButton.addActionListener(this);
         exitButton.addActionListener(this);
 
         setVisible(true);
+        setResizable(false);
     }
+
     public void actionPerformed(ActionEvent e) {
         // 确定是哪个按钮被按下
         if (e.getSource() == singlePlayerButton) {
@@ -68,7 +73,7 @@ public class Background extends JFrame implements ActionListener{
             // 处理连接游戏按钮被按下的事件
             JOptionPane.showMessageDialog(this, "欢迎进入联机游戏！");
             wantGetConnected = true;
-            playername = JOptionPane.showInputDialog(this,"请输入用户昵称：");
+            playerName = JOptionPane.showInputDialog(this,"请输入用户昵称：");
             while(true){
                 try
                 {
@@ -80,7 +85,6 @@ public class Background extends JFrame implements ActionListener{
                 if(roomsCanPlay != null)
                     break;
             }
-            //Todo：这边让用户选择房间号，可以采用输入的方式，选择好就改变chosenRoom的值，网络连接处会循环检查
             int temp = -1;
             while (choseRoom == -1)
             {
@@ -102,7 +106,7 @@ public class Background extends JFrame implements ActionListener{
                     JOptionPane.showMessageDialog(this,"输入的房间号不符合规定，请重新输入");
                 }
             }
-            JOptionPane.showMessageDialog(this,"欢迎用户"+playername+"！正在匹配玩家...");
+            JOptionPane.showMessageDialog(this,"欢迎用户"+playerName+"！正在匹配玩家...");
             System.out.println(getPlayername());
         } else if (e.getSource() == exitButton) {
             // 处理退出按钮被按下的事件
@@ -111,11 +115,10 @@ public class Background extends JFrame implements ActionListener{
                 System.exit(0);
             }
         }
-
     }
     public String getPlayername()
     {
-        return playername;
+        return playerName;
     }
 
     public void setRoomsCanPlay(int[] rooms){
