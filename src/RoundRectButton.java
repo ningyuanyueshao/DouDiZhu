@@ -10,6 +10,7 @@ public class  RoundRectButton extends JButton
         setContentAreaFilled(false);//取消原先画矩形的设置
         //setBorderPainted(false);//会导致按钮没有明显边界
         setFocusPainted(false);//去除文字周围的虚线框
+        setBackground(new Color(222,255,255));
     }
     protected void paintComponent(Graphics g) {
         if (getModel().isArmed()) {
