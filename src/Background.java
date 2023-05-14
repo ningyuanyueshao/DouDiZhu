@@ -65,7 +65,7 @@ public class Background extends JFrame implements ActionListener{
 
         //能够播放音乐
         try {
-            AudioInputStream inputStream = AudioSystem.getAudioInputStream(new File("E:\\ideaworkspace\\DouDiZhu\\src\\sound\\纯音乐 - 欢乐斗地主.wav"));
+            AudioInputStream inputStream = AudioSystem.getAudioInputStream(new File("src/sound/纯音乐 - 欢乐斗地主.wav"));
             Clip clip = AudioSystem.getClip();
             clip.open(inputStream);
             clip.loop(Clip.LOOP_CONTINUOUSLY);
