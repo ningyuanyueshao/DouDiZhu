@@ -7,6 +7,7 @@ import java.util.List;
 public class Room{
     int roomNumber;//房间号
     int playerSize; //当前房间内玩家数量
+    int readySize = 0;
     public Room(int roomNumber) {
         this.roomNumber = roomNumber;
     }
@@ -20,6 +21,7 @@ public class Room{
         for (i = 0; i < 3; i++) {
             if(clientThreads[i] == null) {
                 clientThreads[i] = clientThread;
+                clientThread.position = i;
                 this.playerSize++;
                 System.out.println("该房间内的用户"+ i + "的线程已被获取");
                 break;
@@ -29,26 +31,6 @@ public class Room{
             clientThreads[j].informClientRoomNewPlayer(i,clientThreads[i].username);//位置分为012号位，按照加入次序分配
         }
     } //线程通过调用该方法来为房间里的三个线程类变量赋值，这样之后就可以利用该房间访问到其他线程
-
-    public void dealTheCards(){
-        Deck deck = new Deck();
-        deck.shuffle();
-        List<Card> tempList;
-        for (int i = 0; i < 3; i++) {
-            tempList = deck.deal(17);
-            this.giveTheCards(clientThreads[i],tempList);
-        }
-    }//给所有线程发牌   //TODO:剩的三张牌要作为地主牌通知给所有线程
-
-    public void giveTheCards(ClientThread tempClient,List<Card> list){
-        String temp = "8:";
-        Card tempCard;
-        for (Card card : list) {
-            tempCard = card;
-            temp = temp.concat(tempCard.getSuit() + tempCard.getRank());
-        }
-        tempClient.to = temp;
-    } //给单个线程发牌
 
     public String getPlayersNow(){
         String to = "5:";
@@ -64,15 +46,61 @@ public class Room{
         return to;
     }//得到该房间当前人数和对应用户名
 
+
+    public void setPlayerReady(ClientThread clientThread){
+        readySize++;
+        if(readySize == 3)
+            dealTheCards(); //若三个人都准备就绪，直接发牌
+        else{
+            int temp = clientThread.position;
+            for (int i = 0; i < 3; i++) {
+                if(i != temp)
+                    clientThreads[i].informClientRoomNewReady(temp);
+            }
+        }
+    }//将准备就绪状态告知其他线程，同时若三个人都准备就绪，就可以发牌
+
+    public void dealTheCards(){
+        Deck deck = new Deck();
+        deck.shuffle();
+        List<Card>[] tempList = new List[3];
+        for (int i = 0; i < 3; i++) {
+            tempList[i] = deck.deal(17);
+        }
+        List<Card> landlordCards = deck.deal(3);
+        for (int i = 0; i < 3; i++) {
+            this.giveTheCards(clientThreads[i],tempList[i],landlordCards);
+        }
+    }//给所有线程发牌
+
+    public void giveTheCards(ClientThread tempClient,List<Card> list,List<Card> landlordCards){
+        String temp = "";
+        Card tempCard;
+        for (Card card : list) {
+            tempCard = card;
+            temp = temp.concat(tempCard.toString()); //加入手牌
+        }
+        for(Card card : landlordCards){
+            tempCard = card;
+            temp = temp.concat(tempCard.toString()); //加入地主牌
+        }
+        tempClient.giveCards(temp);
+    } //给单个线程发牌
+
+
+
     public void deletePlayer(ClientThread clientThread){
-        //如何判断线程相等
-        for (int i = 0; i < clientThreads.length; i++) {
+        int temp = clientThread.position;
+        clientThreads[temp] = null;
+        playerSize--;
+        System.out.println("该房间内的用户"+temp+"的线程已被剔除");
+        /*for (int i = 0; i < clientThreads.length; i++) {
             if(clientThread.equals(clientThreads[i])){
                 clientThreads[i] = null;
                 playerSize--;
                 System.out.println("该房间内的用户"+i+"的线程已被剔除");
             }
-        }
+        }*/
     }//当用户退出的时候，从房间中剔除该用户
 
     //可以在这个房间里调用每个线程类的方法，就可以修改每个线程里的from和to了

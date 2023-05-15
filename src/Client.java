@@ -4,7 +4,7 @@
  */
 public class Client {
     public static void main(String[] args){
-        //这里调用图形化的初始界面
+        //这里调用图形化的主菜单界面
         Background background = new Background();
         background.setVisible(true);
         while(true){
@@ -19,7 +19,7 @@ public class Client {
                 break;
             }
             if(background.wantSingleConnected){
-                //Todo:单机游戏
+                //Todo:调用单机游戏界面
                 break;
             }
         }

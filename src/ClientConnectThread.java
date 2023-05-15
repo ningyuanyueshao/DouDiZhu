@@ -7,6 +7,9 @@ import java.net.Socket;
  */
 public class ClientConnectThread extends Thread{
     Background background; //该线程有时要获取图形化界面得到的信息，所以需要此对象。
+    Socket clientSocket;
+    BufferedReader bufferedReader;
+    PrintWriter printWriter;
     @Override
     public void run() {
         try {
@@ -26,9 +29,9 @@ public class ClientConnectThread extends Thread{
         String hostIPAddress = "10.128.199.86"; //这个是打开wifi的属性中得到的
         int serverPort = 8080;
         System.out.println("该客户端开始连接服务器");
-        Socket clientSocket = new Socket(hostIPAddress,serverPort);
-        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-        PrintWriter printWriter = new PrintWriter(clientSocket.getOutputStream(),true);
+        clientSocket = new Socket(hostIPAddress,serverPort);
+        bufferedReader = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+        printWriter = new PrintWriter(clientSocket.getOutputStream(),true);
         System.out.println("连接成功，等待用户操作");
         String from = "";
         String to = "";
@@ -59,13 +62,18 @@ public class ClientConnectThread extends Thread{
                 to = getRoomChoosed(from,background);
                 break;
             case '5':
-                //TODO：此时可以调用图形化界面显示游戏内部房间信息
+                //TODo：此时可以调用图形化界面显示游戏内部房间信息
                 System.out.println("加入房间并显示当前房间内有多少人");
                 to = null;
                 break;
             case '6':
-                //TODO：此时可以调用图形化界面显示有人加入房间
+                //TODo：此时可以调用图形化界面显示有人加入房间到position位置
                 System.out.println("有新用户加入房间");
+                to = null;
+                break;
+            case '8':
+                //todo:此时可以调用图形化界面显示position位置的人准备就绪
+                System.out.println("有人准备就绪");
                 to = null;
                 break;
         }
@@ -112,4 +120,10 @@ public class ClientConnectThread extends Thread{
         chosenRoom = chosenRoom.concat(String.valueOf(background.choseRoom));
         return chosenRoom;
     }
+
+    public void playerReady(){
+        //todo:可能还得while循环不断读取图形化界面的准备就绪标志
+        String to = "7:";
+        printWriter.println(to);
+    }//若有人点击了准备就绪按钮，则告知服务端该用户准备就绪
 }

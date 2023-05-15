@@ -9,6 +9,7 @@ import java.net.Socket;
 public class ClientThread extends Thread{
 
     public String username;
+    public int position;//在房间内是几号位，012三个值按进入房间顺序进行分配
     private Socket clientSocket;
     private InputStream inputStream;
     private OutputStream outputStream;
@@ -73,6 +74,9 @@ public class ClientThread extends Thread{
                 to = roomSet[room].getPlayersNow();//先确定返回的人数和用户名
                 roomSet[room].setEveryClientThread(this); //然后在房间中添加该线程
                 break;
+            case '7':
+                roomSet[room].setPlayerReady(this); //告知房间该玩家准备就绪
+                break;
         }
         return to;
     } //根据收到的字符串的第一位执行相应操作
@@ -85,10 +89,21 @@ public class ClientThread extends Thread{
         return temp;
     } //得到空闲的房间号
 
-    public void informClientRoomNewPlayer(int number,String username){
-        String to1 = "6:"+number+username;
-        System.out.println("服务端返回的信息为"+to1);
+    public void informClientRoomNewPlayer(int position,String username){
+        String to1 = "6:"+position+username;
+        System.out.println("服务端返回的玩家信息为"+to1);
         printWriter.println(to1);//这样单独的输出就实现了没收也能发
-    }//通知客户端房间内新加入的玩家，number对应房间几号位
+    }//通知客户端房间内新加入的玩家，position对应房间几号位
+
+    public void informClientRoomNewReady(int position){ //number表示几号位置
+        String to2 = "8:"+position;
+        System.out.println("服务器返回的玩家准备信息为"+to2);
+        printWriter.println(to2);
+    }//通知客户端房间内其他玩家准备的信息
+    public void giveCards(String cards){
+        String to3 = "9:" + cards;
+        System.out.println("服务端返回的卡牌信息为"+to3);
+        printWriter.println(to3);
+    }
 
 }
