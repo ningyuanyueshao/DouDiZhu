@@ -21,7 +21,7 @@ public class Background extends JFrame implements ActionListener{
 
     private String password = "";
 
-    private int registerOrLogin = -1; // 注册是0，登录是1，用户列表2
+    private int choice = -1; // 注册是0，登录是1，查看所有用户2
     public int[] roomsCanPlay = null;
     public int choseRoom = -1;
     JPanel panel = new JPanel();
@@ -97,7 +97,7 @@ public class Background extends JFrame implements ActionListener{
             // 处理连接游戏按钮被按下的事件
             JOptionPane.showMessageDialog(this, "欢迎进入联机游戏！");
             Object[] options = {"注册", "登录","查看所有用户"};
-            int choice = JOptionPane.showOptionDialog(this, "请选择操作：", "联机游戏", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+            choice = JOptionPane.showOptionDialog(this, "请选择操作：", "联机游戏", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
             if (choice == 0) {
                 // 用户选择注册
                 sign();
@@ -178,6 +178,14 @@ public class Background extends JFrame implements ActionListener{
     public String getPlayerName()
     {
         return username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public int getChoice() {
+        return choice;
     }
 
     public void setRoomsCanPlay(int[] rooms){
