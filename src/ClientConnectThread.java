@@ -26,8 +26,8 @@ public class ClientConnectThread extends Thread{
     public void connectedPlay()throws IOException {
         //若用户选择了在线游戏，再进行连接
         //需要主机IP地址和端口
-        String hostIPAddress = "10.128.199.86"; //这个是打开wifi的属性中得到的
-        int serverPort = 8080;
+        String hostIPAddress = "10.28.213.96"; //这个是打开wifi的属性中得到的
+        int serverPort = 5050;
         System.out.println("该客户端开始连接服务器");
         clientSocket = new Socket(hostIPAddress,serverPort);
         bufferedReader = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
@@ -63,6 +63,8 @@ public class ClientConnectThread extends Thread{
                 break;
             case '5':
                 //TODo：此时可以调用图形化界面显示游戏内部房间信息
+
+                background.changeToPlay(background);
                 System.out.println("加入房间并显示当前房间内有多少人");
                 to = null;
                 break;
