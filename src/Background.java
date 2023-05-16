@@ -96,19 +96,30 @@ public class Background extends JFrame implements ActionListener{
         } else if (e.getSource() == multiPlayerButton) {
             // 处理连接游戏按钮被按下的事件
             JOptionPane.showMessageDialog(this, "欢迎进入联机游戏！");
-            Object[] options = {"注册", "登录","查看所有用户"};
-            choice = JOptionPane.showOptionDialog(this, "请选择操作：", "联机游戏", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
-            if (choice == 0) {
-                // 用户选择注册
-                sign();
-                JOptionPane.showMessageDialog(this, "注册成功！");
-            } else if (choice == 1) {
-                // 用户选择登录
-                sign();
-                //TODO:服务器判断是否登录成功
-                JOptionPane.showMessageDialog(this, "登录成功！");
+            while (!wantGetConnected) {
+                Object[] options = {"注册", "登录", "用户列表"};
+                int choice = JOptionPane.showOptionDialog(this, "请选择操作：", "联机游戏", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+
+                if (choice == 0) {
+                    // 用户选择注册
+                    sign();
+                    JOptionPane.showMessageDialog(this, "注册成功！");
+                } else if (choice == 1) {
+                    // 用户选择登录
+                    sign();
+                    // TODO: 服务器判断是否登录成功
+                    JOptionPane.showMessageDialog(this, "登录成功！");
+                    wantGetConnected = true;
+                } else {
+                    // 显示用户列表
+                    String[] userNames = {"Alice", "Bob", "Charlie"};  // 假设这是一些用户的名字列表
+                    StringBuilder userList = new StringBuilder();
+                    for (String userName : userNames) {
+                        userList.append(userName).append("\n");
+                    }
+                    JOptionPane.showMessageDialog(this, "用户列表:\n" + userList.toString());
+                }
             }
-            wantGetConnected = true;
             while(true){
                 try
                 {
