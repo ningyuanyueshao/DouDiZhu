@@ -17,7 +17,11 @@ public class Background extends JFrame implements ActionListener{
     public boolean wantSingleConnected = false;
     public int width = Toolkit.getDefaultToolkit().getScreenSize().width;
     public int height = Toolkit.getDefaultToolkit().getScreenSize().height;
-    private String playerName = "";
+    private String username = "";
+
+    private String password = "";
+
+    private int registerOrLogin = -1; // 注册是0，登录是1，用户列表2
     public int[] roomsCanPlay = null;
     public int choseRoom = -1;
     JPanel panel = new JPanel();
@@ -92,31 +96,19 @@ public class Background extends JFrame implements ActionListener{
         } else if (e.getSource() == multiPlayerButton) {
             // 处理连接游戏按钮被按下的事件
             JOptionPane.showMessageDialog(this, "欢迎进入联机游戏！");
-            Object[] options = {"注册", "登录"};
+            Object[] options = {"注册", "登录","查看所有用户"};
             int choice = JOptionPane.showOptionDialog(this, "请选择操作：", "联机游戏", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
             if (choice == 0) {
                 // 用户选择注册
-                String userTempName = JOptionPane.showInputDialog(this, "请输入用户名，只能包含英文字母、数字、下划线：");
-                while (true) {
-                    if (containsOnlyAllowedCharacters(userTempName)) {
-                        String userName = userTempName;
-                        break;
-                    }
-                    else {
-                        userTempName = JOptionPane.showInputDialog(this,"输入非法，请重新输入用户名：");
-                    }
-                }
-                String password = JOptionPane.showInputDialog(this, "请输入密码：");
+                sign();
                 JOptionPane.showMessageDialog(this, "注册成功！");
             } else if (choice == 1) {
                 // 用户选择登录
-                String username = JOptionPane.showInputDialog(this, "请输入用户名：");
-                String password = JOptionPane.showInputDialog(this, "请输入密码：");
+                sign();
                 //TODO:服务器判断是否登录成功
                 JOptionPane.showMessageDialog(this, "登录成功！");
             }
             wantGetConnected = true;
-            playerName = JOptionPane.showInputDialog(this,"请输入用户昵称：");
             while(true){
                 try
                 {
@@ -128,8 +120,7 @@ public class Background extends JFrame implements ActionListener{
                 if(roomsCanPlay != null)
                     break;
             }
-            int temp;
-            boolean validInput = false;
+            int tempNumber;
             while (choseRoom == -1)
             {
                 try {
@@ -137,12 +128,12 @@ public class Background extends JFrame implements ActionListener{
                 } catch (InterruptedException f) {
                     f.printStackTrace();
                 }
-                temp = Integer.parseInt(JOptionPane.showInputDialog(this,"请用户选择房间号,从"+ Arrays.toString(roomsCanPlay)+"中选择"));
+                tempNumber = Integer.parseInt(JOptionPane.showInputDialog(this,"请用户"+username+"选择房间号,从"+ Arrays.toString(roomsCanPlay)+"中选择"));
                 for (int j : roomsCanPlay)
                 {
-                    if (temp == j)
+                    if (tempNumber == j)
                     {
-                        choseRoom = temp;
+                        choseRoom = tempNumber;
                         break;
                     }
                 }
@@ -151,7 +142,7 @@ public class Background extends JFrame implements ActionListener{
                     JOptionPane.showMessageDialog(this,"输入的房间号不符合规定，请重新输入");
                 }
             }
-            JOptionPane.showMessageDialog(this,"欢迎用户"+playerName+"！正在匹配玩家...");
+            JOptionPane.showMessageDialog(this,"欢迎用户"+username+"！正在匹配玩家...");
         } else if (e.getSource() == exitButton) {
             // 处理退出按钮被按下的事件
             int choice = JOptionPane.showConfirmDialog(this, "确定要退出吗？");
@@ -160,9 +151,33 @@ public class Background extends JFrame implements ActionListener{
             }
         }
     }
+
+    private void sign() {
+        String TempUsername = JOptionPane.showInputDialog(this, "请输入用户名(6-20位)，只能包含英文字母、数字、下划线：");
+        while (true) {
+            if (containsOnlyAllowedCharacters(TempUsername)&&TempUsername.length()>=6&&TempUsername.length()<=20) {
+                username = TempUsername;
+                break;
+            }
+            else {
+                TempUsername = JOptionPane.showInputDialog(this,"输入非法，请重新输入：");
+            }
+        }
+        String TempPassword = JOptionPane.showInputDialog(this, "请输入密码(6-20位)，只能包含英文字母、数字、下划线：");
+        while (true) {
+            if (containsOnlyAllowedCharacters(TempPassword)&&TempPassword.length()>=6&&TempPassword.length()<=20) {
+                password = TempPassword;
+                break;
+            }
+            else {
+                TempPassword = JOptionPane.showInputDialog(this,"输入非法，请重新输入：");
+            }
+        }
+    }
+
     public String getPlayerName()
     {
-        return playerName;
+        return username;
     }
 
     public void setRoomsCanPlay(int[] rooms){
