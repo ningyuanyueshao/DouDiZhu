@@ -26,8 +26,8 @@ public class ClientConnectThread extends Thread{
     public void connectedPlay()throws IOException {
         //若用户选择了在线游戏，再进行连接
         //需要主机IP地址和端口
-        String hostIPAddress = "10.28.213.96"; //这个是打开wifi的属性中得到的
-        int serverPort = 5050;
+        String hostIPAddress = "10.128.199.86"; //这个是打开wifi的属性中得到的
+        int serverPort = 8080;
         System.out.println("该客户端开始连接服务器");
         clientSocket = new Socket(hostIPAddress,serverPort);
         bufferedReader = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
@@ -56,7 +56,7 @@ public class ClientConnectThread extends Thread{
         String to = "";
         switch (from.charAt(0)){
             case '1': //”连接成功“
-                to = getUsername(background);
+                to = getUserInform(background);
                 break;
             case '3':
                 to = getRoomChoosed(from,background);
@@ -85,6 +85,25 @@ public class ClientConnectThread extends Thread{
         return to;
     }//根据收到的字符串的第一位执行相应操作
 
+    public String getUserInform(Background background){
+        String to = "2:";
+        int choice = -1;  //若用户选择注册，则为0；若用户选择登录，则为1；若用户选择用户列表，则为2；
+        String username = "";
+        String password = "";
+        while(true){
+            try {
+                Thread.sleep(10); //让主线程停顿，使得能够接收background线程中值的变化
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            username = background.getPlayerName();
+            password = background.getPassword();
+            choice = background.getChoice();
+            if(choice == 2 || (choice != -1 && !username.equals("") && !password.equals("") ))
+                break;
+        }
+        return to.concat(choice + username + "-" + password);
+    }//返回用户
     public static String getUsername(Background background){
         String Username = "2:";
         String username;

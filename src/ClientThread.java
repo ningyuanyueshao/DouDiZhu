@@ -9,6 +9,7 @@ import java.net.Socket;
 public class ClientThread extends Thread{
 
     public String username;
+    public String password;
     public int position;//在房间内是几号位，012三个值按进入房间顺序进行分配
     private Socket clientSocket;
     private InputStream inputStream;
@@ -40,8 +41,6 @@ public class ClientThread extends Thread{
             bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
             printWriter = new PrintWriter(outputStream,true);//true表示自动刷新，即会立刻传输数据
             to = "1:连接成功";
-            /*
-            }*/
             printWriter.println(to);
             System.out.println("服务端一开始给予的信息为"+to);
             //TODO 现在是有收才有发，最好是没收也能发,有收可以不发
@@ -65,9 +64,9 @@ public class ClientThread extends Thread{
         String to = "";
         switch (from.charAt(0)){
             case '2':
-                username = from.substring(from.indexOf(':')+1); //得到用户名
-                //TODO：进行数据库操作
-                to = getSpareRooms(roomSet);//返回空余房间
+                to = checkUser(from.substring(from.indexOf(':')+1));
+
+                to = getSpareRooms(roomSet);//返回空余房间 todo:换到其他地方
                 break;
             case '4':
                 room = from.charAt(2) - '0';
@@ -80,6 +79,28 @@ public class ClientThread extends Thread{
         }
         return to;
     } //根据收到的字符串的第一位执行相应操作
+
+    public String checkUser(String all){
+        String to = "3:";
+        String username;
+        String password;
+        switch (all.charAt(0)){
+            case '0':
+                username = all.substring(1,all.indexOf('-'));
+                password = all.substring(all.indexOf('-')+1);
+                //todo:用户注册，数据库检验用户名是否重复即可
+                break;
+            case '1':
+                username = all.substring(1,all.indexOf('-'));
+                password = all.substring(all.indexOf('-')+1);
+                //todo:用户登录，数据库检验用户名与密码是否匹配
+                break;
+            case '2':
+                //todo:数据库返回所有用户名
+                break;
+        }
+        return to;
+    }
     public static String getSpareRooms(Room[] roomSet){
         String temp = "3:";
         for (Room room : roomSet) {
@@ -105,5 +126,4 @@ public class ClientThread extends Thread{
         System.out.println("服务端返回的卡牌信息为"+to3);
         printWriter.println(to3);
     }
-
 }
