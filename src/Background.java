@@ -7,13 +7,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.Arrays;
+import java.util.regex.Pattern;
 
 public class Background extends JFrame implements ActionListener{
     private final RoundRectButton singlePlayerButton;
     private final RoundRectButton multiPlayerButton;
     private final RoundRectButton exitButton;
-    JPanel panel = new JPanel();
-
     public boolean wantGetConnected = false;
     public boolean wantSingleConnected = false;
     public int width = Toolkit.getDefaultToolkit().getScreenSize().width;
@@ -34,7 +33,7 @@ public class Background extends JFrame implements ActionListener{
         setIconImage(icon);
 
         // 创建一个JPanel容器并设置布局为null
-
+        JPanel panel = new JPanel();
         panel.setLayout(null);
 
         // 创建一个JLabel，并将图片作为背景添加到JPanel容器中。这里注意，要后放背景图片，先放的会覆盖后放的
@@ -92,6 +91,29 @@ public class Background extends JFrame implements ActionListener{
         } else if (e.getSource() == multiPlayerButton) {
             // 处理连接游戏按钮被按下的事件
             JOptionPane.showMessageDialog(this, "欢迎进入联机游戏！");
+            Object[] options = {"注册", "登录"};
+            int choice = JOptionPane.showOptionDialog(this, "请选择操作：", "联机游戏", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+            if (choice == 0) {
+                // 用户选择注册
+                String userTempName = JOptionPane.showInputDialog(this, "请输入用户名，只能包含英文字母、数字、下划线：");
+                while (true) {
+                    if (containsOnlyAllowedCharacters(userTempName)) {
+                        String userName = userTempName;
+                        break;
+                    }
+                    else {
+                        userTempName = JOptionPane.showInputDialog(this,"输入非法，请重新输入用户名：");
+                    }
+                }
+                String password = JOptionPane.showInputDialog(this, "请输入密码：");
+                JOptionPane.showMessageDialog(this, "注册成功！");
+            } else if (choice == 1) {
+                // 用户选择登录
+                String username = JOptionPane.showInputDialog(this, "请输入用户名：");
+                String password = JOptionPane.showInputDialog(this, "请输入密码：");
+                //TODO:服务器判断是否登录成功
+                JOptionPane.showMessageDialog(this, "登录成功！");
+            }
             wantGetConnected = true;
             playerName = JOptionPane.showInputDialog(this,"请输入用户昵称：");
             while(true){
@@ -106,6 +128,7 @@ public class Background extends JFrame implements ActionListener{
                     break;
             }
             int temp;
+            boolean validInput = false;
             while (choseRoom == -1)
             {
                 try {
@@ -144,13 +167,10 @@ public class Background extends JFrame implements ActionListener{
     public void setRoomsCanPlay(int[] rooms){
         roomsCanPlay = rooms;
     }
-
-    public void changeToPlay(Background background){
-        GameLayout gameLayout = new GameLayout();//gamelayout panel容器
-        background.getContentPane().removeAll(); // 从 background 的 contentPane 中移除所有现有组件
-        background.getContentPane().add(gameLayout); // 将 gameLayout 面板添加到 contentPane 中
-        background.revalidate(); // 刷新布局
-        background.repaint(); // 重绘窗口
+    public static boolean containsOnlyAllowedCharacters(String str) {//判断字符串是否符合要求
+        // 定义匹配要求字符的正则表达式
+        String pattern = "^[a-zA-Z0-9_]+$";
+        // 判断是否匹配
+        return Pattern.matches(pattern, str);
     }
-
 }
