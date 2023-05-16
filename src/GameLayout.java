@@ -11,13 +11,12 @@ public class GameLayout extends JPanel{
         Image scaledImage = backgroundImage.getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH);
         backgroundImage = new ImageIcon(scaledImage);
         JLabel backgroundLabel = new JLabel(backgroundImage);
-        add(backgroundLabel);
 
+        ImageIcon character = new ImageIcon("src/img/human1.png");
+
+        add(backgroundLabel);
         setPreferredSize(new Dimension(width, height)); // 设置面板的首选大小为窗口的大小
         setOpaque(true); // 设置面板为不透明，以便显示背景图片
-
         setVisible(true);
-
-        this.setVisible(true);
     }
 }

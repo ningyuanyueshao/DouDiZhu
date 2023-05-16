@@ -20,6 +20,7 @@ public class Background extends JFrame implements ActionListener{
     private String playerName = "";
     public int[] roomsCanPlay = null;
     public int choseRoom = -1;
+    JPanel panel = new JPanel();
     public Background() {
         setTitle("斗地主游戏");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -33,7 +34,7 @@ public class Background extends JFrame implements ActionListener{
         setIconImage(icon);
 
         // 创建一个JPanel容器并设置布局为null
-        JPanel panel = new JPanel();
+
         panel.setLayout(null);
 
         // 创建一个JLabel，并将图片作为背景添加到JPanel容器中。这里注意，要后放背景图片，先放的会覆盖后放的
@@ -172,5 +173,12 @@ public class Background extends JFrame implements ActionListener{
         String pattern = "^[a-zA-Z0-9_]+$";
         // 判断是否匹配
         return Pattern.matches(pattern, str);
+    }
+    public void changeToPlay(Background background){
+        GameLayout gameLayout = new GameLayout();//gamelayout panel容器
+        background.getContentPane().removeAll(); // 从 background 的 contentPane 中移除所有现有组件
+        background.getContentPane().add(gameLayout); // 将 gameLayout 面板添加到 contentPane 中
+        background.revalidate(); // 刷新布局
+        background.repaint(); // 重绘窗口
     }
 }
