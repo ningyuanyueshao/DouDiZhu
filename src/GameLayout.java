@@ -6,15 +6,21 @@ public class GameLayout extends JPanel{
     public int height = Toolkit.getDefaultToolkit().getScreenSize().height;
 
     public GameLayout(){
-        setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0)); // 设置布局管理器为居中对齐的流布局
+
         ImageIcon backgroundImage = new ImageIcon("src/img/gamebg.png");
-        Image scaledImage = backgroundImage.getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH);
-        backgroundImage = new ImageIcon(scaledImage);
+        Image scaledBkImage = backgroundImage.getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH);
+        backgroundImage = new ImageIcon(scaledBkImage);
         JLabel backgroundLabel = new JLabel(backgroundImage);
 
-        ImageIcon character = new ImageIcon("src/img/human1.png");
+        ImageIcon characterImage = new ImageIcon("src/img/human1.png");
+        Image scaledCrImage = characterImage.getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH);
+        characterImage = new ImageIcon(scaledCrImage);
+        JLabel characterLabel = new JLabel(characterImage);
+        characterLabel.setBounds(100, 800, characterImage.getIconWidth(), characterImage.getIconHeight());
 
+        backgroundLabel.add(characterLabel);
         add(backgroundLabel);
+
         setPreferredSize(new Dimension(width, height)); // 设置面板的首选大小为窗口的大小
         setOpaque(true); // 设置面板为不透明，以便显示背景图片
         setVisible(true);
