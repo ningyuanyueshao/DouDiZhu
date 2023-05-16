@@ -1,10 +1,8 @@
-
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 
 public class Deck {
-    private List<Card> cards;
+    private ArrayList<Card> cards;
 
     public Deck()
     {
@@ -30,9 +28,9 @@ public class Deck {
         Collections.shuffle(cards);//随机洗牌
     }
 
-    public List<Card> deal(int count)
+    public ArrayList<Card> deal(int count)
     {
-        List<Card> hand = new ArrayList<>();//手牌
+        ArrayList<Card> hand = new ArrayList<>();//手牌
         //每次都把索引为0的牌（第一张牌）分给手牌，每次牌remove一张，总共发count张
         for (int i = 0; i < count; i++) {
             Card card = cards.remove(0);

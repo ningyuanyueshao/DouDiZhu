@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -63,26 +64,31 @@ public class Room{
     public void dealTheCards(){
         Deck deck = new Deck();
         deck.shuffle();
-        List<Card>[] tempList = new List[3];
+        List<ArrayList<Card>> tempList = new ArrayList<>();
         for (int i = 0; i < 3; i++) {
-            tempList[i] = deck.deal(17);
+            tempList.add(deck.deal(17));
         }
         List<Card> landlordCards = deck.deal(3);
         for (int i = 0; i < 3; i++) {
-            this.giveTheCards(clientThreads[i],tempList[i],landlordCards);
+            this.giveTheCards(clientThreads[i],tempList,landlordCards);
         }
     }//给所有线程发牌
 
-    public void giveTheCards(ClientThread tempClient,List<Card> list,List<Card> landlordCards){
+    public void giveTheCards(ClientThread tempClient,List<ArrayList<Card>> tempList,List<Card> landlordCards){
         String temp = "";
         Card tempCard;
-        for (Card card : list) {
-            tempCard = card;
-            temp = temp.concat(tempCard.toString()); //加入手牌
-        }
+        //每个线程都要得到所有人的手牌信息，最好是按位置放
+        for (ArrayList<Card> cards : tempList) {
+            for (Card card : cards) {
+                temp = temp.concat(card.toString() + "、");
+            }
+            temp = temp.concat(";");
+        }//加入所有人的手牌，格式例子为"黑桃A、红桃2、······;黑桃A、红桃2、······;黑桃A、红桃2、······;"
+        //当客户端获取到该字符串的时候，就可以根据分号获取不同位置的人的手牌，根据顿号获取手牌数组
+        //todo：这样会不会一次性传太多，一张牌大概需要8字节，总共就是两百多字节。如果太多，就分次发送
         for(Card card : landlordCards){
             tempCard = card;
-            temp = temp.concat(tempCard.toString()); //加入地主牌
+            temp = temp.concat(tempCard.toString()+"、"); //加入地主牌
         }
         tempClient.giveCards(temp);
     } //给单个线程发牌
@@ -94,13 +100,6 @@ public class Room{
         clientThreads[temp] = null;
         playerSize--;
         System.out.println("该房间内的用户"+temp+"的线程已被剔除");
-        /*for (int i = 0; i < clientThreads.length; i++) {
-            if(clientThread.equals(clientThreads[i])){
-                clientThreads[i] = null;
-                playerSize--;
-                System.out.println("该房间内的用户"+i+"的线程已被剔除");
-            }
-        }*/
     }//当用户退出的时候，从房间中剔除该用户
 
     //可以在这个房间里调用每个线程类的方法，就可以修改每个线程里的from和to了

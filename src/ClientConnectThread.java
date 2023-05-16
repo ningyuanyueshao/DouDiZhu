@@ -52,7 +52,7 @@ public class ClientConnectThread extends Thread{
         }
     }
 
-    public static String clientOperators(String from,Background background){
+    public String clientOperators(String from,Background background){
         String to = "";
         switch (from.charAt(0)){
             case '1': //”连接成功“
@@ -75,6 +75,9 @@ public class ClientConnectThread extends Thread{
                 //todo:此时可以调用图形化界面显示position位置的人准备就绪
                 System.out.println("有人准备就绪");
                 to = null;
+                break;
+            case '9':
+                getCards(from.substring(from.indexOf(':')+1));
                 break;
         }
         return to;
@@ -126,4 +129,19 @@ public class ClientConnectThread extends Thread{
         String to = "7:";
         printWriter.println(to);
     }//若有人点击了准备就绪按钮，则告知服务端该用户准备就绪
+
+    public void getCards(String cards){
+        //格式例子为"黑桃A、红桃2、······;黑桃A、红桃2、······;黑桃A、红桃2、······;地主牌"
+        int firstSemicolon = cards.indexOf(';');
+        int secondSemicolon = cards.indexOf(';',firstSemicolon);
+        int thirdSemicolon = cards.indexOf(';',secondSemicolon);
+        String position0CardsString = cards.substring(0,firstSemicolon);
+        String[] position0Cards = position0CardsString.split("、");
+        String position1CardsString = cards.substring(firstSemicolon+1,secondSemicolon);
+        String[] position1Cards = position1CardsString.split("、");
+        String position2CardsString = cards.substring(secondSemicolon+1,thirdSemicolon);
+        String[] position2Cards = position2CardsString.split("、");
+        String landlordCardsString = cards.substring(thirdSemicolon+1);
+        String[] landlordCards = landlordCardsString.split("、");
+    }//todo:这个函数可能放在图形化的类里面比较好
 }
