@@ -1,5 +1,3 @@
-import java.awt.*;
-
 /**
  * @author seaside
  * 2023-05-07 11:06
@@ -8,7 +6,6 @@ public class Client {
     public static void main(String[] args){
         System.setProperty("sun.java2d.noddraw", "true");
         //这里调用图形化的主菜单界面
-        System.setProperty("sun.java2d.noddraw", "true");
         Background background = new Background();
         background.setVisible(true);
         while(true){
