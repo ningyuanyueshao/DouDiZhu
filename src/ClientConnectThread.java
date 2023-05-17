@@ -60,26 +60,24 @@ public class ClientConnectThread extends Thread{
                 break;
             case '3':
                 to = getRoomChoice(from.substring(from.indexOf(':'+1)),background);
-                to = getRoomChoosed(from,background);
                 break;
-            case '5':
+            case '6':
                 //TODo：此时可以调用图形化界面显示游戏内部房间信息
-
                 background.changeToPlay(background);
                 System.out.println("加入房间并显示当前房间内有多少人");
                 to = null;
                 break;
-            case '6':
+            case '8':
                 //TODo：此时可以调用图形化界面显示有人加入房间到position位置
                 System.out.println("有新用户加入房间");
                 to = null;
                 break;
-            case '8':
+            case 'a':
                 //todo:此时可以调用图形化界面显示position位置的人准备就绪
                 System.out.println("有人准备就绪");
                 to = null;
                 break;
-            case '9':
+            case 'b':
                 getCards(from.substring(from.indexOf(':')+1));
                 break;
         }
@@ -151,7 +149,7 @@ public class ClientConnectThread extends Thread{
 
     public void playerReady(){
         //todo:可能还得while循环不断读取图形化界面的准备就绪标志
-        String to = "7:";
+        String to = "9:";
         printWriter.println(to);
     }//若有人点击了准备就绪按钮，则告知服务端该用户准备就绪
 
