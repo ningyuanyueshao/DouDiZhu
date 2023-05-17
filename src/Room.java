@@ -30,6 +30,7 @@ public class Room{
         }
         for (int j = 0; j < i; j++) {
             clientThreads[j].informClientRoomNewPlayer(i,clientThreads[i].username);//位置分为012号位，按照加入次序分配
+            //todo:在给客户端通知有人加入房间的时候，也需要向数据库添加
         }
     } //线程通过调用该方法来为房间里的三个线程类变量赋值，这样之后就可以利用该房间访问到其他线程
 

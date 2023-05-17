@@ -59,6 +59,7 @@ public class ClientConnectThread extends Thread{
                 to = getUserInform(background);
                 break;
             case '3':
+                to = getRoomChoice(from.substring(from.indexOf(':'+1)),background);
                 to = getRoomChoosed(from,background);
                 break;
             case '5':
@@ -103,23 +104,26 @@ public class ClientConnectThread extends Thread{
                 break;
         }
         return to.concat(choice + username + "-" + password);
-    }//返回用户
-    public static String getUsername(Background background){
-        String Username = "2:";
-        String username;
+    }//返回用户信息
+
+    public String getRoomChoice(String all,Background background){
+        if(all.equals("成功"))
+            background.isOK = 0;
+        else
+            background.isOK = 1;
         while(true){
-            try {
-                Thread.sleep(10); //让主线程停顿，使得能够接收background线程中值的变化
-            } catch (InterruptedException e) {
+            try
+            {
+                Thread.sleep(10);
+            } catch (InterruptedException e)
+            {
                 e.printStackTrace();
             }
-            username = background.getPlayerName();
-            if(!username.equals(""))
+            if(background.roomChoice != -1)
                 break;
         }
-        Username = Username.concat(username);
-        return Username;
-    } //返回用户名
+        return "4:".concat(String.valueOf(background.roomChoice));
+    }
 
     public static String getRoomChoosed(String from,Background background){
         String chosenRoom = "4:";

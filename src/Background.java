@@ -22,8 +22,10 @@ public class Background extends JFrame implements ActionListener{
     private String password = "";
 
     private int choice = -1; // 注册是0，登录是1，查看所有用户2
+    public int isOK = -1; //判断是否注册或登录成功，0表示成功，1表示失败；-1是默认值，每次用完要回归默认值
+    public int roomChoice = -1; //判断用户对房间的选择，0表示创建默认房间，1表示创建私人房间，2表示加入房间
     public int[] roomsCanPlay = null;
-    public int choseRoom = -1;
+    public int choseRoom = -1;//todo:这个应该用不到了
     JPanel panel = new JPanel();
     public Background() {
         setTitle("斗地主游戏");
@@ -95,20 +97,25 @@ public class Background extends JFrame implements ActionListener{
             wantSingleConnected = true;
         } else if (e.getSource() == multiPlayerButton) {
             // 处理连接游戏按钮被按下的事件
+            wantGetConnected = true;
             JOptionPane.showMessageDialog(this, "欢迎进入联机游戏！");
             Object[] options = {"注册", "登录","查看所有用户"};
             choice = JOptionPane.showOptionDialog(this, "请选择操作：", "联机游戏", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
             if (choice == 0) {
                 // 用户选择注册
                 sign();
+                //todo:用while循环读取是否注册成功
                 JOptionPane.showMessageDialog(this, "注册成功！");
+                //todo:注册成功后返回前一个界面
             } else if (choice == 1) {
                 // 用户选择登录
                 sign();
-                //TODO:服务器判断是否登录成功
+                //TODO:用while循环读取是否登录成功
                 JOptionPane.showMessageDialog(this, "登录成功！");
+            }else{
+                //todo:用户选择查看所有用户列表，待实现
             }
-            wantGetConnected = true;
+            //todo：登录成功后让用户选择创建房间（要再选择是否私密）/加入房间
             while(true){
                 try
                 {
@@ -187,6 +194,8 @@ public class Background extends JFrame implements ActionListener{
     public int getChoice() {
         return choice;
     }
+
+    public void setIsOK(int isOK){this.isOK = isOK;}
 
     public void setRoomsCanPlay(int[] rooms){
         roomsCanPlay = rooms;

@@ -65,10 +65,12 @@ public class ClientThread extends Thread{
         switch (from.charAt(0)){
             case '2':
                 to = checkUser(from.substring(from.indexOf(':')+1));
-
                 to = getSpareRooms(roomSet);//返回空余房间 todo:换到其他地方
                 break;
             case '4':
+
+                break;
+            case '?':
                 room = from.charAt(2) - '0';
                 to = roomSet[room].getPlayersNow();//先确定返回的人数和用户名
                 roomSet[room].setEveryClientThread(this); //然后在房间中添加该线程
@@ -89,18 +91,20 @@ public class ClientThread extends Thread{
                 username = all.substring(1,all.indexOf('-'));
                 password = all.substring(all.indexOf('-')+1);
                 //todo:用户注册，数据库检验用户名是否重复即可
+                to = to.concat("成功");
                 break;
             case '1':
                 username = all.substring(1,all.indexOf('-'));
                 password = all.substring(all.indexOf('-')+1);
                 //todo:用户登录，数据库检验用户名与密码是否匹配
+                to = to.concat("成功");
                 break;
             case '2':
                 //todo:数据库返回所有用户名
                 break;
         }
         return to;
-    }
+    }//对用户的注册/登录/查看用户列表的选择做出反应
     public static String getSpareRooms(Room[] roomSet){
         String temp = "3:";
         for (Room room : roomSet) {
