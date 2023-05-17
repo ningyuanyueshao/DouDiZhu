@@ -65,17 +65,16 @@ public class ClientThread extends Thread{
         switch (from.charAt(0)){
             case '2':
                 to = checkUser(from.substring(from.indexOf(':')+1));
-                to = getSpareRooms(roomSet);//返回空余房间 todo:换到其他地方
                 break;
             case '4':
-
+                to = getRoomChoice(from.substring(from.indexOf(':')+1));
                 break;
-            case '?':
+            case '6':
                 room = from.charAt(2) - '0';
                 to = roomSet[room].getPlayersNow();//先确定返回的人数和用户名
                 roomSet[room].setEveryClientThread(this); //然后在房间中添加该线程
                 break;
-            case '7':
+            case '9':
                 roomSet[room].setPlayerReady(this); //告知房间该玩家准备就绪
                 break;
         }
@@ -84,8 +83,6 @@ public class ClientThread extends Thread{
 
     public String checkUser(String all){
         String to = "3:";
-        String username;
-        String password;
         switch (all.charAt(0)){
             case '0':
                 username = all.substring(1,all.indexOf('-'));
@@ -105,8 +102,27 @@ public class ClientThread extends Thread{
         }
         return to;
     }//对用户的注册/登录/查看用户列表的选择做出反应
+
+    public String getRoomChoice(String all){
+        String to = "";
+        switch (all.charAt(0)){
+            case '0':
+                //todo：创建默认房间
+                //要分配一个新的room
+                break;
+            case '1':
+                //todo:创建私密房间
+                //要分配一个新的room
+                break;
+            case '2':
+                //加入房间
+                to = getSpareRooms(roomSet);
+                break;
+        }
+        return to;
+    }
     public static String getSpareRooms(Room[] roomSet){
-        String temp = "3:";
+        String temp = "5:";
         for (Room room : roomSet) {
             if (room.playerSize != 3) //不等于3说明还没满，可以加入
                 temp = temp.concat(String.valueOf(room.roomNumber));
