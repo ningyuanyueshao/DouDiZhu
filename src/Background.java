@@ -15,6 +15,7 @@ public class Background extends JFrame implements ActionListener{
     private final RoundRectButton exitButton;
     public boolean wantGetConnected = false;
     public boolean wantSingleConnected = false;
+    public boolean wantPlay = false;
     public int width = Toolkit.getDefaultToolkit().getScreenSize().width;
     public int height = Toolkit.getDefaultToolkit().getScreenSize().height;
     private String username = "";
@@ -99,23 +100,51 @@ public class Background extends JFrame implements ActionListener{
             // 处理连接游戏按钮被按下的事件
             wantGetConnected = true;
             JOptionPane.showMessageDialog(this, "欢迎进入联机游戏！");
-            Object[] options = {"注册", "登录","查看所有用户"};
-            choice = JOptionPane.showOptionDialog(this, "请选择操作：", "联机游戏", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
-            if (choice == 0) {
-                // 用户选择注册
-                sign();
-                //todo:用while循环读取是否注册成功
-                JOptionPane.showMessageDialog(this, "注册成功！");
-                //todo:注册成功后返回前一个界面
-            } else if (choice == 1) {
-                // 用户选择登录
-                sign();
-                //TODO:用while循环读取是否登录成功
-                JOptionPane.showMessageDialog(this, "登录成功！");
-            }else{
-                //todo:用户选择查看所有用户列表，待实现
+            while (!wantPlay) {
+                Object[] options = {"注册", "登录", "用户列表"};
+                choice = JOptionPane.showOptionDialog(this, "请选择操作：", "联机游戏", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+
+                if (choice == 0) {
+                    // 用户选择注册
+                    sign();
+                    //todo:用while循环读取是否注册成功
+                    JOptionPane.showMessageDialog(this, "注册成功！");
+                } else if (choice == 1) {
+                    // 用户选择登录
+                    sign();
+                    //TODO:用while循环读取是否登录成功
+                    JOptionPane.showMessageDialog(this, "登录成功！");
+                    wantPlay = true;
+                }
+                else if (choice == 2) {
+                    // 显示用户列表
+                    String[] userNames = {"Alice", "Bob", "Charlie"};  // 假设这是一些用户的名字列表
+                    StringBuilder userList = new StringBuilder();
+                    for (String userName : userNames) {
+                        userList.append(userName).append("\n");
+                    }
+                    JOptionPane.showMessageDialog(this, "用户列表:\n" + userList.toString());
+                }
+                else {
+                    return;
+                }
             }
-            //todo：登录成功后让用户选择创建房间（要再选择是否私密）/加入房间
+            if (wantPlay) {
+                Object[] roomOptions = {"创建房间", "加入房间"};
+                int roomChoice = JOptionPane.showOptionDialog(this, "请选择操作：", "选房间", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, roomOptions, roomOptions[0]);
+                int roomID;
+                if (roomChoice == 0) {
+                    // 创建房间
+                    roomID = Integer.parseInt(JOptionPane.showInputDialog(this, "请输入房间号(0-9)："));
+                    // TODO: 用while循环读取是否创建房间成功
+                    JOptionPane.showMessageDialog(this, "成功创建房间！");
+                } else if (roomChoice == 1) {
+                    // 加入房间
+                    roomID = Integer.parseInt(JOptionPane.showInputDialog(this, "请输入房间号(0-9)："));
+                    // TODO: 用while循环读取是否加入房间成功
+                    JOptionPane.showMessageDialog(this, "成功加入房间！");
+                }
+            }
             while(true){
                 try
                 {
