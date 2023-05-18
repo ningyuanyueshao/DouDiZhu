@@ -112,7 +112,7 @@ public class ClientThread extends Thread{
     }//对用户的注册/登录/查看用户列表的选择做出反应
 
     public String getRoomChoice(String all){
-        String to = "";
+        String to = "5:";
         switch (all.charAt(0)){
             case '0'://创建默认房间
                 room = roomArrayList.size()+1;

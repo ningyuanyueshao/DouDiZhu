@@ -59,13 +59,18 @@ public class ClientConnectThread extends Thread{
                 to = getUserInform(background);
                 break;
             case '3':
-                to = getRoomChoice(from.substring(from.indexOf(':'+1)),background);
+                to = getRoomChoice(from.substring(from.indexOf(':') + 1),background);
                 break;
             case '5':
-                to = getRoomChosen(from,background);
+                if(background.roomChoice == 2)
+                    to = getRoomChosen(from,background); //只有加入房间的情况才让用户选择房间号
+                else{
+                    background.roomID = from.charAt(2) - '0'; //其他情况就让房间号默认分配了
+                    to = null;
+                }
                 break;
             case '7':
-                //TODo：此时可以调用图形化界面显示游戏内部房间信息
+                //TODo：此时可以调用图形化界面显示游戏内部房间信息,第一位为房间号，后面若为9，说明房间没人
                 background.changeToPlay(background);
                 System.out.println("加入房间并显示当前房间内有多少人");
                 to = null;
@@ -110,13 +115,14 @@ public class ClientConnectThread extends Thread{
     public String getRoomChoice(String all,Background background){
         String to = "";
         if(all.equals("注册成功")){
+            background.setChoice(-1);
             background.isOK = 0;
             to = getUserInform(background); //注册成功后还得让用户登录一遍
             background.isOK = -1; //isOK的值也要变回去，让图形化界面不会出错
         }
         else if(all.equals("登录成功")){
             background.isOK = 0;
-            while(true){
+            while(background.roomChoice == -1){
                 try
                 {
                     Thread.sleep(10);
@@ -124,13 +130,14 @@ public class ClientConnectThread extends Thread{
                 {
                     e.printStackTrace();
                 }
-                if(background.roomChoice != -1)
-                    break;
             }
             to = "4:"+ background.roomChoice;
         } else if (all.equals("用户列表")) {
+            background.setChoice(-1);
+            to = getUserInform(background); //让用户再次操作
             //todo:给图形化一个string数组吧,然后还是进行getUserInform？
         } else {
+            background.setChoice(-1);
             background.isOK = 1;
             to = getUserInform(background); //失败后还得让用户再次操作
             background.isOK = -1; //isOK的值也要变回去，让图形化界面不会出错
@@ -155,10 +162,10 @@ public class ClientConnectThread extends Thread{
             {
                 e.printStackTrace();
             }
-            if(background.choseRoom != -1)
+            if(background.roomID != -1)
                 break;
         }
-        chosenRoom = chosenRoom.concat(String.valueOf(background.choseRoom));
+        chosenRoom = chosenRoom.concat(String.valueOf(background.roomID));
         return chosenRoom;
     }
 

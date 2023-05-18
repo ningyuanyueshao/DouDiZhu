@@ -26,7 +26,7 @@ public class Background extends JFrame implements ActionListener{
     public int isOK = -1; //判断是否注册或登录成功，0表示成功，1表示失败；-1是默认值，每次用完要回归默认值
     public int roomChoice = -1; //判断用户对房间的选择，0表示创建默认房间，1表示创建私人房间，2表示加入房间
     public int[] roomsCanPlay = null;
-    public int choseRoom = -1;//todo:这个应该用不到了
+    public int roomID = -1;
     JPanel panel = new JPanel();
     public Background() {
         setTitle("斗地主游戏");
@@ -103,20 +103,41 @@ public class Background extends JFrame implements ActionListener{
             while (!wantPlay) {
                 Object[] options = {"注册", "登录", "用户列表"};
                 choice = JOptionPane.showOptionDialog(this, "请选择操作：", "联机游戏", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
-
                 if (choice == 0) {
                     // 用户选择注册
                     sign();
-                    //todo: 用while循环读取是否注册成功
-                    JOptionPane.showMessageDialog(this, "注册成功！");
+                    while(isOK == -1){
+                        try {
+                            Thread.sleep(10);
+                        } catch (InterruptedException ex) {
+                            ex.printStackTrace();
+                        }
+                    }
+                    if(isOK == 0)
+                        JOptionPane.showMessageDialog(this, "注册成功！");
+                    else{
+                        System.out.println("注册失败");
+                        //todo：弹出“注册失败，用户名已被使用”的提示
+                    }
                 } else if (choice == 1) {
                     // 用户选择登录
                     sign();
-                    //TODO: 用while循环读取是否登录成功
-                    JOptionPane.showMessageDialog(this, "登录成功！");
+                    while(isOK == -1){
+                        try {
+                            Thread.sleep(10);
+                        } catch (InterruptedException ex) {
+                            ex.printStackTrace();
+                        }
+                    }
+                    if(isOK == 0)
+                        JOptionPane.showMessageDialog(this, "登录成功！");
+                    else{
+                        System.out.println("登录失败");
+                        //todo：弹出“登录失败，用户名或密码不正确”的提示
+                    }
                     wantPlay = true;
                 }
-                else if (choice == 2) {
+                else {
                     // 显示用户列表
                     String[] userNames = {"Alice", "Bob", "Charlie"};  // 假设这是一些用户的名字列表
                     StringBuilder userList = new StringBuilder();
@@ -125,58 +146,52 @@ public class Background extends JFrame implements ActionListener{
                     }
                     JOptionPane.showMessageDialog(this, "用户列表:\n" + userList.toString());
                 }
-                else {
-                    return;
-                }
             }
             if (wantPlay) {
-                Object[] roomOptions = {"创建房间", "加入房间"};
-                int roomChoice = JOptionPane.showOptionDialog(this, "请选择操作：", "选房间", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, roomOptions, roomOptions[0]);
-                int roomID;
+                Object[] roomOptions = {"创建房间","创建私人房间", "加入房间"};
+                roomChoice = JOptionPane.showOptionDialog(this, "请选择操作：", "选房间", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, roomOptions, roomOptions[0]);
                 if (roomChoice == 0) {
                     // 创建房间
                     roomID = Integer.parseInt(JOptionPane.showInputDialog(this, "请输入房间号(0-9)："));
-                    // TODO:用while循环读取是否创建房间成功
                     JOptionPane.showMessageDialog(this, "成功创建房间！");
                 } else if (roomChoice == 1) {
+                    //todo:私人房间
+                } else if (roomChoice == 2) {
                     // 加入房间
-                    // todo：可选的房间号应该从roomsCanPlay中拿到！！要用循环读
-                    roomID = Integer.parseInt(JOptionPane.showInputDialog(this, "请输入房间号(0-9)："));
-                    // TODO:用while循环读取是否加入房间成功
-                    JOptionPane.showMessageDialog(this, "成功加入房间！");
-                }
-            }
-            while(true){
-                try
-                {
-                    Thread.sleep(10);
-                } catch (InterruptedException ex)
-                {
-                    ex.printStackTrace();
-                }
-                if(roomsCanPlay != null)
-                    break;
-            }
-            int tempNumber;
-            while (choseRoom == -1)
-            {
-                try {
-                    Thread.sleep(10); //让主线程停顿，使得能够接收background线程中值的变化
-                } catch (InterruptedException f) {
-                    f.printStackTrace();
-                }
-                tempNumber = Integer.parseInt(JOptionPane.showInputDialog(this,"请用户"+username+"选择房间号,从"+ Arrays.toString(roomsCanPlay)+"中选择"));
-                for (int j : roomsCanPlay)
-                {
-                    if (tempNumber == j)
-                    {
-                        choseRoom = tempNumber;
-                        break;
+                    while(true){
+                        try
+                        {
+                            Thread.sleep(10);
+                        } catch (InterruptedException ex)
+                        {
+                            ex.printStackTrace();
+                        }
+                        if(roomsCanPlay != null)
+                            break;
                     }
-                }
-                if (choseRoom==-1)
-                {
-                    JOptionPane.showMessageDialog(this,"输入的房间号不符合规定，请重新输入");
+                    int tempNumber;
+                    while (roomID == -1)
+                    {
+                        try {
+                            Thread.sleep(10); //让主线程停顿，使得能够接收background线程中值的变化
+                        } catch (InterruptedException f) {
+                            f.printStackTrace();
+                        }
+                        tempNumber = Integer.parseInt(JOptionPane.showInputDialog(this,"请用户"+username+"选择房间号,从"+ Arrays.toString(roomsCanPlay)+"中选择"));
+                        for (int j : roomsCanPlay)
+                        {
+                            if (tempNumber == j)
+                            {
+                                roomID = tempNumber;
+                                break;
+                            }
+                        }
+                        if (roomID==-1)
+                        {
+                            JOptionPane.showMessageDialog(this,"输入的房间号不符合规定，请重新输入");
+                        }
+                    }
+                    JOptionPane.showMessageDialog(this, "成功加入房间！");
                 }
             }
             JOptionPane.showMessageDialog(this,"欢迎用户"+username+"！正在匹配玩家...");
@@ -225,6 +240,9 @@ public class Background extends JFrame implements ActionListener{
         return choice;
     }
 
+    public void setChoice(int choice) {
+        this.choice = choice;
+    }
 
     public void setRoomsCanPlay(int[] rooms){
         roomsCanPlay = rooms;
