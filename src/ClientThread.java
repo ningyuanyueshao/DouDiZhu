@@ -95,16 +95,17 @@ public class ClientThread extends Thread{
                 username = all.substring(1,all.indexOf('-'));
                 password = all.substring(all.indexOf('-')+1);
                 //todo:用户注册，数据库检验用户名是否重复即可
-                to = to.concat("成功");
+                to = to.concat("注册成功");
                 break;
             case '1':
                 username = all.substring(1,all.indexOf('-'));
                 password = all.substring(all.indexOf('-')+1);
                 //todo:用户登录，数据库检验用户名与密码是否匹配
-                to = to.concat("成功");
+                to = to.concat("登录成功");
                 break;
             case '2':
                 //todo:数据库返回所有用户名
+                to = to.concat("用户列表");
                 break;
         }
         return to;

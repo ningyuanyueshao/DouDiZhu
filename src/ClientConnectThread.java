@@ -61,7 +61,7 @@ public class ClientConnectThread extends Thread{
             case '3':
                 to = getRoomChoice(from.substring(from.indexOf(':'+1)),background);
                 break;
-            case '4':
+            case '5':
                 to = getRoomChosen(from,background);
                 break;
             case '7':
@@ -108,22 +108,34 @@ public class ClientConnectThread extends Thread{
     }//返回用户信息
 
     public String getRoomChoice(String all,Background background){
-        if(all.equals("成功"))
+        String to = "";
+        if(all.equals("注册成功")){
             background.isOK = 0;
-        else
-            background.isOK = 1; //todo：这个成功可能是注册成功或者登录成功。用户注册完还要登录吗，所以不能仅凭一个注册就开始选房间？？？或者再加一个消息？？
-        while(true){
-            try
-            {
-                Thread.sleep(10);
-            } catch (InterruptedException e)
-            {
-                e.printStackTrace();
-            }
-            if(background.roomChoice != -1)
-                break;
+            to = getUserInform(background); //注册成功后还得让用户登录一遍
+            background.isOK = -1; //isOK的值也要变回去，让图形化界面不会出错
         }
-        return "4:".concat(String.valueOf(background.roomChoice));
+        else if(all.equals("登录成功")){
+            background.isOK = 0;
+            while(true){
+                try
+                {
+                    Thread.sleep(10);
+                } catch (InterruptedException e)
+                {
+                    e.printStackTrace();
+                }
+                if(background.roomChoice != -1)
+                    break;
+            }
+            to = "4:"+ background.roomChoice;
+        } else if (all.equals("用户列表")) {
+            //todo:给图形化一个string数组吧,然后还是进行getUserInform？
+        } else {
+            background.isOK = 1;
+            to = getUserInform(background); //失败后还得让用户再次操作
+            background.isOK = -1; //isOK的值也要变回去，让图形化界面不会出错
+        }
+        return to;
     }
 
     public static String getRoomChosen(String from,Background background){

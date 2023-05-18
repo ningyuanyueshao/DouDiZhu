@@ -107,12 +107,12 @@ public class Background extends JFrame implements ActionListener{
                 if (choice == 0) {
                     // 用户选择注册
                     sign();
-                    //todo:用while循环读取是否注册成功
+                    //todo: 用while循环读取是否注册成功
                     JOptionPane.showMessageDialog(this, "注册成功！");
                 } else if (choice == 1) {
                     // 用户选择登录
                     sign();
-                    //TODO:用while循环读取是否登录成功
+                    //TODO: 用while循环读取是否登录成功
                     JOptionPane.showMessageDialog(this, "登录成功！");
                     wantPlay = true;
                 }
@@ -136,12 +136,13 @@ public class Background extends JFrame implements ActionListener{
                 if (roomChoice == 0) {
                     // 创建房间
                     roomID = Integer.parseInt(JOptionPane.showInputDialog(this, "请输入房间号(0-9)："));
-                    // TODO: 用while循环读取是否创建房间成功
+                    // TODO:用while循环读取是否创建房间成功
                     JOptionPane.showMessageDialog(this, "成功创建房间！");
                 } else if (roomChoice == 1) {
                     // 加入房间
+                    // todo：可选的房间号应该从roomsCanPlay中拿到！！要用循环读
                     roomID = Integer.parseInt(JOptionPane.showInputDialog(this, "请输入房间号(0-9)："));
-                    // TODO: 用while循环读取是否加入房间成功
+                    // TODO:用while循环读取是否加入房间成功
                     JOptionPane.showMessageDialog(this, "成功加入房间！");
                 }
             }
@@ -224,7 +225,6 @@ public class Background extends JFrame implements ActionListener{
         return choice;
     }
 
-    public void setIsOK(int isOK){this.isOK = isOK;}
 
     public void setRoomsCanPlay(int[] rooms){
         roomsCanPlay = rooms;
