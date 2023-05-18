@@ -61,7 +61,10 @@ public class ClientConnectThread extends Thread{
             case '3':
                 to = getRoomChoice(from.substring(from.indexOf(':'+1)),background);
                 break;
-            case '6':
+            case '4':
+                to = getRoomChosen(from,background);
+                break;
+            case '7':
                 //TODo：此时可以调用图形化界面显示游戏内部房间信息
                 background.changeToPlay(background);
                 System.out.println("加入房间并显示当前房间内有多少人");
@@ -108,7 +111,7 @@ public class ClientConnectThread extends Thread{
         if(all.equals("成功"))
             background.isOK = 0;
         else
-            background.isOK = 1;
+            background.isOK = 1; //todo：这个成功可能是注册成功或者登录成功。用户注册完还要登录吗，所以不能仅凭一个注册就开始选房间？？？或者再加一个消息？？
         while(true){
             try
             {
@@ -123,8 +126,8 @@ public class ClientConnectThread extends Thread{
         return "4:".concat(String.valueOf(background.roomChoice));
     }
 
-    public static String getRoomChoosed(String from,Background background){
-        String chosenRoom = "4:";
+    public static String getRoomChosen(String from,Background background){
+        String chosenRoom = "6:";
         String temp = from.substring(from.indexOf(':')+1);
         int length = temp.length();
         int[] rooms = new int[length];

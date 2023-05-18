@@ -1,5 +1,6 @@
 import java.io.*;
 import java.net.Socket;
+import java.util.ArrayList;
 
 
 /**
@@ -20,15 +21,17 @@ public class ClientThread extends Thread{
     //在客户端关闭连接时，InputStream.read() 方法会返回 -1，这表示已经到达了流的末尾。因此，您可以通过检查返回值来确定客户端是否关闭了连接。
     //在上面的代码中，当客户端关闭连接时，while 循环条件会变为 false，然后通过 socket.close() 关闭套接字。这将导致服务端的 InputStream.read() 方法返回 -1，从而结束服务端的读取循环。
     //在实际开发中，您可能需要处理客户端异常关闭连接的情况，例如在 IOException 异常中捕获客户端连接的关闭。您也可以在客户端发送特定的协议消息来显式地告知服务器端客户端已经关闭连接
-    Room[] roomSet;
+   // Room[] roomSet;
+    ArrayList<Room> roomArrayList; //要能够创建房间，意味着要往房间号序列里添加新房间，就不能用数组了（不过客户端的线程与图形化的传递还是可以用数组，不影响）
     int room;
     String from = "";
     String to = "";
 
-    public ClientThread(String name, Socket clientSocket,Room[] roomSet) {
+    public ClientThread(String name, Socket clientSocket,ArrayList<Room> roomArrayList) {
         super(name); //线程名称就是用户序号，TODO：感觉没什么用
         this.clientSocket = clientSocket;
-        this.roomSet = roomSet;
+        //this.roomSet = roomSet;
+        this.roomArrayList = roomArrayList;
     }
 
     @Override
@@ -47,7 +50,7 @@ public class ClientThread extends Thread{
             while((from = bufferedReader.readLine()) != null){//从输入输出流获取交互信息
                 //TODO:主要操作应该都在这里面
                 System.out.println("客户端给的信息为"+ from);
-                to = serverOperators(from,roomSet);
+                to = serverOperators(from,roomArrayList);
                 if(to == null)
                     continue; //若为空，说明不用发
                 System.out.println("服务端返回的信息为"+to);
@@ -55,12 +58,13 @@ public class ClientThread extends Thread{
             }
         } catch (IOException e) {
             System.out.println("终止连接或数据传输出错");
-            roomSet[room].deletePlayer(this);
+            roomArrayList.get(room).deletePlayer(this);
+            //roomSet[room].deletePlayer(this);
             //出错应该尝试重连吧？？？？？还是说不会出错？？？？
         }
     }
 
-    public String serverOperators(String from,Room[] roomSet){
+    public String serverOperators(String from,ArrayList<Room> roomArrayList){
         String to = "";
         switch (from.charAt(0)){
             case '2':
@@ -71,11 +75,14 @@ public class ClientThread extends Thread{
                 break;
             case '6':
                 room = from.charAt(2) - '0';
-                to = roomSet[room].getPlayersNow();//先确定返回的人数和用户名
-                roomSet[room].setEveryClientThread(this); //然后在房间中添加该线程
+                to = roomArrayList.get(room).getPlayersNow();//先确定返回的人数和用户名
+                roomArrayList.get(room).setEveryClientThread(this);//然后在房间中添加该线程
+                //to = roomSet[room].getPlayersNow();//先确定返回的人数和用户名
+                //roomSet[room].setEveryClientThread(this); //然后在房间中添加该线程
                 break;
             case '9':
-                roomSet[room].setPlayerReady(this); //告知房间该玩家准备就绪
+                roomArrayList.get(room).setPlayerReady(this);//告知房间该玩家准备就绪
+                //roomSet[room].setPlayerReady(this); //告知房间该玩家准备就绪
                 break;
         }
         return to;
@@ -106,43 +113,47 @@ public class ClientThread extends Thread{
     public String getRoomChoice(String all){
         String to = "";
         switch (all.charAt(0)){
-            case '0':
-                //todo：创建默认房间
-                //要分配一个新的room
+            case '0'://创建默认房间
+                room = roomArrayList.size()+1;
+                roomArrayList.add(new Room(room));
+                to = roomArrayList.get(room).getPlayersNow();
+                roomArrayList.get(room).setEveryClientThread(this);
                 break;
-            case '1':
-                //todo:创建私密房间
-                //要分配一个新的room
+            case '1'://创建私密房间
+                room = roomArrayList.size()+1;
+                roomArrayList.add(new Room(room));
+                roomArrayList.get(room).isPrivate = true;
+                to = roomArrayList.get(room).getPlayersNow();
+                roomArrayList.get(room).setEveryClientThread(this);
                 break;
-            case '2':
-                //加入房间
-                to = getSpareRooms(roomSet);
+            case '2'://加入房间
+                to = getSpareRooms(roomArrayList);
                 break;
         }
         return to;
     }
-    public static String getSpareRooms(Room[] roomSet){
-        String temp = "5:";
-        for (Room room : roomSet) {
-            if (room.playerSize != 3) //不等于3说明还没满，可以加入
-                temp = temp.concat(String.valueOf(room.roomNumber));
+    public static String getSpareRooms(ArrayList<Room> roomArrayList){
+        String to = "5:";
+        for(Room room:roomArrayList){
+            if(!room.isPrivate && room.playerSize!=3)
+                to = to.concat(String.valueOf(room.roomNumber));
         }
-        return temp;
-    } //得到空闲的房间号
+        return to;
+    }//得到空闲的房间号
 
     public void informClientRoomNewPlayer(int position,String username){
-        String to1 = "6:"+position+username;
+        String to1 = "8:"+position+username;
         System.out.println("服务端返回的玩家信息为"+to1);
         printWriter.println(to1);//这样单独的输出就实现了没收也能发
     }//通知客户端房间内新加入的玩家，position对应房间几号位
 
     public void informClientRoomNewReady(int position){ //number表示几号位置
-        String to2 = "8:"+position;
+        String to2 = "a:"+position;
         System.out.println("服务器返回的玩家准备信息为"+to2);
         printWriter.println(to2);
     }//通知客户端房间内其他玩家准备的信息
     public void giveCards(String cards){
-        String to3 = "9:" + cards;
+        String to3 = "b:" + cards;
         System.out.println("服务端返回的卡牌信息为"+to3);
         printWriter.println(to3);
     }

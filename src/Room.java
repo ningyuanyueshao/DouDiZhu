@@ -9,6 +9,7 @@ public class Room{
     int roomNumber;//房间号
     int playerSize; //当前房间内玩家数量
     int readySize = 0;
+    boolean isPrivate = false; //房间默认不是私密的
     public Room(int roomNumber) {
         this.roomNumber = roomNumber;
     }
@@ -35,7 +36,8 @@ public class Room{
     } //线程通过调用该方法来为房间里的三个线程类变量赋值，这样之后就可以利用该房间访问到其他线程
 
     public String getPlayersNow(){
-        String to = "5:";
+        String to = "7:";
+        to = to.concat(String.valueOf(roomNumber));
         if(clientThreads[0] == null)
             to = to.concat("9");//客户端收到9说明房间内一开始没有其他用户
         else {
