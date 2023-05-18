@@ -37,7 +37,8 @@ public class Room{
 
     public String getPlayersNow(){
         String to = "7:";
-        to = to.concat(String.valueOf(roomNumber));
+        String temp = String.valueOf(roomNumber);
+        to = to.concat(temp.length() + temp);
         if(clientThreads[0] == null)
             to = to.concat("9");//客户端收到9说明房间内一开始没有其他用户
         else {
