@@ -72,7 +72,7 @@ public class ClientConnectThread extends Thread{
             case '7':
                 //TODo：此时可以调用图形化界面显示游戏内部房间信息,第一位为房间号的长度n，后面n位为房间号，再后面若为9，说明房间没人
                 int roomIDLength = from.charAt(2) - '0';
-                String roomID = from.substring(3,3+roomIDLength+1);
+                String roomID = from.substring(3,3+roomIDLength);
                 background.roomID = Integer.parseInt(roomID);
                 background.changeToPlay(background);
                 System.out.println("加入房间并显示当前房间内有多少人");

@@ -113,12 +113,13 @@ public class Background extends JFrame implements ActionListener{
                             ex.printStackTrace();
                         }
                     }
-                    if(isOK == 0)
+                    if(isOK == 0) {
                         JOptionPane.showMessageDialog(this, "注册成功！");
-                    else{
-                        System.out.println("注册失败");
-                        //todo：弹出“注册失败，用户名已被使用”的提示
                     }
+                    else{
+                        System.out.println("注册失败，用户名已被使用");
+                    }
+                    clearUserData();
                 } else if (choice == 1) {
                     // 用户选择登录
                     sign();
@@ -137,7 +138,7 @@ public class Background extends JFrame implements ActionListener{
                     }
                     wantPlay = true;
                 }
-                else {
+                else if (choice == 2) {
                     // 显示用户列表
                     String[] userNames = {"Alice", "Bob", "Charlie"};  // 假设这是一些用户的名字列表
                     StringBuilder userList = new StringBuilder();
@@ -146,16 +147,26 @@ public class Background extends JFrame implements ActionListener{
                     }
                     JOptionPane.showMessageDialog(this, "用户列表:\n" + userList.toString());
                 }
+                else {
+                    return;
+                }
             }
             if (wantPlay) {
                 Object[] roomOptions = {"创建房间","创建私人房间", "加入房间"};
                 roomChoice = JOptionPane.showOptionDialog(this, "请选择操作：", "选房间", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, roomOptions, roomOptions[0]);
                 if (roomChoice == 0) {
                     // 创建房间
-                    roomID = Integer.parseInt(JOptionPane.showInputDialog(this, "请输入房间号(0-9)："));
-                    JOptionPane.showMessageDialog(this, "成功创建房间！");
+                    while (roomID == -1) {
+                        try {
+                            Thread.sleep(10);
+                        } catch (InterruptedException ex) {
+                            ex.printStackTrace();
+                        }
+                    }
+                    JOptionPane.showMessageDialog(this,"分配的房间号是"+roomID);
                 } else if (roomChoice == 1) {
-                    //todo:私人房间
+                    //TODO:创建私人房间
+
                 } else if (roomChoice == 2) {
                     // 加入房间
                     while(true){
@@ -194,7 +205,7 @@ public class Background extends JFrame implements ActionListener{
                     JOptionPane.showMessageDialog(this, "成功加入房间！");
                 }
             }
-            JOptionPane.showMessageDialog(this,"欢迎用户"+username+"！正在匹配玩家...");
+            JOptionPane.showMessageDialog(this,"欢迎用户"+username+"！等待开始游戏...");
         } else if (e.getSource() == exitButton) {
             // 处理退出按钮被按下的事件
             int choice = JOptionPane.showConfirmDialog(this, "确定要退出吗？");
@@ -204,6 +215,10 @@ public class Background extends JFrame implements ActionListener{
         }
     }
 
+    private void clearUserData() {
+        username = "";
+        password = "";
+    }
     private void sign() {
         String TempUsername = JOptionPane.showInputDialog(this, "请输入用户名(6-20位)，只能包含英文字母、数字、下划线：");
         while (true) {
@@ -254,7 +269,7 @@ public class Background extends JFrame implements ActionListener{
         return Pattern.matches(pattern, str);
     }
     public void changeToPlay(Background background){
-        GameLayout gameLayout = new GameLayout();//gamelayout panel容器
+        GameLayout gameLayout = new GameLayout();//gameLayout panel容器
         background.getContentPane().removeAll(); // 从 background 的 contentPane 中移除所有现有组件
         background.getContentPane().add(gameLayout); // 将 gameLayout 面板添加到 contentPane 中
         background.revalidate(); // 刷新布局
