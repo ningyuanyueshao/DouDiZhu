@@ -115,13 +115,13 @@ public class ClientThread extends Thread{
         String to = "5:";
         switch (all.charAt(0)){
             case '0'://创建默认房间
-                room = roomArrayList.size()+1;
+                room = roomArrayList.size();
                 roomArrayList.add(new Room(room));
                 to = roomArrayList.get(room).getPlayersNow();
                 roomArrayList.get(room).setEveryClientThread(this);
                 break;
             case '1'://创建私密房间
-                room = roomArrayList.size()+1;
+                room = roomArrayList.size();
                 roomArrayList.add(new Room(room));
                 roomArrayList.get(room).isPrivate = true;
                 to = roomArrayList.get(room).getPlayersNow();
