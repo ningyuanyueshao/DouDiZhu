@@ -117,7 +117,7 @@ public class Background extends JFrame implements ActionListener{
                         JOptionPane.showMessageDialog(this, "注册成功！");
                     }
                     else{
-                        System.out.println("注册失败，用户名已被使用");
+                        JOptionPane.showMessageDialog(this,"注册失败，用户名已被使用");
                     }
                     clearUserData();
                 } else if (choice == 1) {
@@ -133,8 +133,8 @@ public class Background extends JFrame implements ActionListener{
                     if(isOK == 0)
                         JOptionPane.showMessageDialog(this, "登录成功！");
                     else{
-                        System.out.println("登录失败");
-                        //todo：弹出“登录失败，用户名或密码不正确”的提示
+                        JOptionPane.showMessageDialog(this,"登录失败！请重新尝试。");
+                        return;
                     }
                     wantPlay = true;
                 }
@@ -268,11 +268,12 @@ public class Background extends JFrame implements ActionListener{
         // 判断是否匹配
         return Pattern.matches(pattern, str);
     }
-    public void changeToPlay(Background background){
+    public GameLayout changeToPlay(Background background){
         GameLayout gameLayout = new GameLayout();//gameLayout panel容器
         background.getContentPane().removeAll(); // 从 background 的 contentPane 中移除所有现有组件
         background.getContentPane().add(gameLayout); // 将 gameLayout 面板添加到 contentPane 中
         background.revalidate(); // 刷新布局
         background.repaint(); // 重绘窗口
+        return gameLayout;
     }
 }
