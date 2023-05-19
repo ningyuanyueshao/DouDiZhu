@@ -24,6 +24,7 @@ public class Server {
         while(true) {//这个循环按理来说要一直进行
             Socket clientSocket = serverSocket.accept(); //得到来自客户端的套接字连接。java中的socket默认使用TCP连接
             ClientThread clientThread = new ClientThread(String.valueOf(count), clientSocket,roomArrayList);
+            Invite.clientThreads.add(clientThread);
             System.out.println("用户（序号"+ count +"）连接成功");
             count = count + 1;
             clientThread.start();

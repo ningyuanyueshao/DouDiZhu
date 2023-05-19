@@ -6,8 +6,8 @@ import java.util.LinkedList;
  */
 public class Invite {
     public static LinkedList<Message> messages = new LinkedList<>(); //存放消息，一有用户端登录就检索
-    public LinkedList<ClientThread> clientThreads;
-    public void newMessage(String sourceUsername,int roomID,String aimUsername){
+    public static LinkedList<ClientThread> clientThreads;
+    public static void newMessage(String sourceUsername,int roomID,String aimUsername){
         for (ClientThread clientThread : clientThreads) {
             String username = clientThread.username;
             if (username.equals(aimUsername))
@@ -25,6 +25,6 @@ public class Invite {
     }//查看未处理的消息中是否有与新登录的用户所匹配
 
     public static void sendMessage(ClientThread clientThread,String sourceUsername,int roomID){
-        //todo:要得到客户端是否同意邀请的结果
+        //todo:最后要得到客户端是否同意邀请的结果
     }
 }

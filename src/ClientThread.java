@@ -96,10 +96,11 @@ public class ClientThread extends Thread{
                 username = all.substring(1,all.indexOf('-'));
                 password = all.substring(all.indexOf('-')+1);
                 //todo:用户登录，数据库检验用户名与密码是否匹配
+                Invite.checkMessages(this); //todo:根据返回值决定是否对该用户进行邀请信息的通知
                 to = to.concat("登录成功");
                 break;
             case '2':
-                //todo:数据库返回所有用户名
+                //todo:数据库返回所有用户名 ； 当用户加入到房间的时候也要得到所有用户名，且要按最近游戏的时间进行排序
                 to = to.concat("用户列表");
                 break;
         }

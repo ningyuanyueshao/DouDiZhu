@@ -8,7 +8,7 @@ public class Client {
         //这里调用图形化的主菜单界面
         Background background = new Background();
         background.setVisible(true);
-        Invite invite = new Invite(); //todo:要不要设成static，因为ClientThread肯定要调用它。也可以在Invite里return它自己
+         //todo:要不要设成static，因为ClientThread肯定要调用它。也可以在Invite里return它自己
         while(true){
             try {
                 Thread.sleep(10); //让主线程停顿，使得能够接收background线程中值的变化

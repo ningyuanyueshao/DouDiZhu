@@ -10,6 +10,7 @@ public class ClientConnectThread extends Thread{
     Socket clientSocket;
     BufferedReader bufferedReader;
     PrintWriter printWriter;
+    GameLayout gameLayout;
     @Override
     public void run() {
         try {
@@ -74,7 +75,7 @@ public class ClientConnectThread extends Thread{
                 int roomIDLength = from.charAt(2) - '0';
                 String roomID = from.substring(3,3+roomIDLength);
                 background.roomID = Integer.parseInt(roomID);
-                background.changeToPlay(background);
+                gameLayout = background.changeToPlay(background);
                 System.out.println("加入房间并显示当前房间内有多少人");
                 to = null;
                 break;
@@ -173,7 +174,7 @@ public class ClientConnectThread extends Thread{
     }
 
     public void playerReady(){
-        //todo:可能还得while循环不断读取图形化界面的准备就绪标志
+        //todo:可能还得while循环不断读取GameLayOut界面的准备就绪标志
         String to = "9:";
         printWriter.println(to);
     }//若有人点击了准备就绪按钮，则告知服务端该用户准备就绪
@@ -191,5 +192,6 @@ public class ClientConnectThread extends Thread{
         String[] position2Cards = position2CardsString.split("、");
         String landlordCardsString = cards.substring(thirdSemicolon+1);
         String[] landlordCards = landlordCardsString.split("、");
-    }//todo:这个函数可能放在图形化的类里面比较好
+        //发牌只需要发某个人的牌和其他人的牌数就行了
+    }
 }
