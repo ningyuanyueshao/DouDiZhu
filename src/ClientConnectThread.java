@@ -52,7 +52,7 @@ public class ClientConnectThread extends Thread{
         }
     }
 
-    public String clientOperators(String from,Background background){
+        public String clientOperators(String from,Background background){
         String to = "";
         switch (from.charAt(0)){
             case '1': //”连接成功“
@@ -138,7 +138,7 @@ public class ClientConnectThread extends Thread{
         } else if (all.equals("用户列表")) {
             background.setChoice(-1);
             to = getUserInform(background); //让用户再次操作
-            //todo:给图形化一个string数组吧,然后还是进行getUserInform？
+            //todo:用户列表就给图形化一个string数组吧,然后还是进行getUserInform？
         } else {
             background.setChoice(-1);
             background.isOK = 1;

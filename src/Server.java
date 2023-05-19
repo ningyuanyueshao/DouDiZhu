@@ -16,10 +16,8 @@ public class Server {
         int port = 8080;
         ServerSocket serverSocket = new ServerSocket(port);
         System.out.println("服务器端开始运行");
-        //Room[] roomSet = new Room[roomSize];
         ArrayList<Room> roomArrayList = new ArrayList<>();
         for (int roomNumber = 0; roomNumber < roomSize; roomNumber++) {
-            //roomSet[roomNumber] = new Room(roomNumber); //一开始先创建十个房间
             roomArrayList.add(new Room(roomNumber)); //一开始先创建十个房间
         }
         int count = 1; //用户序号，拿来标识线程

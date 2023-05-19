@@ -51,7 +51,6 @@ public class Room{
         return to;
     }//得到该房间当前人数和对应用户名
 
-
     public void setPlayerReady(ClientThread clientThread){
         readySize++;
         if(readySize == 3)
@@ -95,9 +94,7 @@ public class Room{
             temp = temp.concat(tempCard.toString()+"、"); //加入地主牌
         }
         tempClient.giveCards(temp);
-    } //给单个线程发牌
-
-
+    } //给单个线程发牌，客户端要根据位置来知晓谁得到了哪些牌
 
     public void deletePlayer(ClientThread clientThread){
         int temp = clientThread.position;
@@ -107,6 +104,4 @@ public class Room{
     }//当用户退出的时候，从房间中剔除该用户
 
     //可以在这个房间里调用每个线程类的方法，就可以修改每个线程里的from和to了
-
-
 }

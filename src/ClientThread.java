@@ -21,7 +21,6 @@ public class ClientThread extends Thread{
     //在客户端关闭连接时，InputStream.read() 方法会返回 -1，这表示已经到达了流的末尾。因此，您可以通过检查返回值来确定客户端是否关闭了连接。
     //在上面的代码中，当客户端关闭连接时，while 循环条件会变为 false，然后通过 socket.close() 关闭套接字。这将导致服务端的 InputStream.read() 方法返回 -1，从而结束服务端的读取循环。
     //在实际开发中，您可能需要处理客户端异常关闭连接的情况，例如在 IOException 异常中捕获客户端连接的关闭。您也可以在客户端发送特定的协议消息来显式地告知服务器端客户端已经关闭连接
-   // Room[] roomSet;
     ArrayList<Room> roomArrayList; //要能够创建房间，意味着要往房间号序列里添加新房间，就不能用数组了（不过客户端的线程与图形化的传递还是可以用数组，不影响）
     int room;
     String from = "";
@@ -59,7 +58,6 @@ public class ClientThread extends Thread{
         } catch (IOException e) {
             System.out.println("终止连接或数据传输出错");
             roomArrayList.get(room).deletePlayer(this);
-            //roomSet[room].deletePlayer(this);
             //出错应该尝试重连吧？？？？？还是说不会出错？？？？
         }
     }
@@ -77,12 +75,9 @@ public class ClientThread extends Thread{
                 room = from.charAt(2) - '0';
                 to = roomArrayList.get(room).getPlayersNow();//先确定返回的人数和用户名
                 roomArrayList.get(room).setEveryClientThread(this);//然后在房间中添加该线程
-                //to = roomSet[room].getPlayersNow();//先确定返回的人数和用户名
-                //roomSet[room].setEveryClientThread(this); //然后在房间中添加该线程
                 break;
             case '9':
                 roomArrayList.get(room).setPlayerReady(this);//告知房间该玩家准备就绪
-                //roomSet[room].setPlayerReady(this); //告知房间该玩家准备就绪
                 break;
         }
         return to;
@@ -94,7 +89,7 @@ public class ClientThread extends Thread{
             case '0':
                 username = all.substring(1,all.indexOf('-'));
                 password = all.substring(all.indexOf('-')+1);
-                //todo:用户注册，数据库检验用户名是否重复即可
+                //todo:用户注册，数据库检验用户名是否重复即可,若重复要返回失败
                 to = to.concat("注册成功");
                 break;
             case '1':
