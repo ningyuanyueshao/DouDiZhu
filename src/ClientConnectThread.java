@@ -6,7 +6,7 @@ import java.net.Socket;
  * 2023-05-13 20:38
  */
 public class ClientConnectThread extends Thread{
-    Background background; //该线程有时要获取图形化界面得到的信息，所以需要此对象。
+    SetupLayout setupLayout;//该线程有时要获取图形化界面得到的信息，所以需要此对象。
     Socket clientSocket;
     BufferedReader bufferedReader;
     PrintWriter printWriter;
@@ -20,8 +20,8 @@ public class ClientConnectThread extends Thread{
         }
     }
 
-    public ClientConnectThread(Background background) {
-        this.background = background;
+    public ClientConnectThread(SetupLayout setupLayout) {
+        this.setupLayout = setupLayout;
     }
 
     public void connectedPlay()throws IOException {
@@ -42,7 +42,7 @@ public class ClientConnectThread extends Thread{
                 //TODO:和服务器的主要操作应该都在这里面
                 System.out.println("得到服务器端给的信息为"+ from);
                 //根据交互信息的类型进行不同的操作
-                to = clientOperators(from,background);
+                to = clientOperators(from,setupLayout);
                 if(to == null)
                     continue; //若为空，说明不用发，就实现有收可以不发
                 printWriter.println(to);
@@ -53,20 +53,20 @@ public class ClientConnectThread extends Thread{
         }
     }
 
-        public String clientOperators(String from,Background background){
+        public String clientOperators(String from,SetupLayout setupLayout){
         String to = "";
         switch (from.charAt(0)){
             case '1': //”连接成功“
-                to = getUserInform(background);
+                to = getUserInform(setupLayout);
                 break;
             case '3':
-                to = getRoomChoice(from.substring(from.indexOf(':') + 1),background);
+                to = getRoomChoice(from.substring(from.indexOf(':') + 1),setupLayout);
                 break;
             case '5':
-                if(background.roomChoice == 2)
-                    to = getRoomChosen(from,background); //只有加入房间的情况才让用户选择房间号
+                if(setupLayout.roomChoice == 2)
+                    to = getRoomChosen(from,setupLayout); //只有加入房间的情况才让用户选择房间号
                 else{
-                    background.roomID = from.charAt(2) - '0'; //其他情况就让房间号默认分配了
+                    setupLayout.roomID = from.charAt(2) - '0'; //其他情况就让房间号默认分配了
                     to = null;
                 }
                 break;
@@ -74,8 +74,9 @@ public class ClientConnectThread extends Thread{
                 //TODo：此时可以调用图形化界面显示游戏内部房间信息,第一位为房间号的长度n，后面n位为房间号，再后面若为9，说明房间没人
                 int roomIDLength = from.charAt(2) - '0';
                 String roomID = from.substring(3,3+roomIDLength);
-                background.roomID = Integer.parseInt(roomID);
-                gameLayout = background.changeToPlay(background);
+                setupLayout.roomID = Integer.parseInt(roomID);
+//                TODO 显示OnlinePanel
+//                gameLayout = setupLayout.changeToPlay(setupLayout);
                 System.out.println("加入房间并显示当前房间内有多少人");
                 to = null;
                 break;
@@ -96,37 +97,37 @@ public class ClientConnectThread extends Thread{
         return to;
     }//根据收到的字符串的第一位执行相应操作
 
-    public String getUserInform(Background background){
+    public String getUserInform(SetupLayout setupLayout){
         String to = "2:";
         int choice = -1;  //若用户选择注册，则为0；若用户选择登录，则为1；若用户选择用户列表，则为2；
         String username = "";
         String password = "";
         while(true){
             try {
-                Thread.sleep(10); //让主线程停顿，使得能够接收background线程中值的变化
+                Thread.sleep(10); //让主线程停顿，使得能够接收setupLayout线程中值的变化
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            username = background.getPlayerName();
-            password = background.getPassword();
-            choice = background.getChoice();
+            username = setupLayout.getPlayerName();
+            password = setupLayout.getPassword();
+            choice = setupLayout.getChoice();
             if(choice == 2 || (choice != -1 && !username.equals("") && !password.equals("") ))
                 break;
         }
         return to.concat(choice + username + "-" + password);
     }//返回用户信息
 
-    public String getRoomChoice(String all,Background background){
+    public String getRoomChoice(String all,SetupLayout setupLayout){
         String to = "";
         if(all.equals("注册成功")){
-            background.setChoice(-1);
-            background.isOK = 0;
-            to = getUserInform(background); //注册成功后还得让用户登录一遍
-            background.isOK = -1; //isOK的值也要变回去，让图形化界面不会出错
+            setupLayout.setChoice(-1);
+            setupLayout.isOK = 0;
+            to = getUserInform(setupLayout); //注册成功后还得让用户登录一遍
+            setupLayout.isOK = -1; //isOK的值也要变回去，让图形化界面不会出错
         }
         else if(all.equals("登录成功")){
-            background.isOK = 0;
-            while(background.roomChoice == -1){
+            setupLayout.isOK = 0;
+            while(setupLayout.roomChoice == -1){
                 try
                 {
                     Thread.sleep(10);
@@ -135,21 +136,21 @@ public class ClientConnectThread extends Thread{
                     e.printStackTrace();
                 }
             }
-            to = "4:"+ background.roomChoice;
+            to = "4:"+ setupLayout.roomChoice;
         } else if (all.equals("用户列表")) {
-            background.setChoice(-1);
-            to = getUserInform(background); //让用户再次操作
+            setupLayout.setChoice(-1);
+            to = getUserInform(setupLayout); //让用户再次操作
             //todo:用户列表就给图形化一个string数组吧,然后还是进行getUserInform？
         } else {
-            background.setChoice(-1);
-            background.isOK = 1;
-            to = getUserInform(background); //失败后还得让用户再次操作
-            background.isOK = -1; //isOK的值也要变回去，让图形化界面不会出错
+            setupLayout.setChoice(-1);
+            setupLayout.isOK = 1;
+            to = getUserInform(setupLayout); //失败后还得让用户再次操作
+            setupLayout.isOK = -1; //isOK的值也要变回去，让图形化界面不会出错
         }
         return to;
     }
 
-    public static String getRoomChosen(String from,Background background){
+    public static String getRoomChosen(String from,SetupLayout setupLayout){
         String chosenRoom = "6:";
         String temp = from.substring(from.indexOf(':')+1);
         int length = temp.length();
@@ -157,7 +158,7 @@ public class ClientConnectThread extends Thread{
         for (int i = 0; i < length; i++) {
             rooms[i] = temp.charAt(i) - '0';
         }
-        background.setRoomsCanPlay(rooms);
+        setupLayout.setRoomsCanPlay(rooms);
         while(true){
             try
             {
@@ -166,10 +167,10 @@ public class ClientConnectThread extends Thread{
             {
                 e.printStackTrace();
             }
-            if(background.roomID != -1)
+            if(setupLayout.roomID != -1)
                 break;
         }
-        chosenRoom = chosenRoom.concat(String.valueOf(background.roomID));
+        chosenRoom = chosenRoom.concat(String.valueOf(setupLayout.roomID));
         return chosenRoom;
     }
 

@@ -6,8 +6,8 @@ public class Client {
     public static void main(String[] args){
         System.setProperty("sun.java2d.noddraw", "true");
         //这里调用图形化的主菜单界面
-        Background background = new Background();
-        background.setVisible(true);
+        Frame frame = new Frame();
+        frame.setVisible(true);
          //todo:要不要设成static，因为ClientThread肯定要调用它。也可以在Invite里return它自己
         while(true){
             try {
@@ -15,12 +15,12 @@ public class Client {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            if(background.wantGetConnected){
-                ClientConnectThread clientConnectThread = new ClientConnectThread(background);
+            if(frame.IsOnlineGame()){
+                ClientConnectThread clientConnectThread = new ClientConnectThread(frame.SpLayout);
                 clientConnectThread.start(); //额外创建一个线程用来网络连接，减少网络连接等带来的图形化界面停顿影响
                 break;
             }
-            if(background.wantSingleConnected){
+            if(frame.IsOnePGame()){
                 //Todo:调用单机游戏界面
                 break;
             }
