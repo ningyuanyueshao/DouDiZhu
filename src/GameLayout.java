@@ -4,7 +4,6 @@ import java.awt.*;
 public class GameLayout extends JPanel{
     public int width = Toolkit.getDefaultToolkit().getScreenSize().width;
     public int height = Toolkit.getDefaultToolkit().getScreenSize().height;
-
     public GameLayout(){
 
         ImageIcon backgroundImage = new ImageIcon("src/img/gamebg.png");

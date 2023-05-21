@@ -79,6 +79,12 @@ public class ClientThread extends Thread{
             case '9':
                 roomArrayList.get(room).setPlayerReady(this);//告知房间该玩家准备就绪
                 break;
+            case 's':
+                String targetUsername = from.substring(from.indexOf(':')+1,'-');
+                String chatItems = from.substring(from.indexOf('-')+1);
+                Chat.giveChatStrings(targetUsername,chatItems);
+                to = null;
+                break;
         }
         return to;
     } //根据收到的字符串的第一位执行相应操作
@@ -89,12 +95,14 @@ public class ClientThread extends Thread{
             case '0':
                 username = all.substring(1,all.indexOf('-'));
                 password = all.substring(all.indexOf('-')+1);
+
                 //todo:用户注册，数据库检验用户名是否重复即可,若重复要返回失败
                 to = to.concat("注册成功");
                 break;
             case '1':
                 username = all.substring(1,all.indexOf('-'));
                 password = all.substring(all.indexOf('-')+1);
+                //public boolean logInCheck(String name , String pwd)
                 //todo:用户登录，数据库检验用户名与密码是否匹配
                 Invite.checkMessages(this); //todo:根据返回值决定是否对该用户进行邀请信息的通知
                 to = to.concat("登录成功");
@@ -153,5 +161,11 @@ public class ClientThread extends Thread{
         String to3 = "b:" + cards;
         System.out.println("服务端返回的卡牌信息为"+to3);
         printWriter.println(to3);
+    }
+
+    public void giveChatItemsToClient(String items){
+        String to = "t:" + items;
+        System.out.println("服务器返回的聊天信息为"+to);
+        printWriter.println(to);
     }
 }

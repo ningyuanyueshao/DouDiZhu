@@ -93,6 +93,10 @@ public class ClientConnectThread extends Thread{
             case 'b':
                 getCards(from.substring(from.indexOf(':')+1));
                 break;
+            case 't':
+                giveChatItemsToWindow(from.substring(from.indexOf(':')+1));
+                to = null;
+                break;
         }
         return to;
     }//根据收到的字符串的第一位执行相应操作
@@ -194,5 +198,15 @@ public class ClientConnectThread extends Thread{
         String landlordCardsString = cards.substring(thirdSemicolon+1);
         String[] landlordCards = landlordCardsString.split("、");
         //发牌只需要发某个人的牌和其他人的牌数就行了
+    }
+
+    public void giveChatItemsToServer(String username,String items){
+        String to = "s:"+username+"-" + items;
+        System.out.println("客户端要给"+username+"的信息为"+items);
+        printWriter.println(to);
+    }
+
+    public void giveChatItemsToWindow(String items){
+        //todo:和聊天窗口衔接
     }
 }
