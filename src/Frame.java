@@ -29,4 +29,12 @@ public class Frame extends JFrame {
     public boolean IsOnePGame(){
         return SpLayout.wantSingleConnected;
     }
+    public void showOnePLayout(){//展现单机游戏布局
+        OnePLayout onePLayout = new OnePLayout();//gameLayout panel容器
+        getContentPane().removeAll(); // 从 frame 的 contentPane 中移除所有现有组件
+        getContentPane().add(onePLayout); // 将 onePLayout 面板添加到 contentPane 中
+        revalidate(); // 刷新布局
+        repaint(); // 重绘窗口
+        //Todo 发牌动画显示
+    }
 }

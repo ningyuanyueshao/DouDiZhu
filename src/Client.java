@@ -22,6 +22,7 @@ public class Client {
             }
             if(frame.IsOnePGame()){
                 //Todo:调用单机游戏界面
+                frame.showOnePLayout();//调用单机游戏界面
                 break;
             }
         }
