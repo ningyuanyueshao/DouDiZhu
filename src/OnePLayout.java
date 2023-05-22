@@ -64,19 +64,19 @@ public class OnePLayout extends JPanel{
             switch ((t++)%3) {
                 case 0:
                     //左边玩家
-                    Common.move(card[i], card[i].getLocation(),new Point(180,160+i*6),t);
+                    Common.move(card[i], card[i].getLocation(),new Point(250,280+i*6),t);
                     playerList[0].add(card[i]);
 //				card[i].turnFront(); //显示正面
                     break;
                 case 1:
                     //我
-                    Common.move(card[i], card[i].getLocation(),new Point(380+i*12,600),t);
+                    Common.move(card[i], card[i].getLocation(),new Point(550+i*12,700),t);
                     playerList[1].add(card[i]);
                     card[i].turnFront(); //显示正面
                     break;
                 case 2:
                     //右边玩家
-                    Common.move(card[i], card[i].getLocation(),new Point(1300,160+i*6),t);
+                    Common.move(card[i], card[i].getLocation(),new Point(1550,280+i*6),t);
                     playerList[2].add(card[i]);
 //				card[i].turnFront(); //显示正面
                     break;

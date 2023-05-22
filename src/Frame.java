@@ -37,7 +37,7 @@ public class Frame extends JFrame {
         repaint(); // 重绘窗口
         //Todo 发牌动画显示
         try {
-            Thread.sleep(500); //延迟，可自己设置
+            Thread.sleep(2000); //延迟，可自己设置
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

@@ -82,26 +82,26 @@ public class Common {
         Point p=new Point();
         if(flag==0)
         {
-            p.x=50;
-            p.y=(450/2)-(list.size()+1)*15/2;
+            p.x=250;
+            p.y=(760/2)-(list.size()+1)*15/2;
         }
         if(flag==1)
         {//我的排序 _y=450 width=830
-            p.x=(800/2)-(list.size()+1)*21/2;
-            p.y=450;
+            p.x=(1600/2)-(list.size()+1)*21/2;
+            p.y=700;
         }
         if(flag==2)
         {
-            p.x=700;
-            p.y=(450/2)-(list.size()+1)*15/2;
+            p.x=1550;
+            p.y=(760/2)-(list.size()+1)*15/2;
         }
         int len=list.size();
         for(int i=0;i<len;i++){
             SinglePoker card=list.get(i);
             Common.move(card, card.getLocation(), p,10);
             onePLayout.setComponentZOrder(card, 0);
-            if(flag==1)p.x+=21;
-            else p.y+=15;
+            if(flag==1)p.x+=34;
+            else p.y+=20;
         }
     }
     //地主牌权值，看是否抢地主
