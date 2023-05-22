@@ -36,5 +36,11 @@ public class Frame extends JFrame {
         revalidate(); // 刷新布局
         repaint(); // 重绘窗口
         //Todo 发牌动画显示
+        try {
+            Thread.sleep(500); //延迟，可自己设置
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        onePLayout.Order();//对牌进行排序
     }
 }

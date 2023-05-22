@@ -85,4 +85,11 @@ public class OnePLayout extends JPanel{
             setComponentZOrder(card[i], 0);
         }
     }
+    public void Order() {
+        for(int i=0;i<3;i++)
+        {
+            Common.order(playerList[i]);
+            Common.rePosition(this,playerList[i],i);//重新定位
+        }
+    }
 }
