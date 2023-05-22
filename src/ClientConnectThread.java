@@ -10,6 +10,7 @@ public class ClientConnectThread extends Thread{
     Socket clientSocket;
     BufferedReader bufferedReader;
     PrintWriter printWriter;
+    //Online
     GameLayout gameLayout;
     @Override
     public void run() {
@@ -184,19 +185,22 @@ public class ClientConnectThread extends Thread{
         printWriter.println(to);
     }//若有人点击了准备就绪按钮，则告知服务端该用户准备就绪
 
-    public void getCards(String cards){
-        //格式例子为"黑桃A、红桃2、······;黑桃A、红桃2、······;黑桃A、红桃2、······;地主牌"
+    public void getCards(String cards) {
+        //格式例子为"1-1、2-2、······;2-1、3-4、······;1-1、2-2、······;地主牌"
         int firstSemicolon = cards.indexOf(';');
-        int secondSemicolon = cards.indexOf(';',firstSemicolon);
-        int thirdSemicolon = cards.indexOf(';',secondSemicolon);
-        String position0CardsString = cards.substring(0,firstSemicolon);
+        int secondSemicolon = cards.indexOf(';', firstSemicolon);
+        int thirdSemicolon = cards.indexOf(';', secondSemicolon);
+        String position0CardsString = cards.substring(0, firstSemicolon);
         String[] position0Cards = position0CardsString.split("、");
-        String position1CardsString = cards.substring(firstSemicolon+1,secondSemicolon);
+        String position1CardsString = cards.substring(firstSemicolon + 1, secondSemicolon);
         String[] position1Cards = position1CardsString.split("、");
-        String position2CardsString = cards.substring(secondSemicolon+1,thirdSemicolon);
+        String position2CardsString = cards.substring(secondSemicolon + 1, thirdSemicolon);
         String[] position2Cards = position2CardsString.split("、");
-        String landlordCardsString = cards.substring(thirdSemicolon+1);
+        String landlordCardsString = cards.substring(thirdSemicolon + 1);
         String[] landlordCards = landlordCardsString.split("、");
+        //public void getCards(String[] playerCards,String[] landlordCards){
+        //
+    //}
         //发牌只需要发某个人的牌和其他人的牌数就行了
     }
 

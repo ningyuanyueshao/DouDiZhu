@@ -17,9 +17,9 @@ public class Deck {
                 cards.add(card);
             }
         }
-        Card bigCard = new Card("大王","0");
+        Card bigCard = new Card("王","1"); //王-1是小王
         cards.add(bigCard);
-        Card smallCard = new Card("小王","0");
+        Card smallCard = new Card("王","2");
         cards.add(smallCard);
     }
 

@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -80,10 +81,14 @@ public class Room{
     public void giveTheCards(ClientThread tempClient,List<ArrayList<Card>> tempList,List<Card> landlordCards){
         String temp = "";
         Card tempCard;
+        String[] colors = {"0","黑桃","红桃","梅花","方块","王"};
+        String[] values = {"0","A","2","3","4","5","6","7","8","9","10","J","Q","K"};
+        List<String> cardColors = Arrays.asList(colors);
+        List<String> cardValues = Arrays.asList(values);
         //每个线程都要得到所有人的手牌信息，最好是按位置放
         for (ArrayList<Card> cards : tempList) {
             for (Card card : cards) {
-                temp = temp.concat(card.toString() + "、");
+                temp = temp.concat(cardColors.indexOf(card.getSuit()) + "-" + cardValues.indexOf(card.getRank())+"、");
             }
             temp = temp.concat(";");
         }//加入所有人的手牌，格式例子为"黑桃A、红桃2、······;黑桃A、红桃2、······;黑桃A、红桃2、······;"
@@ -91,7 +96,7 @@ public class Room{
         //todo：这样会不会一次性传太多，一张牌大概需要8字节，总共就是两百多字节。如果太多，就分次发送
         for(Card card : landlordCards){
             tempCard = card;
-            temp = temp.concat(tempCard.toString()+"、"); //加入地主牌
+            temp = temp.concat(cardColors.indexOf(tempCard.getSuit()) + "-" + cardValues.indexOf(tempCard.getRank())+"、"); //加入地主牌
         }
         tempClient.giveCards(temp);
     } //给单个线程发牌，客户端要根据位置来知晓谁得到了哪些牌
