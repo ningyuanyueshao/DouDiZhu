@@ -165,7 +165,8 @@ public class Common {
                     break;
             }
         }
-    }}
+    }
+}
 
 class Card_index{
     List a[]=new ArrayList[4];//单张

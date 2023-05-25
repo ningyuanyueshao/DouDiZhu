@@ -16,6 +16,17 @@ public class SinglePoker extends JLabel {
         this.setSize(71, 96);
         this.setVisible(true);
     }
+    public SinglePoker(SinglePoker singlePoker){
+        this.name = singlePoker.name;
+        this.up = singlePoker.up;
+        if(this.up)
+            this.turnFront();
+        else {
+            this.turnRear();
+        }
+        this.setSize(71, 96);
+        this.setVisible(true);
+    }
     public void turnFront() {
         this.setIcon(new ImageIcon("src/img/poker/" + name + ".png"));
 //		D:\java\GitHub\Chinese-poker-game

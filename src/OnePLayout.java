@@ -1,19 +1,38 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class OnePLayout extends JPanel{
+public class OnePLayout extends JPanel implements ActionListener {
     ImageIcon backgroundImage;//背景图片
     JLabel backgroundLabel;//背景图片对应的JLabel
-    List<SinglePoker> currentList[] =new ArrayList[3]; //  当前的出牌
+    List<SinglePoker> currentList[] =new ArrayList[3]; //  当前的出牌 为后面比对时服务
     List<SinglePoker> playerList[] = new ArrayList[3]; // 定义3个玩家表
     List<SinglePoker> lordList;//地主牌
+    List<SinglePoker> lordListCopy;//地主牌
     SinglePoker card[] = new SinglePoker[56]; // 定义54张牌
+    SinglePoker lordCardCopy[] = new SinglePoker[3];//定义三张放在顶部的地主牌
+
+    JButton landlord[] = new JButton[2];//抢地主按钮
+    JButton publishCard[]=new JButton[2];//出牌按钮
+    int dizhuFlag;//地主标志
+    JLabel dizhu; //地主图标
+    JTextField time[]=new JTextField[3]; //计时器
+    Time t; //定时器（线程）
+    int turn;//轮到谁
+
     public OnePLayout(){
+        Init();//创建功能按钮 计时器等
         setLayout(null);
         CardInit();
+        Order();
+        SetLordLabel();
+        getLord();
+        time[1].setVisible(true);
+        SwingUtilities.invokeLater(new NewTimer(this,10));
         setBackground();
         add(backgroundLabel);
     }
@@ -52,13 +71,23 @@ public class OnePLayout extends JPanel{
         }
         for(int i=0;i<3;i++) playerList[i]=new ArrayList<SinglePoker>(); //玩家牌
         lordList=new ArrayList<SinglePoker>();//地主牌三张
-        int t=0;
+        lordListCopy= new ArrayList<SinglePoker>();//copy版的地主牌
+        int t=0,countLord=0;
         for(int i=1;i<=54;i++)
         {
             if(i>=52)//地主牌
             {
-                Common.move(card[i], card[i].getLocation(),new Point(300+(i-52)*80,16),t);
+//                lordCardCopy[countLord] = card[i];
+                lordCardCopy[countLord] = new SinglePoker(card[i]);
+                Common.move(card[i], card[i].getLocation(),new Point(300+(i-52)*80,50),t);
+                Common.move(lordCardCopy[countLord], lordCardCopy[countLord].getLocation(),new Point(300+(i-52)*80,50),t);
                 lordList.add(card[i]);
+                lordListCopy.add(lordCardCopy[countLord]);
+                card[i].turnRear();
+                lordCardCopy[countLord].turnRear();
+                setComponentZOrder(lordCardCopy[countLord], 0);
+                setComponentZOrder(card[i], 0);
+                countLord++;
                 continue;
             }
             switch ((t++)%3) {
@@ -81,7 +110,6 @@ public class OnePLayout extends JPanel{
 //				card[i].turnFront(); //显示正面
                     break;
             }
-            //card[i].turnFront(); //显示正面
             setComponentZOrder(card[i], 0);
         }
     }
@@ -91,5 +119,84 @@ public class OnePLayout extends JPanel{
             Common.order(playerList[i]);
             Common.rePosition(this,playerList[i],i);//重新定位
         }
+    }
+    public void SetLordLabel(){
+        dizhu = new JLabel(new ImageIcon("src/img/dizhu.png"));
+        dizhu.setVisible(false);
+        dizhu.setSize(40,40);
+        add(dizhu);
+    }
+    public void getLord(){//开始抢地主
+        for(int i=0;i<2;i++)
+            landlord[i].setVisible(true);
+    }
+    public void Init(){
+        landlord[0]=new JButton("抢地主");
+        landlord[1]=new JButton("不     抢");
+
+        publishCard[0]= new JButton("出牌");
+        publishCard[1]= new JButton("不要");
+        for(int i=0;i<2;i++)
+        {
+            publishCard[i].setBounds(820+i*100, 630, 60, 40);
+            landlord[i].setBounds(820+i*100, 630,75,40);
+            add(landlord[i]);
+            landlord[i].addActionListener(this);
+            landlord[i].setVisible(false);//已经添加了但是没有显示
+            add(publishCard[i]);
+            publishCard[i].setVisible(false);
+            publishCard[i].addActionListener(this);
+        }
+        for(int i=0;i<3;i++){
+            time[i]=new JTextField("倒计时:");
+            time[i].setFont(new Font("Serif",Font.PLAIN,20));
+            time[i].setVisible(false);
+            add(time[i]);
+        }
+//        显示倒计时与出或不出
+        time[0].setBounds(350, 450, 100, 50);
+        time[1].setBounds(850, 550, 150, 50);
+        time[2].setBounds(1400, 450, 100, 50);
+
+        for(int i=0;i<3;i++)
+        {
+            currentList[i]=new ArrayList<SinglePoker>();//初始化要出的牌
+        }
+    }
+    public void actionPerformed(ActionEvent e){
+        if(e.getSource()==landlord[0])
+        {
+            time[1].setText("抢地主");
+            t.isRun=false; //时钟终结
+        }
+        if(e.getSource()==landlord[1])
+        {
+            time[1].setText("不抢");
+            t.isRun=false; //时钟终结
+        }
+        //如果是不要
+//        if(e.getSource()==publishCard[1])
+//        {
+//            this.nextPlayer=true;
+//            currentList[1].clear();
+//            time[1].setText("不要");
+//
+//        }
+    }
+}
+class NewTimer implements Runnable {
+
+    OnePLayout onePLayout;
+    int i;
+
+    public NewTimer(OnePLayout onePLayout, int i) {
+        this.onePLayout = onePLayout;
+        this.i = i;
+    }
+
+    @Override
+    public void run() {
+        onePLayout.t = new Time(onePLayout, 12);//从10开始倒计时
+        onePLayout.t.start();
     }
 }
