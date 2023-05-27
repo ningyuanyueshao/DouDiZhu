@@ -23,6 +23,7 @@ public class OnePLayout extends JPanel implements ActionListener {
     JTextField time[]=new JTextField[3]; //计时器
     Time t; //定时器（线程）
     int turn;//轮到谁
+    boolean nextPlayer=false; //转换角色
 
     public OnePLayout(){
         Init();//创建功能按钮 计时器等
@@ -174,14 +175,67 @@ public class OnePLayout extends JPanel implements ActionListener {
             time[1].setText("不抢");
             t.isRun=false; //时钟终结
         }
-        //如果是不要
-//        if(e.getSource()==publishCard[1])
-//        {
-//            this.nextPlayer=true;
-//            currentList[1].clear();
-//            time[1].setText("不要");
-//
-//        }
+//        如果是不要
+        if(e.getSource()==publishCard[1])
+        {
+            this.nextPlayer=true;
+            currentList[1].clear();
+            time[1].setText("不要");
+        }
+
+
+        //如果是出牌按钮
+        if(e.getSource()==publishCard[0]){
+
+            List<SinglePoker> c = new ArrayList<SinglePoker>();
+            //点选出牌
+            for(int i=0;i<playerList[1].size();i++)
+            {
+                SinglePoker card=playerList[1].get(i);
+                if(card.clicked)
+                {
+                    c.add(card);//把点中的牌放入新集合
+                }
+            }
+            /** 给点选的牌排序 */
+			/*for(int i=0;i<c.size();i++){
+				System.out.println("点选的牌是："+c.get(i).name);
+			}*/
+
+
+            int flag=0;
+
+            //如果我主动出牌
+            if(time[0].getText().equals("不要")&&time[2].getText().equals("不要"))
+            {
+
+                if(Common.jugdeType(c)!=CardType.c0)
+                    flag=1;//表示可以出牌
+            }//如果我跟牌
+            else{
+                flag=Common.checkCards(c,currentList);
+            }
+            //判断是否符合出牌
+            if(flag==1)
+            {
+                currentList[1]=c;
+                playerList[1].removeAll(currentList[1]);//移除走的牌
+                //定位出牌
+                Point point=new Point();
+                point.x=900-(currentList[1].size()+1)*15/2;;
+                point.y=550;
+                for(int i=0,len=currentList[1].size();i<len;i++)
+                {
+                    SinglePoker card=currentList[1].get(i);
+                    Common.move(card, card.getLocation(), point,10);
+                    point.x+=25;
+                }
+                //抽完牌后重新整理牌
+                Common.rePosition(this, playerList[1], 1);
+                time[1].setVisible(false);
+                this.nextPlayer=true;
+            }
+        }
     }
 }
 class NewTimer implements Runnable {
