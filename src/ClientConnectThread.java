@@ -12,6 +12,7 @@ public class ClientConnectThread extends Thread{
     PrintWriter printWriter;
     //Online
     GameLayout gameLayout;
+    ChatInviteFrame mainChatInviteFrame;
     @Override
     public void run() {
         try {
@@ -80,6 +81,9 @@ public class ClientConnectThread extends Thread{
 //                gameLayout = setupLayout.changeToPlay(setupLayout);
                 System.out.println("加入房间并显示当前房间内有多少人");
                 to = null;
+                // 调用聊天和邀请窗口
+                mainChatInviteFrame = new ChatInviteFrame();
+                mainChatInviteFrame.getInfo(this, setupLayout.getPlayerName(), Integer.parseInt(roomID));
                 break;
             case '8':
                 //TODo：此时可以调用图形化界面显示有人加入房间到position位置
@@ -214,5 +218,6 @@ public class ClientConnectThread extends Thread{
         String fromUsername = all.substring(0,all.indexOf('-'));
         String items = all.substring(all.indexOf('-')+1);
         //todo:和聊天窗口衔接
+        mainChatInviteFrame.receiveMessage(fromUsername, items);
     }
 }
