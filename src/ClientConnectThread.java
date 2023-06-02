@@ -205,12 +205,14 @@ public class ClientConnectThread extends Thread{
     }
 
     public void giveChatItemsToServer(String username,String items){
-        String to = "s:"+username+"-" + items;
+        String to = "s:"+setupLayout.getPlayerName() + "-" +username+"-" + items;
         System.out.println("客户端要给"+username+"的信息为"+items);
         printWriter.println(to);
     }
 
-    public void giveChatItemsToWindow(String items){
+    public void giveChatItemsToWindow(String all){
+        String fromUsername = all.substring(0,all.indexOf('-'));
+        String items = all.substring(all.indexOf('-')+1);
         //todo:和聊天窗口衔接
     }
 }

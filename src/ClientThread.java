@@ -80,9 +80,11 @@ public class ClientThread extends Thread{
                 roomArrayList.get(room).setPlayerReady(this);//告知房间该玩家准备就绪
                 break;
             case 's':
-                String targetUsername = from.substring(from.indexOf(':')+1,'-');
+                String fromUsername = from.substring(from.indexOf(':')+1,from.indexOf('-'));
+                String temp = from.substring(from.indexOf('-')+1);
+                String targetUsername = temp.substring(0,temp.indexOf('-'));
                 String chatItems = from.substring(from.indexOf('-')+1);
-                Chat.giveChatStrings(targetUsername,chatItems);
+                Chat.giveChatStrings(fromUsername,targetUsername,chatItems);
                 to = null;
                 break;
         }
@@ -163,8 +165,8 @@ public class ClientThread extends Thread{
         printWriter.println(to3);
     }
 
-    public void giveChatItemsToClient(String items){
-        String to = "t:" + items;
+    public void giveChatItemsToClient(String fromUsername,String items){
+        String to = "t:" + fromUsername + "-" + items;
         System.out.println("服务器返回的聊天信息为"+to);
         printWriter.println(to);
     }

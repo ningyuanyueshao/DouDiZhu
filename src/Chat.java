@@ -4,7 +4,7 @@
  */
 //该类放在服务端
 public class Chat {
-    public static void giveChatStrings(String toUsername,String chatItems){
+    public static void giveChatStrings(String fromUsername,String toUsername,String chatItems){
         ClientThread to = null;
         ClientThread temp;
         for (int i = 0; i < Invite.clientThreads.size(); i++) {
@@ -13,6 +13,6 @@ public class Chat {
                 to = Invite.clientThreads.get(i);
             }
         }
-        to.giveChatItemsToClient(chatItems);
+        to.giveChatItemsToClient(fromUsername,chatItems);
     }
 }
