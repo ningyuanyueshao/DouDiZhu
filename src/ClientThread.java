@@ -25,7 +25,7 @@ public class ClientThread extends Thread{
     int room;
     String from = "";
     String to = "";
-
+    //代码中出现的while和wait的结合都是在等待消息传递，即线程通信
     public ClientThread(String name, Socket clientSocket,ArrayList<Room> roomArrayList) {
         super(name); //线程名称就是用户序号，TODO：感觉没什么用
         this.clientSocket = clientSocket;
@@ -58,6 +58,7 @@ public class ClientThread extends Thread{
         } catch (IOException e) {
             System.out.println("终止连接或数据传输出错");
             roomArrayList.get(room).deletePlayer(this);
+            Invite.clientThreads.remove(this);
             //出错应该尝试重连吧？？？？？还是说不会出错？？？？
         }
     }
@@ -85,6 +86,10 @@ public class ClientThread extends Thread{
                 String targetUsername = temp.substring(0,temp.indexOf('-'));
                 String chatItems = from.substring(from.indexOf('-')+1);
                 Chat.giveChatStrings(fromUsername,targetUsername,chatItems);
+                to = null;
+                break;
+            case 'u':
+                getAllOnlineUsernames();
                 to = null;
                 break;
         }
@@ -168,6 +173,12 @@ public class ClientThread extends Thread{
     public void giveChatItemsToClient(String fromUsername,String items){
         String to = "t:" + fromUsername + "-" + items;
         System.out.println("服务器返回的聊天信息为"+to);
+        printWriter.println(to);
+    }
+
+    public void getAllOnlineUsernames(){
+        String to = "v:"+Invite.getAllUsernames();
+        System.out.println("服务器返回的所有在线玩家信息为"+to);
         printWriter.println(to);
     }
 }

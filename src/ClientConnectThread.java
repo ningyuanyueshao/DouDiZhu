@@ -21,7 +21,7 @@ public class ClientConnectThread extends Thread{
             e.printStackTrace();
         }
     }
-
+    //代码中出现的while和wait的结合都是在等待消息传递，即线程通信
     public ClientConnectThread(SetupLayout setupLayout) {
         this.setupLayout = setupLayout;
     }
@@ -29,7 +29,7 @@ public class ClientConnectThread extends Thread{
     public void connectedPlay()throws IOException {
         //若用户选择了在线游戏，再进行连接
         //需要主机IP地址和端口
-        String hostIPAddress = "10.128.199.86"; //这个是打开wifi的属性中得到的
+        String hostIPAddress = "10.28.159.5"; //这个是打开wifi的属性中得到的
         int serverPort = 8080;
         System.out.println("该客户端开始连接服务器");
         clientSocket = new Socket(hostIPAddress,serverPort);
@@ -48,6 +48,7 @@ public class ClientConnectThread extends Thread{
                 if(to == null)
                     continue; //若为空，说明不用发，就实现有收可以不发
                 printWriter.println(to);
+
                 System.out.println("客户端返回的信息为"+ to);
             }
         } catch (Exception e) {
@@ -82,7 +83,7 @@ public class ClientConnectThread extends Thread{
                 System.out.println("加入房间并显示当前房间内有多少人");
                 to = null;
                 // 调用聊天和邀请窗口
-                mainChatInviteFrame = new ChatInviteFrame();
+                mainChatInviteFrame = new ChatInviteFrame(printWriter);
                 mainChatInviteFrame.getInfo(this, setupLayout.getPlayerName(), Integer.parseInt(roomID));
                 break;
             case '8':
@@ -102,6 +103,10 @@ public class ClientConnectThread extends Thread{
                 giveChatItemsToWindow(from.substring(from.indexOf(':')+1));
                 to = null;
                 break;
+            case 'v':
+                giveAllUsernamesToFrame(from.substring(from.indexOf(':')+1));
+                to = null;
+                break;
         }
         return to;
     }//根据收到的字符串的第一位执行相应操作
@@ -112,6 +117,11 @@ public class ClientConnectThread extends Thread{
         String username = "";
         String password = "";
         while(true){
+            /*synchronized (password){
+                while(true){
+                    password.wait();
+                }
+            }*/
             try {
                 Thread.sleep(10); //让主线程停顿，使得能够接收setupLayout线程中值的变化
             } catch (InterruptedException e) {
@@ -220,4 +230,20 @@ public class ClientConnectThread extends Thread{
         //todo:和聊天窗口衔接
         mainChatInviteFrame.receiveMessage(fromUsername, items);
     }
+
+    public void giveAllUsernamesToFrame(String all){
+        String[] users = all.split(";");
+        int length = users.length;
+        String[] allUsernames = new String[length-1];
+        int k = 0;
+        String username = setupLayout.getPlayerName();
+        for (int i = 0; i < length; i++) {
+            if(users[i].equals(username)){
+                continue;//把自己给剔除掉
+            }
+            allUsernames[k] = users[i];
+        }
+        mainChatInviteFrame.allUsernames = allUsernames;
+    }
+
 }

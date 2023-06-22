@@ -7,7 +7,7 @@ import java.util.LinkedList;
 //该类放在服务端
 public class Invite {
     public static LinkedList<Message> messages = new LinkedList<>(); //存放消息，一有用户端登录就检索
-    public static LinkedList<ClientThread> clientThreads = new LinkedList<>(); //存放所有线程，其他类其实也可以使用
+    public static LinkedList<ClientThread> clientThreads = new LinkedList<>(); //存放所有在线的线程，其他类其实也可以使用
     public static void newMessage(String sourceUsername,int roomID,String aimUsername){
         for (ClientThread clientThread : clientThreads) {
             String username = clientThread.username;
@@ -18,6 +18,13 @@ public class Invite {
         messages.add(new Message(sourceUsername, roomID, aimUsername));
     }
 
+    public static String getAllUsernames(){
+        String usernames = clientThreads.get(0).username;
+        for (int i = 1; i < clientThreads.size(); i++) {
+            usernames = usernames.concat(";"+clientThreads.get(i).username);
+        }
+        return usernames;
+    }
     public static void checkMessages(ClientThread clientThread){
         for (Message temp : messages) {
             if (temp.aimUsername.equals(clientThread.username))

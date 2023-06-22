@@ -1,8 +1,13 @@
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.io.PrintWriter;
 import java.util.HashMap;
-import javax.swing.event.*;
 
 public class ChatInviteFrame {
     JFrame mainFrame;
@@ -18,8 +23,11 @@ public class ChatInviteFrame {
     ClientConnectThread clientConnectThread;
     String username;
     int roomID;
+    PrintWriter printWriter;
+    String[] allUsernames = null;
 
-    ChatInviteFrame() {
+    ChatInviteFrame(PrintWriter printWriter) {
+        this.printWriter = printWriter;
         mainFrame = new JFrame("Chat and Invite");
         mainFrame.setSize(800, 500);
         mainFrame.setLocation(300, 100);
@@ -127,7 +135,7 @@ public class ChatInviteFrame {
         });
         invitePanel.add(refreshButton, constraints1);
 
-        refreshPlayer(); //初始时先行刷新
+        //refreshPlayer(); //初始时先行刷新
 
     }
 
@@ -166,18 +174,31 @@ public class ChatInviteFrame {
     }
 
     private void refreshPlayer() {
+        System.out.println("向服务器获取所有玩家信息");
+        printWriter.println("u:");
         playerNameList.clear();
+        while(true){
+            try
+            {
+                Thread.sleep(10);
+            } catch (InterruptedException ex)
+            {
+                ex.printStackTrace();
+            }
+            if(allUsernames != null)
+                break;
+        }
+        for (int i = 0; i < allUsernames.length; i++) {
+            playerNameList.addElement(allUsernames[i]); //重新添加所有刷新后在线玩家
 
-        for (int i = 0; i < Invite.clientThreads.size(); i++) {
-            playerNameList.addElement(Invite.clientThreads.get(i).username); //重新添加所有刷新后在线玩家
-
-            if (!chatRecord.containsKey(Invite.clientThreads.get(i).username)) //刷新出未出现过的玩家时
-                chatRecord.put(Invite.clientThreads.get(i).username, "");
+            if (!chatRecord.containsKey(allUsernames[i])) //刷新出未出现过的玩家时
+                chatRecord.put(allUsernames[i], "");
         }
 
         if (playerNameList.size() == 0)
             playerNameList.addElement("（没有玩家在线）");
 
+        allUsernames = null;
     }
 
     private void changeChattingPlayer() {
