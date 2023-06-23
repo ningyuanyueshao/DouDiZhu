@@ -79,6 +79,7 @@ public class ClientConnectThread extends Thread{
                 int roomIDLength = from.charAt(2) - '0';
                 String roomID = from.substring(3,3+roomIDLength);
                 setupLayout.roomID = Integer.parseInt(roomID);
+                mainChatInviteFrame.roomID = Integer.parseInt(roomID);
 //                TODO 显示OnlinePanel
 //                gameLayout = setupLayout.changeToPlay(setupLayout);
                 System.out.println("加入房间并显示当前房间内有多少人");

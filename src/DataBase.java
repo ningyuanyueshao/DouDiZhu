@@ -231,7 +231,7 @@ public class DataBase {
             ResultSet rs = stmt.executeQuery("SELECT user_name FROM user_pwd_table");
             while(rs.next())
             {
-                sb.append(rs.getString("user_name")).append("_");
+                sb.append(rs.getString("user_name")).append("-");
             }
             all_user_name = sb.toString();
             if (all_user_name.endsWith("_")) {
