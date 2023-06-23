@@ -236,15 +236,15 @@ public class ClientConnectThread extends Thread{
 
     public void giveInviteMessageToWindow(String string) {
         System.out.println("服务器给的信息为" + string);
+        String[] str = string.split("-");
         // 创建对话框
-        int choice = JOptionPane.showConfirmDialog(null, "是否加入房间？", "邀请", JOptionPane.YES_NO_OPTION);
+        int choice = JOptionPane.showConfirmDialog(null, str[0]+"邀请您进入"+str[1]+"号房间，是否加入？", "邀请", JOptionPane.YES_NO_OPTION);
         // 处理用户选择
         if (choice == JOptionPane.YES_OPTION) {
             System.out.println("用户选择加入房间");
             // TODO: 执行加入房间的逻辑
         } else {
             System.out.println("用户选择不加入房间");
-            // TODO: 执行不加入房间的逻辑
         }
     }
 
