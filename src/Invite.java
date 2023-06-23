@@ -12,7 +12,7 @@ public class Invite {
         for (ClientThread clientThread : clientThreads) {
             String username = clientThread.username;
             if (username.equals(aimUsername))
-                sendMessage(clientThread, sourceUsername, roomID);
+                clientThread.giveInviteMessage(sourceUsername,roomID);
         }//检查现在处于登录状态的客户端，若有匹配的，直接发送信息
         //若没有，新建一个Message对象，填入messages中等待处理
         messages.add(new Message(sourceUsername, roomID, aimUsername));
@@ -28,11 +28,7 @@ public class Invite {
     public static void checkMessages(ClientThread clientThread){
         for (Message temp : messages) {
             if (temp.aimUsername.equals(clientThread.username))
-                sendMessage(clientThread, temp.sourceUsername, temp.roomID);
+                clientThread.giveInviteMessage(temp.sourceUsername, temp.roomID);
         }
-    }//查看未处理的消息中是否有与新登录的用户所匹配
-
-    public static void sendMessage(ClientThread clientThread,String sourceUsername,int roomID){
-        //todo:最后要得到客户端是否同意邀请的结果
-    }
+    }//查看未处理的消息中是否有与新登录的用户所匹配(好像用不上，因为都是给在线用户发邀请)
 }

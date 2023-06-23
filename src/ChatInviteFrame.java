@@ -171,7 +171,8 @@ public class ChatInviteFrame {
     }
 
     private void invitePlayer() {
-        Invite.newMessage(username, roomID, currentSelectedPlayer);
+        System.out.println("向服务器发送邀请信息");
+        printWriter.println("o:"+username+"-"+roomID+"-"+currentSelectedPlayer);
     }
 
     private void refreshPlayer() {

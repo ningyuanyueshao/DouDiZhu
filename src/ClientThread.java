@@ -80,6 +80,12 @@ public class ClientThread extends Thread{
             case '9':
                 roomArrayList.get(room).setPlayerReady(this);//告知房间该玩家准备就绪
                 break;
+            case 'o':
+                String fromAll = from.substring(from.indexOf(':')+1);
+                String[] strings = fromAll.split("-");
+                Invite.newMessage(strings[0],Integer.parseInt(strings[1]),strings[2]);
+                to = null;
+                break;
             case 's':
                 String fromUsername = from.substring(from.indexOf(':')+1,from.indexOf('-'));
                 String temp = from.substring(from.indexOf('-')+1);
@@ -108,7 +114,6 @@ public class ClientThread extends Thread{
                 else
                     to = to.concat("失败");
                 //用户注册，数据库检验用户名是否重复即可,若重复要返回失败
-
                 break;
             case '1':
                 username = all.substring(1,all.indexOf('-'));
@@ -122,10 +127,8 @@ public class ClientThread extends Thread{
                 }
                 //用户登录，数据库检验用户名与密码是否匹配
                 //Invite.checkMessages(this); //todo:根据返回值决定是否对该用户进行邀请信息的通知
-
                 break;
             case '2':
-
                 //todo :数据库返回所有用户名 ； 当用户加入到房间的时候也要得到所有用户名，且要按最近游戏的时间进行排序
                 to = to.concat("用户列表");
                 System.out.println(DataBase.get_All_user_name());
@@ -182,6 +185,11 @@ public class ClientThread extends Thread{
         printWriter.println(to3);
     }
 
+    public void giveInviteMessage(String sourceUsername,int roomID){
+        String to = "p:"+sourceUsername+"-"+roomID;
+        System.out.println("服务器返回的邀请信息为"+to);
+        printWriter.println(to);
+    }
     public void giveChatItemsToClient(String fromUsername,String items){
         String to = "t:" + fromUsername + "-" + items;
         System.out.println("服务器返回的聊天信息为"+to);

@@ -41,7 +41,7 @@ public class ClientConnectThread extends Thread{
         try{
             //TODO 现在是有收才有发，最好是没收也能发,有收可以不发
             while((from = bufferedReader.readLine())!=null){//在这里使用输入输出流与服务器端进行交互。
-                //TODO:和服务器的主要操作应该都在这里面
+                //TODO :和服务器的主要操作应该都在这里面
                 System.out.println("得到服务器端给的信息为"+ from);
                 //根据交互信息的类型进行不同的操作
                 to = clientOperators(from,setupLayout);
@@ -98,6 +98,10 @@ public class ClientConnectThread extends Thread{
                 break;
             case 'b':
                 getCards(from.substring(from.indexOf(':')+1));
+                break;
+            case 'p':
+                giveInviteMessageToWindow(from.substring(from.indexOf(':')+1));
+                to = null;
                 break;
             case 't':
                 giveChatItemsToWindow(from.substring(from.indexOf(':')+1));
@@ -222,6 +226,11 @@ public class ClientConnectThread extends Thread{
         String to = "s:"+setupLayout.getPlayerName() + "-" +username+"-" + items;
         System.out.println("客户端要给"+username+"的信息为"+items);
         printWriter.println(to);
+    }
+
+    public void giveInviteMessageToWindow(String string){
+        System.out.println("服务器给的信息为"+string);
+        //todo:图形化弹出窗口并while获取同意/拒绝标志并返回。若同意可以直接加入房间吧
     }
 
     public void giveChatItemsToWindow(String all){
