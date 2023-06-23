@@ -161,7 +161,8 @@ public class ClientConnectThread extends Thread{
                 }
             }
             to = "4:"+ setupLayout.roomChoice;
-        } else if (all.equals("用户列表")) {
+        } else if (all.substring(2,6).equals("用户列表")) {
+            setupLayout.userNames = all.substring(6).split("_");
             setupLayout.setChoice(-1);
             to = getUserInform(setupLayout); //让用户再次操作
             //todo:用户列表就给图形化一个string数组吧,然后还是进行getUserInform？
@@ -237,7 +238,6 @@ public class ClientConnectThread extends Thread{
     public void giveChatItemsToWindow(String all){
         String fromUsername = all.substring(0,all.indexOf('-'));
         String items = all.substring(all.indexOf('-')+1);
-        //todo:和聊天窗口衔接
         mainChatInviteFrame.receiveMessage(fromUsername, items);
     }
 

@@ -131,7 +131,7 @@ public class ClientThread extends Thread{
             case '2':
                 //todo :数据库返回所有用户名 ； 当用户加入到房间的时候也要得到所有用户名，且要按最近游戏的时间进行排序
                 to = to.concat("用户列表");
-                System.out.println(DataBase.get_All_user_name());
+                to = to.concat(DataBase.get_All_user_name());
                 break;
         }
         return to;
