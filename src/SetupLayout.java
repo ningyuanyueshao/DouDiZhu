@@ -6,7 +6,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.net.PortUnreachableException;
 import java.util.Arrays;
 import java.util.regex.Pattern;
 
@@ -27,7 +26,6 @@ public class SetupLayout extends JPanel implements ActionListener {
     public int isOK = -1; //判断是否注册或登录成功，0表示成功，1表示失败；-1是默认值，每次用完要回归默认值
     public int roomChoice = -1; //判断用户对房间的选择，0表示创建默认房间，1表示创建私人房间，2表示加入房间
     public int[] roomsCanPlay = null;
-    public int choseRoom = -1;//todo:这个应该用不到了
     public int roomID = -1;
     public String[] userNames = null;
 
@@ -85,6 +83,11 @@ public class SetupLayout extends JPanel implements ActionListener {
         } else if (e.getSource() == multiPlayerButton) {
             // 处理联机游戏按钮被按下的事件
             wantGetConnected = true;
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException ex) {
+                ex.printStackTrace();
+            }
             if(wantGetConnected2 == true)
                 JOptionPane.showMessageDialog(this, "欢迎进入联机游戏！");
             else {

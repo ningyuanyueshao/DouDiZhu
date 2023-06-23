@@ -18,6 +18,11 @@ public class Client {
             if(frame.IsOnlineGame()){
                 ClientConnectThread clientConnectThread = new ClientConnectThread(frame.SpLayout);
                 clientConnectThread.start(); //额外创建一个线程用来网络连接，减少网络连接等带来的图形化界面停顿影响
+                try {
+                    Thread.sleep(10);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
                 if(frame.SpLayout.wantGetConnected2)
                     break;
             }
