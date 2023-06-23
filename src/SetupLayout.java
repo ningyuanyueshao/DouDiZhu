@@ -28,6 +28,7 @@ public class SetupLayout extends JPanel implements ActionListener {
     public int[] roomsCanPlay = null;
     public int choseRoom = -1;//todo:这个应该用不到了
     public int roomID = -1;
+    public String[] userNames = null;
 
     ImageIcon backgroundImage;//背景图片
     JLabel backgroundLabel;//背景图片对应的JLabel
@@ -124,7 +125,13 @@ public class SetupLayout extends JPanel implements ActionListener {
                 }
                 else if (choice == 2) {
                     // 显示用户列表
-                    String[] userNames = {"Alice", "Bob", "Charlie"};  // 假设这是一些用户的名字列表
+                    while (userNames==null) {
+                        try {
+                            Thread.sleep(10);
+                        } catch (InterruptedException ex) {
+                            ex.printStackTrace();
+                        }
+                    }
                     StringBuilder userList = new StringBuilder();
                     for (String userName : userNames) {
                         userList.append(userName).append("\n");

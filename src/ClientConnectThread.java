@@ -161,8 +161,9 @@ public class ClientConnectThread extends Thread{
                 }
             }
             to = "4:"+ setupLayout.roomChoice;
-        } else if (all.substring(2,6).equals("用户列表")) {
-            setupLayout.userNames = all.substring(6).split("_");
+        } else if (all.substring(0,4).equals("用户列表")) {
+            setupLayout.userNames = all.substring(4).split("_");
+            System.out.println("修改用户"+all.substring(4).split("_"));
             setupLayout.setChoice(-1);
             to = getUserInform(setupLayout); //让用户再次操作
             //todo:用户列表就给图形化一个string数组吧,然后还是进行getUserInform？
