@@ -1,3 +1,4 @@
+import javax.swing.*;
 import java.io.*;
 import java.net.Socket;
 
@@ -231,9 +232,19 @@ public class ClientConnectThread extends Thread{
         printWriter.println(to);
     }
 
-    public void giveInviteMessageToWindow(String string){
-        System.out.println("服务器给的信息为"+string);
-        //todo:图形化弹出窗口并while获取同意/拒绝标志并返回。若同意可以直接加入房间吧
+
+    public void giveInviteMessageToWindow(String string) {
+        System.out.println("服务器给的信息为" + string);
+        // 创建对话框
+        int choice = JOptionPane.showConfirmDialog(null, "是否加入房间？", "邀请", JOptionPane.YES_NO_OPTION);
+        // 处理用户选择
+        if (choice == JOptionPane.YES_OPTION) {
+            System.out.println("用户选择加入房间");
+            // TODO: 执行加入房间的逻辑
+        } else {
+            System.out.println("用户选择不加入房间");
+            // TODO: 执行不加入房间的逻辑
+        }
     }
 
     public void giveChatItemsToWindow(String all){
