@@ -179,7 +179,7 @@ public class ChatInviteFrame {
         System.out.println("向服务器获取所有玩家信息");
         printWriter.println("u:");
         playerNameList.clear();
-        while(true){
+
             try
             {
                 Thread.sleep(10);
@@ -187,9 +187,6 @@ public class ChatInviteFrame {
             {
                 ex.printStackTrace();
             }
-            if(allUsernames != null)
-                break;
-        }
         for (int i = 0; i < allUsernames.length; i++) {
             playerNameList.addElement(allUsernames[i]); //重新添加所有刷新后在线玩家
 

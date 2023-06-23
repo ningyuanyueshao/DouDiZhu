@@ -88,7 +88,7 @@ public class ClientThread extends Thread{
                 to = null;
                 break;
             case 'r':
-                JOptionPane.showConfirmDialog(null,"对方"+from.substring(2)+"了您的邀请请求");
+                JOptionPane.showMessageDialog(null,"对方"+from.substring(2)+"了您的邀请请求","通知",JOptionPane.PLAIN_MESSAGE);
                 to = null;
                 break;
             case 's':

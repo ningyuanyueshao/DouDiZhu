@@ -164,9 +164,9 @@ public class ClientConnectThread extends Thread{
                 }
             }
             to = "4:"+ setupLayout.roomChoice;
-        } else if (all.substring(0,4).equals("用户列表")) {
-            setupLayout.userNames = all.substring(4).split("_");
-            System.out.println("修改用户"+all.substring(4).split("_"));
+        } else if (all.length() > 5 && all.substring(0,4).equals("用户列表")) {
+            setupLayout.userNames = all.substring(4).split("-");
+            System.out.println("修改用户"+all.substring(4).split("-"));
             setupLayout.setChoice(-1);
             to = getUserInform(setupLayout); //让用户再次操作
         } else {

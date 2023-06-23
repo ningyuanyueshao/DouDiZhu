@@ -113,6 +113,7 @@ public class SetupLayout extends JPanel implements ActionListener {
                     }
                     else{
                         JOptionPane.showMessageDialog(this,"注册失败，用户名已被使用");
+                        isOK = -1;
                     }
                     clearUserData();
                 } else if (choice == 1) {
@@ -129,6 +130,9 @@ public class SetupLayout extends JPanel implements ActionListener {
                         JOptionPane.showMessageDialog(this, "登录成功！");
                     else{
                         JOptionPane.showMessageDialog(this,"登录失败！请重新尝试。");
+                        isOK = -1;
+                        username = "";
+                        password = "";
                         return;
                     }
                     wantPlay = true;
