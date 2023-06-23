@@ -82,9 +82,7 @@ public class ClientConnectThread extends Thread{
 //                gameLayout = setupLayout.changeToPlay(setupLayout);
                 System.out.println("加入房间并显示当前房间内有多少人");
                 to = null;
-                // 调用聊天和邀请窗口
-                mainChatInviteFrame = new ChatInviteFrame(printWriter);
-                mainChatInviteFrame.getInfo(this, setupLayout.getPlayerName(), Integer.parseInt(roomID));
+
                 break;
             case '8':
                 //TODo：此时可以调用图形化界面显示有人加入房间到position位置
@@ -150,6 +148,9 @@ public class ClientConnectThread extends Thread{
         }
         else if(all.equals("登录成功")){
             setupLayout.isOK = 0;
+            // 调用聊天和邀请窗口
+            mainChatInviteFrame = new ChatInviteFrame(printWriter);
+            mainChatInviteFrame.getInfo(this, setupLayout.getPlayerName(), -1);
             while(setupLayout.roomChoice == -1){
                 try
                 {
