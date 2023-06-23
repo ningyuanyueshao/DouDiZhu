@@ -1,3 +1,4 @@
+import javax.swing.*;
 import java.io.*;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -86,6 +87,10 @@ public class ClientThread extends Thread{
                 Invite.newMessage(strings[0],Integer.parseInt(strings[1]),strings[2]);
                 to = null;
                 break;
+            case 'r':
+                JOptionPane.showConfirmDialog(null,"对方"+from.substring(2)+"了您的邀请请求");
+                to = null;
+                break;
             case 's':
                 String fromUsername = from.substring(from.indexOf(':')+1,from.indexOf('-'));
                 String temp = from.substring(from.indexOf('-')+1);
@@ -163,7 +168,7 @@ public class ClientThread extends Thread{
         String to = "5:";
         for(Room room:roomArrayList){
             if(!room.isPrivate && room.playerSize!=3)
-                to = to.concat(String.valueOf(room.roomNumber));
+                to = to.concat(room.roomNumber + "-");
         }
         return to;
     }//得到空闲的房间号

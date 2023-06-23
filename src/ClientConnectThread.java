@@ -169,7 +169,6 @@ public class ClientConnectThread extends Thread{
             System.out.println("修改用户"+all.substring(4).split("_"));
             setupLayout.setChoice(-1);
             to = getUserInform(setupLayout); //让用户再次操作
-            //todo:用户列表就给图形化一个string数组吧,然后还是进行getUserInform？
         } else {
             setupLayout.setChoice(-1);
             setupLayout.isOK = 1;
@@ -182,10 +181,11 @@ public class ClientConnectThread extends Thread{
     public static String getRoomChosen(String from,SetupLayout setupLayout){
         String chosenRoom = "6:";
         String temp = from.substring(from.indexOf(':')+1);
-        int length = temp.length();
+        String[] roomIDs = temp.split("-");
+        int length = roomIDs.length;
         int[] rooms = new int[length];
         for (int i = 0; i < length; i++) {
-            rooms[i] = temp.charAt(i) - '0';
+            rooms[i] = Integer.parseInt(roomIDs[i]);
         }
         setupLayout.setRoomsCanPlay(rooms);
         while(true){
@@ -243,9 +243,13 @@ public class ClientConnectThread extends Thread{
         // 处理用户选择
         if (choice == JOptionPane.YES_OPTION) {
             System.out.println("用户选择加入房间");
-            // TODO: 执行加入房间的逻辑
+            setupLayout.roomID = Integer.parseInt(str[1]);
+            mainChatInviteFrame.roomID = Integer.parseInt(str[1]);
+            printWriter.println("r:同意");
+            //todo: 显示OnlinePanel
         } else {
             System.out.println("用户选择不加入房间");
+            printWriter.println("r:拒绝");
         }
     }
 
