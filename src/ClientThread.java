@@ -102,17 +102,27 @@ public class ClientThread extends Thread{
             case '0':
                 username = all.substring(1,all.indexOf('-'));
                 password = all.substring(all.indexOf('-')+1);
+                Boolean ret = DataBase.Add_usr(username,password);
+                if(ret)
+                    to = to.concat("注册成功");
+                else
+                    to = to.concat("失败");
+                //用户注册，数据库检验用户名是否重复即可,若重复要返回失败
 
-                //todo:用户注册，数据库检验用户名是否重复即可,若重复要返回失败
-                to = to.concat("注册成功");
                 break;
             case '1':
                 username = all.substring(1,all.indexOf('-'));
                 password = all.substring(all.indexOf('-')+1);
-                //public boolean logInCheck(String name , String pwd)
-                //todo:用户登录，数据库检验用户名与密码是否匹配
-                Invite.checkMessages(this); //todo:根据返回值决定是否对该用户进行邀请信息的通知
-                to = to.concat("登录成功");
+                String pass = DataBase.get_usr_pwd(username);
+                if(password.equals(pass)){
+                    to = to.concat("登录成功");
+                }
+                else {
+                    to = to.concat("登录失败");
+                }
+                //用户登录，数据库检验用户名与密码是否匹配
+                //Invite.checkMessages(this); //todo:根据返回值决定是否对该用户进行邀请信息的通知
+
                 break;
             case '2':
                 //todo:数据库返回所有用户名 ； 当用户加入到房间的时候也要得到所有用户名，且要按最近游戏的时间进行排序
