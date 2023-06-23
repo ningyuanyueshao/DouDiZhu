@@ -16,8 +16,8 @@ public class OnePLayout extends JPanel implements ActionListener {
     SinglePoker card[] = new SinglePoker[56]; // 定义54张牌
     SinglePoker lordCardCopy[] = new SinglePoker[3];//定义三张放在顶部的地主牌
 
-    JButton landlord[] = new JButton[2];//抢地主按钮
-    JButton publishCard[]=new JButton[2];//出牌按钮
+    JButton landlord[] = new RoundRectButton[2];//抢地主按钮
+    JButton publishCard[]=new RoundRectButton[2];//出牌按钮
     int dizhuFlag;//地主标志
     JLabel dizhu; //地主图标
     JTextField time[]=new JTextField[3]; //计时器
@@ -121,26 +121,45 @@ public class OnePLayout extends JPanel implements ActionListener {
             Common.rePosition(this,playerList[i],i);//重新定位
         }
     }
-    public void SetLordLabel(){
-        dizhu = new JLabel(new ImageIcon("src/img/dizhu.png"));
+    public void SetLordLabel() {
+        ImageIcon originalIcon = new ImageIcon("src/img/dizhu.png");
+        Image originalImage = originalIcon.getImage();
+
+        // 计算缩放后的宽度和高度
+        int scaledWidth = 50;
+        int scaledHeight = 50;
+
+        // 创建缩放后的图像
+        Image scaledImage = originalImage.getScaledInstance(scaledWidth, scaledHeight, Image.SCALE_SMOOTH);
+
+        // 创建缩放后的图标
+        ImageIcon scaledIcon = new ImageIcon(scaledImage);
+
+        dizhu = new JLabel(scaledIcon);
         dizhu.setVisible(false);
-        dizhu.setSize(40,40);
+        dizhu.setSize(scaledWidth, scaledHeight);
         add(dizhu);
     }
+
     public void getLord(){//开始抢地主
         for(int i=0;i<2;i++)
             landlord[i].setVisible(true);
     }
     public void Init(){
-        landlord[0]=new JButton("抢地主");
-        landlord[1]=new JButton("不     抢");
+        landlord[0]=new RoundRectButton("抢地主");
+        Font font = new Font ("微软雅黑",Font.PLAIN,16);
+        landlord[0].setFont(font);
+        landlord[1]=new RoundRectButton("不  抢");
+        landlord[1].setFont(font);
 
-        publishCard[0]= new JButton("出牌");
-        publishCard[1]= new JButton("不要");
+        publishCard[0]= new RoundRectButton("出牌");
+        publishCard[0].setFont(font);
+        publishCard[1]= new RoundRectButton("不要");
+        publishCard[1].setFont(font);
         for(int i=0;i<2;i++)
         {
-            publishCard[i].setBounds(820+i*100, 630, 60, 40);
-            landlord[i].setBounds(820+i*100, 630,75,40);
+            publishCard[i].setBounds(865+i*100, 630, 75, 40);
+            landlord[i].setBounds(865+i*100, 630,75,40);
             add(landlord[i]);
             landlord[i].addActionListener(this);
             landlord[i].setVisible(false);//已经添加了但是没有显示
@@ -148,15 +167,19 @@ public class OnePLayout extends JPanel implements ActionListener {
             publishCard[i].setVisible(false);
             publishCard[i].addActionListener(this);
         }
-        for(int i=0;i<3;i++){
-            time[i]=new JTextField("倒计时:");
-            time[i].setFont(new Font("Serif",Font.PLAIN,20));
+        for (int i = 0; i < 3; i++) {
+            time[i] = new JTextField("倒计时:");
+            time[i].setOpaque(false);  // 设置背景透明
+            time[i].setForeground(new Color(255, 255, 149));  // 设置字体颜色为浅黄色
+            time[i].setFont(new Font("华文琥珀", Font.PLAIN, 21));  // 设置粗体字体
+            time[i].setBorder(null);  // 去掉边框
             time[i].setVisible(false);
             add(time[i]);
         }
+
 //        显示倒计时与出或不出
         time[0].setBounds(350, 450, 100, 50);
-        time[1].setBounds(850, 550, 150, 50);
+        time[1].setBounds(900, 550, 150, 50);
         time[2].setBounds(1400, 450, 100, 50);
 
         for(int i=0;i<3;i++)

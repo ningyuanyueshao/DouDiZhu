@@ -15,6 +15,7 @@ public class SetupLayout extends JPanel implements ActionListener {
     private RoundRectButton multiPlayerButton;
     private RoundRectButton exitButton;
     public boolean wantGetConnected = false;
+    public boolean wantGetConnected2 = false;
     public boolean wantSingleConnected = false;
     public boolean wantPlay = false;
     public int width = Toolkit.getDefaultToolkit().getScreenSize().width;
@@ -82,9 +83,15 @@ public class SetupLayout extends JPanel implements ActionListener {
             JOptionPane.showMessageDialog(this, "欢迎进入单机游戏！");
             wantSingleConnected = true;
         } else if (e.getSource() == multiPlayerButton) {
-            // 处理连接游戏按钮被按下的事件
+            // 处理联机游戏按钮被按下的事件
             wantGetConnected = true;
-            JOptionPane.showMessageDialog(this, "欢迎进入联机游戏！");
+            if(wantGetConnected2 == true)
+                JOptionPane.showMessageDialog(this, "欢迎进入联机游戏！");
+            else {
+                JOptionPane.showMessageDialog(this, "服务器维护中。。。");
+                wantGetConnected = false;
+                return;
+            }
             while (!wantPlay) {
                 Object[] options = {"注册", "登录", "用户列表"};
                 choice = JOptionPane.showOptionDialog(this, "请选择操作：", "联机游戏", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);

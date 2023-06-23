@@ -37,6 +37,7 @@ public class ClientConnectThread extends Thread{
         bufferedReader = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
         printWriter = new PrintWriter(clientSocket.getOutputStream(),true);
         System.out.println("连接成功，等待用户操作");
+        setupLayout.wantGetConnected2 = true;
         String from = "";
         String to = "";
         try{
