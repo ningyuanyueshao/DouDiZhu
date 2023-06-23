@@ -204,4 +204,42 @@ public class DataBase {
             return false;
         }
     }
+
+    static String get_All_user_name()
+    {
+        Statement stmt = null;
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+        } catch (ClassNotFoundException e) {
+            System.out.println("Could not loading Drive");
+        }
+        Connection connect = null;
+        String all_user_name;
+        StringBuilder sb = new StringBuilder();
+        try {
+            // 下面这一行也是固定语句，getConnection括号里面的模式：
+            // “jdbc:mysql://数据库的地址（mysql server 的地址）/数据库名字?（要mysql中操作的数据库的名字）”
+            // 后面再 + 上用来登录的用户名和密码
+            // 同时，使用这个函数，必须处理异常
+            connect = DriverManager.getConnection("jdbc:mysql://localhost:3306/login_information", "root", "1357188405whb.");
+
+            if (connect != null) {
+                System.out.println("Connect successfully!");
+            }
+            stmt = connect.createStatement();
+            stmt.executeQuery("USE login_information");
+            ResultSet rs = stmt.executeQuery("SELECT user_name FROM user_pwd_table");
+            while(rs.next())
+            {
+                sb.append(rs.getString("user_name")).append("_");
+            }
+            all_user_name = sb.toString();
+            if (all_user_name.endsWith("_")) {
+                all_user_name = all_user_name.substring(0, all_user_name.length() - 1);
+            }
+            return all_user_name;
+        } catch (SQLException e) { // 这个getConnection 规定必须抛出异常
+            return null;
+        }
+    }
 }

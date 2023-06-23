@@ -167,6 +167,7 @@ public class ChatInviteFrame {
 
     public void receiveMessage(String sourcePlayer, String message) {
         chatRecord.put(currentSelectedPlayer, chatRecord.get(currentSelectedPlayer) + (sourcePlayer + ": " + message + "\n"));
+        chatTextArea.setText(chatRecord.get(currentSelectedPlayer));
     }
 
     private void invitePlayer() {
@@ -227,5 +228,6 @@ public class ChatInviteFrame {
         constraints.weighty = weighty;
 
         return constraints;
+
     }
 }
