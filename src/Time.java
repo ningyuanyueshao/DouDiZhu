@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Time extends Thread{
+    boolean mustPlay = false;//是否是本人的牌权呢？
+    boolean isFirst = false;//如果玩家当地主且这次是第一手出牌 则为true
     OnePLayout onePLayout;
     boolean isRun = true;
     int i = 10;
@@ -32,8 +34,9 @@ public class Time extends Thread{
             second(2);// 等待五秒
             Common.order(onePLayout.playerList[1]);
             Common.rePosition(onePLayout, onePLayout.playerList[1], 1);
-            System.out.println("6666");
             setlord(1);
+            mustPlay = true;//这是玩家的牌权
+            isFirst = true;//这是玩家第一次出牌
         }
         else{
             // 电脑选地主
@@ -43,7 +46,6 @@ public class Time extends Thread{
                 onePLayout.time[2].setVisible(true);
                 setlord(2);// 设定地主
                 openlord(true);//把地主牌翻开
-
                 second(3);
                 onePLayout.playerList[2].addAll(onePLayout.lordList);
                 Common.order(onePLayout.playerList[2]);
@@ -72,6 +74,16 @@ public class Time extends Thread{
         while(true){
             if(onePLayout.turn==1) //我
             {
+                if(onePLayout.time[2].getText().equals("不要") && onePLayout.time[0].getText().equals("不要")){//说明这是自己的牌权
+                    mustPlay = true;
+                }
+                else{
+                    mustPlay = false;
+                }
+                if(isFirst == true) {
+                    mustPlay = true;
+                    isFirst = false;
+                }
                 turnOn(true);// 出牌按钮 --我出牌
                 timeWait(30, 1);// 我自己的定时器
                 System.out.println("我出牌");
@@ -139,13 +151,17 @@ public class Time extends Thread{
     }
     public void turnOn(boolean flag) {//打开出牌按钮
         onePLayout.publishCard[0].setVisible(flag);
-        onePLayout.publishCard[1].setVisible(flag);
+        onePLayout.publishCard[1].setVisible(flag);//第一次出牌的话 不出按钮不可见
+        if(mustPlay == true) onePLayout.publishCard[1].setVisible(false);
+
     }
     public void timeWait(int n, int player) {
 
         if (onePLayout.currentList[player].size() > 0)
             Common.hideCards(onePLayout.currentList[player]);
-        if (player == 1)// 如果是我，n秒到后直接下一家出牌
+        if (player == 1)
+            // 如果是我，n秒到后直接出最小的牌
+            //Todo 如果是自己的牌权，超时则必须要自己出牌
         {
             int i = n;
             while (onePLayout.nextPlayer == false && i >= 0) {
@@ -174,6 +190,11 @@ public class Time extends Thread{
         for(int i=0;i<3;i++){
             if(onePLayout.playerList[i].size()==0)
             {
+                for(int j=0;j<3;j++){
+                    for(int k=0;k<onePLayout.playerList[j].size();k++){
+                        onePLayout.playerList[j].get(k).turnFront();
+                    }
+                }
                 String s;
                 if(i==1)
                 {
@@ -201,7 +222,7 @@ public class Time extends Thread{
         Model model = Common.getModel(onePLayout.playerList[role]);
         // 待走的牌
         java.util.List<String> list = new ArrayList<String>();
-        // 如果是主动出牌
+        // 如果是主动出牌 即自己的牌权
         if (onePLayout.time[(role + 1) % 3].getText().equals("不要")
                 && onePLayout.time[(role + 2) % 3].getText().equals("不要")) {
             // 有单出单 (除开3带，飞机能带的单牌)

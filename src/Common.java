@@ -429,14 +429,18 @@ public class Common {
             if(card_index.a[2].size()==len/3 && (len%3==0) &&
                     (Common.getValue(list.get(0))-Common.getValue(list.get(len-1))==(len/3-1)))
                 return CardType.c111222;
+
             //飞机带n单,n/2对
             if(card_index.a[2].size()==len/4 &&
-                    ((Integer)(card_index.a[2].get(len/4-1))-(Integer)(card_index.a[2].get(0))==len/4-1))
+                    ((Integer)(card_index.a[2].get(len/4-1))-(Integer)(card_index.a[2].get(0))==len/4-1)
+            &&(len>=8))
                 return CardType.c11122234;
+//jjj43 len=5 a[2]=1 a[0]=2 会导致 (j-j)==5/4-1
+
 
             //飞机带n双
             if(card_index.a[2].size()==len/5 && card_index.a[2].size()==len/5 &&
-                    ((Integer)(card_index.a[2].get(len/5-1))-(Integer)(card_index.a[2].get(0))==len/5-1))
+                    ((Integer)(card_index.a[2].get(len/5-1))-(Integer)(card_index.a[2].get(0))==len/5-1)&&(len>=10))
                 return CardType.c1112223344;
 
         }
