@@ -15,7 +15,7 @@ public class Room{
         this.roomNumber = roomNumber;
     }
 
-    ClientThread[] clientThreads = new ClientThread[3]; //存放3个用户线程
+    ClientThread[] clientThreads = new ClientThread[3]; //存放3个用户线程，用这个下标表示座位
 
     ClientThread tempClientThread;//tempClientThread表示要被调用的线程
 
@@ -54,15 +54,13 @@ public class Room{
 
     public void setPlayerReady(ClientThread clientThread){
         readySize++;
+        int temp = clientThread.position;
+        for (int i = 0; i < 3; i++) {
+            if (i != temp)
+                clientThreads[i].informClientRoomNewReady(temp);
+        }
         if(readySize == 3)
             dealTheCards(); //若三个人都准备就绪，直接发牌
-        else{
-            int temp = clientThread.position;
-            for (int i = 0; i < 3; i++) {
-                if(i != temp)
-                    clientThreads[i].informClientRoomNewReady(temp);
-            }
-        }
     }//将准备就绪状态告知其他线程，同时若三个人都准备就绪，就可以发牌
 
     public void dealTheCards(){
@@ -91,7 +89,7 @@ public class Room{
                 temp = temp.concat(cardColors.indexOf(card.getSuit()) + "-" + cardValues.indexOf(card.getRank())+"、");
             }
             temp = temp.concat(";");
-        }//加入所有人的手牌，格式例子为"黑桃A、红桃2、······;黑桃A、红桃2、······;黑桃A、红桃2、······;"
+        }//加入所有人的手牌，格式例子为"1-1、1-2、······;2-1、2-2、······;3-1、3-2、······;"
         //当客户端获取到该字符串的时候，就可以根据分号获取不同位置的人的手牌，根据顿号获取手牌数组
         //todo：这样会不会一次性传太多，一张牌大概需要8字节，总共就是两百多字节。如果太多，就分次发送
         for(Card card : landlordCards){

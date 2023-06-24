@@ -58,9 +58,9 @@ public class ClientThread extends Thread{
             }
         } catch (IOException e) {
             System.out.println("终止连接或数据传输出错");
+            //todo:记录时间并给数据库
             roomArrayList.get(room).deletePlayer(this);
             Invite.clientThreads.remove(this);
-            //出错应该尝试重连吧？？？？？还是说不会出错？？？？
         }
     }
 
@@ -205,5 +205,6 @@ public class ClientThread extends Thread{
         String to = "v:"+Invite.getAllUsernames();
         System.out.println("服务器返回的所有在线玩家信息为"+to);
         printWriter.println(to);
+        printWriter.flush();
     }
 }

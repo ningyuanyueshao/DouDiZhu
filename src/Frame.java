@@ -3,9 +3,7 @@ import java.awt.*;
 
 public class Frame extends JFrame {
     SetupLayout SpLayout;//初始界面面板 选择游戏模式 登录/注册账号面板
-    JPanel OnePLayout;//单机游戏面板
-    JPanel OnlineLayout;//联机游戏面板
-
+    OnlineLayout onlineLayout;
     public Frame(){
         Init();
         SpLayout = new SetupLayout();//创建初始界面面板
@@ -37,17 +35,12 @@ public class Frame extends JFrame {
         repaint(); // 重绘窗口
         //Todo 发牌动画显示
     }
-//    public void showOnlineLayout(){
-//        OnlineLayout onlineLayout = new OnlineLayout();
-//        getContentPane().removeAll(); // 从 frame 的 contentPane 中移除所有现有组件
-//        getContentPane().add(onlineLayout); // 将 onePLayout 面板添加到 contentPane 中
-//        revalidate(); // 刷新布局
-//        repaint(); // 重绘窗口
-//        try {
-//            Thread.sleep(2000); //延迟，可自己设置
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        }
-////        onlineLayout.Order();//对牌进行排序
-//    }
+
+    public void showOnlineLayout(){
+        onlineLayout = new OnlineLayout();
+        getContentPane().removeAll(); // 从 frame 的 contentPane 中移除所有现有组件
+        getContentPane().add(onlineLayout); // 将 onePLayout 面板添加到 contentPane 中
+        revalidate(); // 刷新布局
+        repaint(); // 重绘窗口
+    }
 }

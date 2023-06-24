@@ -11,8 +11,9 @@ public class ClientConnectThread extends Thread{
     Socket clientSocket;
     BufferedReader bufferedReader;
     PrintWriter printWriter;
+    Frame frame;
     //Online
-    GameLayout gameLayout;
+    OnlineLayout onlineLayout;
     ChatInviteFrame mainChatInviteFrame;
     @Override
     public void run() {
@@ -23,8 +24,9 @@ public class ClientConnectThread extends Thread{
         }
     }
     //代码中出现的while和wait的结合都是在等待消息传递，即线程通信
-    public ClientConnectThread(SetupLayout setupLayout) {
+    public ClientConnectThread(SetupLayout setupLayout,Frame frame) {
         this.setupLayout = setupLayout;
+        this.frame = frame;
     }
 
     public void connectedPlay()throws IOException {
@@ -81,11 +83,10 @@ public class ClientConnectThread extends Thread{
                 String roomID = from.substring(3,3+roomIDLength);
                 setupLayout.roomID = Integer.parseInt(roomID);
                 mainChatInviteFrame.roomID = Integer.parseInt(roomID);
-//                TODO 显示OnlinePanel
-//                gameLayout = setupLayout.changeToPlay(setupLayout);
+                System.out.println("-----");
+                frame.showOnlineLayout();//展现onlinePanel
                 System.out.println("加入房间并显示当前房间内有多少人");
                 to = null;
-
                 break;
             case '8':
                 //TODo：此时可以调用图形化界面显示有人加入房间到position位置
@@ -93,6 +94,7 @@ public class ClientConnectThread extends Thread{
                 to = null;
                 break;
             case 'a':
+                givePrepareToFrame(from.charAt(2));
                 //todo:此时可以调用图形化界面显示position位置的人准备就绪
                 System.out.println("有人准备就绪");
                 to = null;
@@ -154,6 +156,7 @@ public class ClientConnectThread extends Thread{
             // 调用聊天和邀请窗口
             mainChatInviteFrame = new ChatInviteFrame(printWriter);
             mainChatInviteFrame.getInfo(this, setupLayout.getPlayerName(), -1);
+            //todo:关掉登录成功的窗口不一定会选房间！！
             while(setupLayout.roomChoice == -1){
                 try
                 {
@@ -261,17 +264,21 @@ public class ClientConnectThread extends Thread{
 
     public void giveAllUsernamesToFrame(String all){
         String[] users = all.split(";");
-        int length = users.length;
-        String[] allUsernames = new String[length-1];
-        int k = 0;
-        String username = setupLayout.getPlayerName();
-        for (int i = 0; i < length; i++) {
-            if(users[i].equals(username)){
-                continue;//把自己给剔除掉
-            }
-            allUsernames[k] = users[i];
+        mainChatInviteFrame.allUsernames = users;
+    }
+
+    public void givePrepareToFrame(char positionChar){
+        switch (positionChar){
+            case'0':
+                frame.onlineLayout.preOneFlag = true;
+                break;
+            case'1':
+                frame.onlineLayout.preTwoFlag = true;
+                break;
+            case'2':
+                frame.onlineLayout.preThrFlag = true;
+                break;
         }
-        mainChatInviteFrame.allUsernames = allUsernames;
     }
 
 }

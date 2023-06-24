@@ -179,15 +179,20 @@ public class ChatInviteFrame {
         System.out.println("向服务器获取所有玩家信息");
         printWriter.println("u:");
         playerNameList.clear();
-
-            try
-            {
+        while(allUsernames == null) {
+            try {
                 Thread.sleep(10);
-            } catch (InterruptedException ex)
-            {
+            } catch (InterruptedException ex) {
                 ex.printStackTrace();
             }
+        }
+        System.out.println("-----------");
         for (int i = 0; i < allUsernames.length; i++) {
+            System.out.println(allUsernames[i]);
+        }
+        for (int i = 0; i < allUsernames.length; i++) {
+            if(allUsernames[i].equals(username))
+                continue;
             playerNameList.addElement(allUsernames[i]); //重新添加所有刷新后在线玩家
 
             if (!chatRecord.containsKey(allUsernames[i])) //刷新出未出现过的玩家时
