@@ -481,14 +481,17 @@ public class Common {
         //找出当前最大的牌是哪个电脑出的,c是点选的牌
         List<SinglePoker> currentlist=(current[0].size()>0)?current[0]:current[2];
         CardType cType=Common.jugdeType(c);
-        //如果张数不同直接过滤
+        //如果张数不同直接过滤 但是炸弹不会直接return 0
         if(cType!=CardType.c4&&c.size()!=currentlist.size())
             return 0;
         //比较我的出牌类型
-        if(Common.jugdeType(c)!=Common.jugdeType(currentlist))
+        if(Common.jugdeType(c)!=Common.jugdeType(currentlist))//两个类型不等的话
         {
-
-            return 0;
+            if(cType!=CardType.c4)//如果cType不是炸弹的话 直接不能出牌
+                return 0;
+            else{//如果cType是炸弹，那么肯定可以出牌
+                return 1;
+            }
         }
         //比较出的牌是否要大
         //王炸弹
