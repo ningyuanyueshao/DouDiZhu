@@ -6,6 +6,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.PrintWriter;
 import java.util.Arrays;
 import java.util.regex.Pattern;
 
@@ -31,6 +32,8 @@ public class SetupLayout extends JPanel implements ActionListener {
 
     ImageIcon backgroundImage;//背景图片
     JLabel backgroundLabel;//背景图片对应的JLabel
+
+    PrintWriter printWriter;
 
     public SetupLayout(){
         setLayout(null);
@@ -160,6 +163,7 @@ public class SetupLayout extends JPanel implements ActionListener {
                 Object[] roomOptions = {"创建房间","创建私人房间", "加入房间"};
                 roomChoice = JOptionPane.showOptionDialog(this, "请选择操作：", "选房间", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, roomOptions, roomOptions[0]);
                 if (roomChoice == 0) {
+                    printWriter.println("4:"+roomChoice);
                     // 创建房间
                     while (roomID == -1) {
                         try {
@@ -170,9 +174,11 @@ public class SetupLayout extends JPanel implements ActionListener {
                     }
                     JOptionPane.showMessageDialog(this,"分配的房间号是"+roomID);
                 } else if (roomChoice == 1) {
+                    printWriter.println("4:"+roomChoice);
                     //TODO:创建私人房间
 
                 } else if (roomChoice == 2) {
+                    printWriter.println("4:"+roomChoice);
                     // 加入房间
                     while(true){
                         try

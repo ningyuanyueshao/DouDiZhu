@@ -38,6 +38,7 @@ public class ClientConnectThread extends Thread{
         clientSocket = new Socket(hostIPAddress,serverPort);
         bufferedReader = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
         printWriter = new PrintWriter(clientSocket.getOutputStream(),true);
+        setupLayout.printWriter = printWriter;//让窗口也能向服务端发消息
         System.out.println("连接成功，等待用户操作");
         setupLayout.wantGetConnected2 = true;
         String from = "";
@@ -156,17 +157,7 @@ public class ClientConnectThread extends Thread{
             // 调用聊天和邀请窗口
             mainChatInviteFrame = new ChatInviteFrame(printWriter);
             mainChatInviteFrame.getInfo(this, setupLayout.getPlayerName(), -1);
-            //todo:关掉登录成功的窗口不一定会选房间！！
-            while(setupLayout.roomChoice == -1){
-                try
-                {
-                    Thread.sleep(10);
-                } catch (InterruptedException e)
-                {
-                    e.printStackTrace();
-                }
-            }
-            to = "4:"+ setupLayout.roomChoice;
+            to = null;
         } else if (all.length() > 5 && all.substring(0,4).equals("用户列表")) {
             setupLayout.userNames = all.substring(4).split("-");
             System.out.println("修改用户"+all.substring(4).split("-"));
