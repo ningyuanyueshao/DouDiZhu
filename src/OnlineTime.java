@@ -21,6 +21,10 @@ public class OnlineTime extends Thread{
         }
         System.out.println("当前玩家您的编号是"+onlineLayout.playerNum);
         System.out.println("当前房间人数为"+ (onlineLayout.playerNum+1));
+        for (int j = 0; j < 3; j++) {
+            if(j != onlineLayout.playerNum)
+                onlineLayout.players[j] = null;
+        }
         onlineLayout.time[0].setText("未准备");
         onlineLayout.time[1].setText("未准备");
         onlineLayout.time[2].setText("未准备");
@@ -29,6 +33,9 @@ public class OnlineTime extends Thread{
                 Thread.sleep(10);
             } catch (InterruptedException e) {
                 e.printStackTrace();
+            }
+            if(onlineLayout.players[0] != null){
+                //todo 显示玩家名字
             }
             if(onlineLayout.preFlag[0]){//0号的玩家准备好
                 if(onlineLayout.playerNum == 0){
