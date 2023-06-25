@@ -203,12 +203,12 @@ public class OnlineLayout extends JPanel implements ActionListener {
         for (int i = 0; i < 3; i++) {
             pokerColor = Integer.parseInt(lordCardsStr[i].substring(0,1));
             pokerNum = Integer.parseInt(lordCardsStr[i].substring(2));
-            index = (pokerColor  -1)*13 + pokerNum;
+            index = (pokerColor -1)*13 + pokerNum;
             lordList.add(cards[index]);
             cards[index].turnRear();
 
             lordCardCopy[i] = new SinglePoker(cards[index]);
-            lordListCopy.add(lordCardCopy[index]);
+            lordListCopy.add(lordCardCopy[i]);
             lordCardCopy[i].turnRear();
         }
         for (int i = 0; i < 3; i++) {
