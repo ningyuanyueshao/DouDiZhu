@@ -34,13 +34,28 @@ public class OnlineTime extends Thread{
                 onlineLayout.time[0].setText("已准备");
                 onlineLayout.time[0].setVisible(true);//置为可见
             }
+            try {
+                Thread.sleep(10);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
             if(onlineLayout.preFlag[1]){//座位1的玩家准备好
                 onlineLayout.time[1].setText("已准备");
                 onlineLayout.time[1].setVisible(true);
             }
+            try {
+                Thread.sleep(10);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
             if(onlineLayout.preFlag[2]){
                 onlineLayout.time[2].setText("已准备");
                 onlineLayout.time[2].setVisible(true);
+            }
+            try {
+                Thread.sleep(10);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
             if(onlineLayout.preFlag[0]&&onlineLayout.preFlag[1]&&onlineLayout.preFlag[2]){
                 break;//全部都准备好了
