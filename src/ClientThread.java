@@ -175,7 +175,7 @@ public class ClientThread extends Thread{
     }//得到空闲的房间号
 
     public void informClientRoomNewPlayer(int position,String username){
-        String to1 = "8:"+position+username;
+        String to1 = "8:"+position+"-"+username;
         System.out.println("服务端返回的玩家信息为"+to1);
         printWriter.println(to1);//这样单独的输出就实现了没收也能发
     }//通知客户端房间内新加入的玩家，position对应房间几号位

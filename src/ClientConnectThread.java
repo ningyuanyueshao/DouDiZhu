@@ -95,17 +95,19 @@ public class ClientConnectThread extends Thread{
                     else if(strings.length == 3)
                         frame.onlineLayout.playerNum = 2;//房间内已经有两个人
                 }
+                frame.onlineLayout.players[frame.onlineLayout.playerNum] = setupLayout.getPlayerName();
                 System.out.println("加入房间并显示当前房间内有多少人");
                 to = null;
                 break;
             case '8':
-                //TODo：此时可以调用图形化界面显示有人加入房间到position位置
+                String[] strings1 = from.substring(2).split("-");
+                int newPlayerPosition = Integer.parseInt(strings1[0]);
+                frame.onlineLayout.players[newPlayerPosition] = strings1[1];
                 System.out.println("有新用户加入房间");
                 to = null;
                 break;
             case 'a':
                 givePrepareToFrame(from.charAt(2));
-                //todo:此时可以调用图形化界面显示position位置的人准备就绪
                 System.out.println("有人准备就绪");
                 to = null;
                 break;
