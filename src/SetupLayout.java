@@ -192,25 +192,37 @@ public class SetupLayout extends JPanel implements ActionListener {
                             break;
                     }
                     int tempNumber;
-                    while (roomID == -1)
-                    {
+                    while (roomID == -1) {
                         try {
-                            Thread.sleep(10); //让主线程停顿，使得能够接收background线程中值的变化
+                            Thread.sleep(10);
                         } catch (InterruptedException f) {
                             f.printStackTrace();
                         }
-                        tempNumber = Integer.parseInt(JOptionPane.showInputDialog(this,"请用户"+username+"选择房间号,从"+ Arrays.toString(roomsCanPlay)+"中选择"));
-                        for (int j : roomsCanPlay)
-                        {
-                            if (tempNumber == j)
-                            {
+
+                        String input = JOptionPane.showInputDialog(this, "请用户" + username + "选择房间号,从" + Arrays.toString(roomsCanPlay) + "中选择");
+
+                        if (input == null) {
+                            // 用户关闭了对话框，返回上一步并退出循环
+                            roomChoice = -1;
+                            return;
+                        }
+
+                        try {
+                            tempNumber = Integer.parseInt(input);
+                        } catch (NumberFormatException f) {
+                            JOptionPane.showMessageDialog(this, "输入的房间号不符合规定，请重新输入");
+                            continue; // 继续下一次循环
+                        }
+
+                        for (int j : roomsCanPlay) {
+                            if (tempNumber == j) {
                                 roomID = tempNumber;
                                 break;
                             }
                         }
-                        if (roomID==-1)
-                        {
-                            JOptionPane.showMessageDialog(this,"输入的房间号不符合规定，请重新输入");
+
+                        if (roomID == -1) {
+                            JOptionPane.showMessageDialog(this, "输入的房间号不符合规定，请重新输入");
                         }
                     }
                     JOptionPane.showMessageDialog(this, "成功加入房间！");

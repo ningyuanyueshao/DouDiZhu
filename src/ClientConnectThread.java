@@ -201,9 +201,11 @@ public class ClientConnectThread extends Thread{
             {
                 e.printStackTrace();
             }
-            if(setupLayout.roomID != -1)
+            if(setupLayout.roomID != -1 || setupLayout.roomChoice == -1)
                 break;
         }
+        if(setupLayout.roomChoice == -1)
+            return null;
         chosenRoom = chosenRoom.concat(String.valueOf(setupLayout.roomID));
         return chosenRoom;
     }
