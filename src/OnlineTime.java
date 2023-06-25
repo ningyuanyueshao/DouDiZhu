@@ -1,3 +1,5 @@
+import java.util.Arrays;
+
 public class OnlineTime extends Thread{
     boolean mustPlay = false;
     boolean isFirst = false;
@@ -43,7 +45,7 @@ public class OnlineTime extends Thread{
             }
 //            打印各玩家的姓名
             if(onlineLayout.playerNames[(onlineLayout.playerNum-1 + 3)%3] != null){//有玩家进来
-                onlineLayout.namesJText[0].setText(onlineLayout.playerNames[(onlineLayout.playerNum-1)%3]);
+                onlineLayout.namesJText[0].setText(onlineLayout.playerNames[(onlineLayout.playerNum-1+3)%3]);
                 onlineLayout.avatarLabel[0].setVisible(true);
                 onlineLayout.namesJText[0].setVisible(true);
             }
@@ -109,9 +111,11 @@ public class OnlineTime extends Thread{
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            if(onlineLayout.player0CardsStr[0] !=null && onlineLayout.lordCardsStr[0] != null) break;
+            System.out.println("0号的牌"+onlineLayout.player0CardsStr[0]+"--" +onlineLayout.player0CardsStr[1]);
+            if(onlineLayout.player0CardsStr[1] !=null && onlineLayout.lordCardsStr[1] != null) break;
 //            如果本客户端拿到了自己的牌与地主牌，那么就可以退出循环
         }
+        System.out.println("服务端发给了我牌");
         onlineLayout.CardsInit();//根据两个str数组来初始化所有的牌
 
 
