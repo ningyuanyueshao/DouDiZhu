@@ -74,12 +74,13 @@ public class ClientThread extends Thread{
                 to = getRoomChoice(from.substring(from.indexOf(':')+1));
                 break;
             case '6':
-                room = from.charAt(2) - '0';
+                room = Integer.parseInt(from.substring(2));
                 to = roomArrayList.get(room).getPlayersNow();//先确定返回的人数和用户名
                 roomArrayList.get(room).setEveryClientThread(this);//然后在房间中添加该线程
                 break;
             case '9':
                 roomArrayList.get(room).setPlayerReady(this);//告知房间该玩家准备就绪
+                to = null;
                 break;
             case 'o':
                 String fromAll = from.substring(from.indexOf(':')+1);

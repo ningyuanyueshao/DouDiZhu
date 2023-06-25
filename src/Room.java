@@ -56,7 +56,7 @@ public class Room{
         readySize++;
         int temp = clientThread.position;
         for (int i = 0; i < 3; i++) {
-            if (i != temp)
+            if (i != temp && clientThreads[i]!=null)
                 clientThreads[i].informClientRoomNewReady(temp);
         }
         if(readySize == 3)

@@ -85,6 +85,7 @@ public class ClientConnectThread extends Thread{
                 setupLayout.roomID = Integer.parseInt(strings[0]);
                 mainChatInviteFrame.roomID = Integer.parseInt(strings[0]);
                 frame.showOnlineLayout();//展现onlinePanel
+                frame.onlineLayout.printWriter = printWriter;
                 if(strings[1].equals("9")){
                     frame.onlineLayout.playerNum = 0;//房间没人，第一个进去的座位为0；
                 }
@@ -204,12 +205,6 @@ public class ClientConnectThread extends Thread{
         chosenRoom = chosenRoom.concat(String.valueOf(setupLayout.roomID));
         return chosenRoom;
     }
-
-    public void playerReady(){
-        //todo:可能还得while循环不断读取GameLayOut界面的准备就绪标志
-        String to = "9:";
-        printWriter.println(to);
-    }//若有人点击了准备就绪按钮，则告知服务端该用户准备就绪
 
     public void getCards(String cards) {
         //格式例子为"1-1、2-2、······;2-1、3-4、······;1-1、2-2、······;地主牌"

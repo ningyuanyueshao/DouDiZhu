@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,7 +10,7 @@ public class OnlineLayout extends JPanel implements ActionListener {
     int playerNum =-1;//该客户端玩家座次号 0 1 2 可以根据座次号推断前面有多少人进去了
     int priorityNum;//优先叫地主的座次号 最开始server会传给玩家自己的座次号
     boolean[] preFlag = new boolean[3];//默认值为false
-
+    PrintWriter printWriter;
     ImageIcon backgroundImage;//背景图片
     JLabel backgroundLabel;//背景图片对应的JLabel
 
@@ -161,6 +162,9 @@ public class OnlineLayout extends JPanel implements ActionListener {
             time[1].setText("已准备");//保证自己的编号是1
             time[1].setVisible(true);
             preFlag[playerNum] = true;
+            String to = "9:";
+            System.out.println("向服务器发送的准备就绪信息"+to);
+            printWriter.println(to);
             prepare.setVisible(false);
         }
 //        如果是不要
