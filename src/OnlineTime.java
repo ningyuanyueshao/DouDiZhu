@@ -34,11 +34,18 @@ public class OnlineTime extends Thread{
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            if(onlineLayout.players[(onlineLayout.playerNum-1)%3] != null){//有玩家进来
+            for (int j = 0; j < 3; j++) {
+                    if(onlineLayout.players[j] != null){
+                        System.out.println(onlineLayout.players[j]);
+                    }
+            }
+            if(onlineLayout.players[(onlineLayout.playerNum-1 + 3)%3] != null){//有玩家进来
                 onlineLayout.names[0].setText(onlineLayout.players[(onlineLayout.playerNum-1)%3]);
+                onlineLayout.names[0].setVisible(true);
             }
             if(onlineLayout.players[(onlineLayout.playerNum+1)%3] != null){//有玩家进来
                 onlineLayout.names[2].setText(onlineLayout.players[(onlineLayout.playerNum+1)%3]);
+                onlineLayout.names[2].setVisible(true);
             }
             if(onlineLayout.preFlag[0]){//0号的玩家准备好
                 if(onlineLayout.playerNum == 0){
