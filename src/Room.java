@@ -58,8 +58,11 @@ public class Room{
             if (i != temp && clientThreads[i]!=null)
                 clientThreads[i].informClientRoomNewReady(temp);
         }
-        if(readySize == 3)
+        if(readySize == 3){
+            System.out.println("发牌");
             dealTheCards(); //若三个人都准备就绪，直接发牌
+        }
+
     }//将准备就绪状态告知其他线程，同时若三个人都准备就绪，就可以发牌
 
     public void dealTheCards(){
@@ -78,7 +81,7 @@ public class Room{
     public void giveTheCards(ClientThread tempClient,List<ArrayList<Card>> tempList,List<Card> landlordCards){
         String temp = "";
         Card tempCard;
-        String[] colors = {"0","黑桃","红桃","梅花","方块","王"};
+        String[] colors = {"0","黑桃","红心","梅花","方块","王"};
         String[] values = {"0","A","2","3","4","5","6","7","8","9","10","J","Q","K"};
         List<String> cardColors = Arrays.asList(colors);
         List<String> cardValues = Arrays.asList(values);

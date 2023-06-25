@@ -212,19 +212,11 @@ public class ClientConnectThread extends Thread{
 
     public void getCards(String cards) {
         //格式例子为"1-1、2-2、······;2-1、3-4、······;1-1、2-2、······;地主牌"
-        int firstSemicolon = cards.indexOf(';');
-        int secondSemicolon = cards.indexOf(';', firstSemicolon);
-        int thirdSemicolon = cards.indexOf(';', secondSemicolon);
-        String position0CardsString = cards.substring(0, firstSemicolon);
-        String[] position0Cards = position0CardsString.split("、");
-        String position1CardsString = cards.substring(firstSemicolon + 1, secondSemicolon);
-        String[] position1Cards = position1CardsString.split("、");
-        String position2CardsString = cards.substring(secondSemicolon + 1, thirdSemicolon);
-        String[] position2Cards = position2CardsString.split("、");
-        String landlordCardsString = cards.substring(thirdSemicolon + 1);
-        String[] landlordCards = landlordCardsString.split("、");
-
-
+        String[] ss = cards.split(";");
+        String[] position0Cards = ss[0].split("、");
+        String[] position1Cards = ss[1].split("、");
+        String[] position2Cards = ss[2].split("、");
+        String[] landlordCards = ss[3].split("、");
         if(frame.onlineLayout.playerNum == 0){
             frame.onlineLayout.player0CardsStr = position0Cards;
         }
