@@ -113,6 +113,7 @@ public class ClientConnectThread extends Thread{
                 break;
             case 'b':
                 getCards(from.substring(from.indexOf(':')+1));
+                to = null;
                 break;
             case 'p':
                 giveInviteMessageToWindow(from.substring(from.indexOf(':')+1));
