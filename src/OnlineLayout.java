@@ -27,9 +27,9 @@ public class OnlineLayout extends JPanel implements ActionListener {
     SinglePoker cards[] = new SinglePoker[56]; // 定义54张牌
     SinglePoker[] lordCardCopy = new SinglePoker[3];//三张备份的地主牌
 
-    String[] player0CardsStr = new String[17];
-    String[] player1CardsStr = new String[17];
-    String[] player2CardsStr = new String[17];
+    String[] player0CardsStr = null;
+    String[] player1CardsStr = null;
+    String[] player2CardsStr = null;
     String[] lordCardsStr = new String[3]; //自己手牌以及地主牌字符串
     JButton landlord[] = new RoundRectButton[4];//抢地主按钮
     JButton publishCard[] = new RoundRectButton[2];//出牌按钮
