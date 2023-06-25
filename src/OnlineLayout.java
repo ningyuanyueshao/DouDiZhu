@@ -10,6 +10,7 @@ public class OnlineLayout extends JPanel implements ActionListener {
     int playerNum =-1;//该客户端玩家座次号 0 1 2 可以根据座次号推断前面有多少人进去了
     int priorityNum;//优先叫地主的座次号 最开始server会传给玩家自己的座次号
     boolean[] preFlag = new boolean[3];//默认值为false
+    String[] players = new String[3];
     PrintWriter printWriter;
     ImageIcon backgroundImage;//背景图片
     JLabel backgroundLabel;//背景图片对应的JLabel
