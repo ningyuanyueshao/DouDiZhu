@@ -112,13 +112,13 @@ public class OnlineTime extends Thread{
                 e.printStackTrace();
             }
             if(onlineLayout.playerNum == 0){
-                if(onlineLayout.player0CardsStr[1] != null) break;
+                if(onlineLayout.player0CardsStr != null) break;
             }
             else if(onlineLayout.playerNum == 1){
-                if(onlineLayout.player1CardsStr[1] != null) break;
+                if(onlineLayout.player1CardsStr != null) break;
             }
             else{
-                if(onlineLayout.player2CardsStr[1] != null) break;
+                if(onlineLayout.player2CardsStr != null) break;
             }
 //            如果本客户端拿到了自己的牌与地主牌，那么就可以退出循环
         }
