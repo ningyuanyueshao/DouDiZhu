@@ -12,18 +12,17 @@ public class OnlineTime extends Thread{
     public void run(){
         boolean isSetLandlord = false;
         while(true){
-            if(onlineLayout.playerNum != -1)    break;
+            if(onlineLayout.playerNum != -1)    break;//使进程等待
         }
         System.out.println("当前玩家您的编号是"+onlineLayout.playerNum);
         System.out.println("当前房间人数为"+ (onlineLayout.playerNum+1));
-
+        onlineLayout.time[0].setText("未准备");
+        onlineLayout.time[1].setText("未准备");
+        onlineLayout.time[2].setText("未准备");
         while(true){//进入各玩家的准备阶段
             if(onlineLayout.preFlag[0]){//座位0的玩家准备好
                 onlineLayout.time[0].setText("已准备");
                 onlineLayout.time[0].setVisible(true);//置为可见
-            }
-            else{
-
             }
             if(onlineLayout.preFlag[1]){//座位1的玩家准备好
                 onlineLayout.time[1].setText("已准备");
