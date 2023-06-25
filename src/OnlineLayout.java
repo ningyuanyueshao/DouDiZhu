@@ -58,16 +58,6 @@ public class OnlineLayout extends JPanel implements ActionListener {
         backgroundLabel = new JLabel(backgroundImage);
         backgroundLabel.setBounds(0, 0, backgroundImage.getIconWidth(), backgroundImage.getIconHeight());
     }
-//    public void getCard(String playerStr,String lordStr,int i){//要传给后端玩家座次号
-//        String[playerNum] playerCards = playerStr.split("、");
-//        String[] loadCards = lordStr.split("、");
-//        for(int count=0;count<17;i++){
-//            playerCard[count] = new SinglePoker(playerCards[count],false);
-//        }
-//        for(int count=0;count<3;count++){
-//            loadCard[count] = new SinglePoker(loadCards[count],false);
-//        }
-//    }
     public void Init(){
         prepare = new RoundRectButton("准 备");
 
@@ -165,11 +155,11 @@ public class OnlineLayout extends JPanel implements ActionListener {
             playerList[0].add(cards[index]);
         }
         for (int i = 0; i < 17; i++) {
-            index = (player0CardsStr[i].charAt(0) -1)*13 +  player0CardsStr[i].charAt(2);
+            index = (player1CardsStr[i].charAt(0) -1)*13 +  player1CardsStr[i].charAt(2);
             playerList[1].add(cards[index]);
         }
         for (int i = 0; i < 17; i++) {
-            index = (player0CardsStr[i].charAt(0) -1)*13 +  player0CardsStr[i].charAt(2);
+            index = (player2CardsStr[i].charAt(0) -1)*13 +  player2CardsStr[i].charAt(2);
             playerList[2].add(cards[index]);
         }
         for (int i = 0; i < 3; i++) {
