@@ -12,6 +12,11 @@ public class OnlineTime extends Thread{
     public void run(){
         boolean isSetLandlord = false;
         while(true){
+            try {
+                Thread.sleep(10);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
             if(onlineLayout.playerNum != -1)    break;//使进程等待
         }
         System.out.println("当前玩家您的编号是"+onlineLayout.playerNum);
