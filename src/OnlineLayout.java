@@ -60,7 +60,7 @@ public class OnlineLayout extends JPanel implements ActionListener {
 //        }
 //    }
     public void Init(){
-        prepare = new JButton("准备");
+        prepare = new JButton("准 备");
 
         //初始化自己面前的四个按钮
         landlord[0]=new JButton("3 分");
@@ -158,7 +158,7 @@ public class OnlineLayout extends JPanel implements ActionListener {
 //        }
 //
         if(e.getSource()==prepare){
-            time[playerNum].setText("已准备");
+            time[1].setText("已准备");//保证自己的编号是1
             preFlag[playerNum] = true;
             prepare.setVisible(false);
         }

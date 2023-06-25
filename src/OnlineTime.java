@@ -10,6 +10,7 @@ public class OnlineTime extends Thread{
         this.i = i;
     }
     public void run(){
+        int off = Math.abs(onlineLayout.playerNum - 1);//偏移量
         boolean isSetLandlord = false;
         while(true){
             try {
@@ -30,26 +31,44 @@ public class OnlineTime extends Thread{
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            if(onlineLayout.preFlag[0]){//座位0的玩家准备好
-                onlineLayout.time[0].setText("已准备");
-                onlineLayout.time[0].setVisible(true);//置为可见
+            if(onlineLayout.preFlag[0]){//0号的玩家准备好
+                if(onlineLayout.playerNum == 0){
+                    onlineLayout.time[1].setText("已准备");
+                }else if(onlineLayout.playerNum == 1) {
+                    onlineLayout.time[0].setText("已准备");
+                }else{
+                    onlineLayout.time[2].setText("已准备");
+                }
+                onlineLayout.time[off].setVisible(true);//置为可见
             }
             try {
                 Thread.sleep(10);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            if(onlineLayout.preFlag[1]){//座位1的玩家准备好
-                onlineLayout.time[1].setText("已准备");
-                onlineLayout.time[1].setVisible(true);
+            if(onlineLayout.preFlag[1]){//1号的玩家准备好
+                if(onlineLayout.playerNum == 0){
+                    onlineLayout.time[2].setText("已准备");
+                }else if(onlineLayout.playerNum == 1) {
+                    onlineLayout.time[1].setText("已准备");
+                }else{
+                    onlineLayout.time[0].setText("已准备");
+                }
+                onlineLayout.time[(1+off)%3].setVisible(true);
             }
             try {
                 Thread.sleep(10);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            if(onlineLayout.preFlag[2]){
-                onlineLayout.time[2].setText("已准备");
+            if(onlineLayout.preFlag[2]){//2号
+                if(onlineLayout.playerNum == 0){
+                    onlineLayout.time[0].setText("已准备");
+                }else if(onlineLayout.playerNum == 1) {
+                    onlineLayout.time[2].setText("已准备");
+                }else{
+                    onlineLayout.time[1].setText("已准备");
+                }
                 onlineLayout.time[2].setVisible(true);
             }
             try {
