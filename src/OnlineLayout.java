@@ -151,26 +151,25 @@ public class OnlineLayout extends JPanel implements ActionListener {
         }
 
         for (int i = 0; i < 17; i++) {
-            index = (player0CardsStr[i].charAt(0) -1)*13 +  player0CardsStr[i].charAt(2);
+            index = (Character.getNumericValue(player0CardsStr[i].charAt(0)) -1)*13 +  Character.getNumericValue(player0CardsStr[i].charAt(2));
             playerList[0].add(cards[index]);
         }
         for (int i = 0; i < 17; i++) {
-            index = (player1CardsStr[i].charAt(0) -1)*13 +  player1CardsStr[i].charAt(2);
+            index = (Character.getNumericValue(player1CardsStr[i].charAt(0)) -1)*13 +  Character.getNumericValue(player1CardsStr[i].charAt(2));
             playerList[1].add(cards[index]);
         }
         for (int i = 0; i < 17; i++) {
-            index = (player2CardsStr[i].charAt(0) -1)*13 +  player2CardsStr[i].charAt(2);
+            index = (Character.getNumericValue(player2CardsStr[i].charAt(0)) -1)*13 +  Character.getNumericValue(player2CardsStr[i].charAt(2));
             playerList[2].add(cards[index]);
         }
         for (int i = 0; i < 3; i++) {
-            index = (lordCardsStr[i].charAt(0) -1)*13 +  lordCardsStr[i].charAt(2);
+            index = (Character.getNumericValue(lordCardsStr[i].charAt(0)) -1)*13 +  Character.getNumericValue(lordCardsStr[i].charAt(2));
             lordList.add(cards[index]);
             cards[index].turnRear();
 
             lordCardCopy[i] = new SinglePoker(cards[index]);
             lordListCopy.add(lordCardCopy[index]);
             lordCardCopy[i].turnRear();
-
         }
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 17; j++) {

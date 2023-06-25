@@ -111,6 +111,7 @@ public class OnlineTime extends Thread{
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+            System.out.println("1");
             if(onlineLayout.playerNum == 0){
                 if(onlineLayout.player0CardsStr != null) break;
             }
