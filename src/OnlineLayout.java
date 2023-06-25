@@ -27,9 +27,9 @@ public class OnlineLayout extends JPanel implements ActionListener {
     SinglePoker cards[] = new SinglePoker[56]; // 定义54张牌
     SinglePoker[] lordCardCopy = new SinglePoker[3];//三张备份的地主牌
 
-    String[] player0CardsStr = new String[17];
-    String[] player1CardsStr = new String[17];
-    String[] player2CardsStr = new String[17];
+    String[] player0CardsStr = null;
+    String[] player1CardsStr = null;
+    String[] player2CardsStr = null;
     String[] lordCardsStr = new String[3]; //自己手牌以及地主牌字符串
     JButton landlord[] = new RoundRectButton[4];//抢地主按钮
     JButton publishCard[] = new RoundRectButton[2];//出牌按钮
@@ -135,6 +135,8 @@ public class OnlineLayout extends JPanel implements ActionListener {
         }
     }
     public void CardsInit(){
+        SinglePoker tempCard;
+        int pokerColor,pokerNum;
         int count = 0;
         int index = -1;
 //        先初始化52张
@@ -150,53 +152,107 @@ public class OnlineLayout extends JPanel implements ActionListener {
             count++;
         }
 
-        for (int i = 0; i < 17; i++) {
-            index = (Character.getNumericValue(player0CardsStr[i].charAt(0)) -1)*13 +  Character.getNumericValue(player0CardsStr[i].charAt(2));
-            playerList[0].add(cards[index]);
+        if(playerNum == 0){
+            for (int i = 0; i < 17; i++) {
+                pokerColor = Integer.parseInt(player0CardsStr[i].substring(0,1));
+                pokerNum = Integer.parseInt(player0CardsStr[i].substring(2));
+                index = (pokerColor  -1)*13 + pokerNum;
+                playerList[0].add(cards[index]);
+            }
+            for (int i = 0; i < 17; i++) {
+                tempCard = new SinglePoker("1-1",false);
+                playerList[1].add(tempCard);
+            }
+            for (int i = 0; i < 17; i++) {
+                tempCard = new SinglePoker("1-1",false);
+                playerList[2].add(tempCard);
+            }
         }
-        for (int i = 0; i < 17; i++) {
-            index = (Character.getNumericValue(player1CardsStr[i].charAt(0)) -1)*13 +  Character.getNumericValue(player1CardsStr[i].charAt(2));
-            playerList[1].add(cards[index]);
+        else if(playerNum == 1){
+            for (int i = 0; i < 17; i++) {
+                pokerColor = Integer.parseInt(player1CardsStr[i].substring(0,1));
+                pokerNum = Integer.parseInt(player1CardsStr[i].substring(2));
+                index = (pokerColor -1)*13 + pokerNum;
+                playerList[1].add(cards[index]);
+            }
+            for (int i = 0; i < 17; i++) {
+                tempCard = new SinglePoker("1-1",false);
+                playerList[0].add(tempCard);
+            }
+            for (int i = 0; i < 17; i++) {
+                tempCard = new SinglePoker("1-1",false);
+                playerList[2].add(tempCard);
+            }
         }
-        for (int i = 0; i < 17; i++) {
-            index = (Character.getNumericValue(player2CardsStr[i].charAt(0)) -1)*13 +  Character.getNumericValue(player2CardsStr[i].charAt(2));
-            playerList[2].add(cards[index]);
+        else{
+            for (int i = 0; i < 17; i++) {
+                pokerColor = Integer.parseInt(player2CardsStr[i].substring(0,1));
+                pokerNum = Integer.parseInt(player2CardsStr[i].substring(2));
+                index = (pokerColor  -1)*13 + pokerNum;
+                playerList[2].add(cards[index]);
+            }
+            for (int i = 0; i < 17; i++) {
+                tempCard = new SinglePoker("1-1",false);
+                playerList[0].add(tempCard);
+            }
+            for (int i = 0; i < 17; i++) {
+                tempCard = new SinglePoker("1-1",false);
+                playerList[1].add(tempCard);
+            }
         }
         for (int i = 0; i < 3; i++) {
-            index = (Character.getNumericValue(lordCardsStr[i].charAt(0)) -1)*13 +  Character.getNumericValue(lordCardsStr[i].charAt(2));
+            pokerColor = Integer.parseInt(lordCardsStr[i].substring(0,1));
+            pokerNum = Integer.parseInt(lordCardsStr[i].substring(2));
+            index = (pokerColor -1)*13 + pokerNum;
             lordList.add(cards[index]);
             cards[index].turnRear();
-
+            cards[index].setVisible(true);
             lordCardCopy[i] = new SinglePoker(cards[index]);
-            lordListCopy.add(lordCardCopy[index]);
+            lordListCopy.add(lordCardCopy[i]);
             lordCardCopy[i].turnRear();
+            lordCardCopy[i].setVisible(true);
         }
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 17; j++) {
                 if(playerNum == 0){
                     Common.move(playerList[0].get(j),playerList[0].get(j).getLocation(),new Point(550+((j-1)*3+2)*12,700),(j-1)*3+2);
                     playerList[0].get(j).turnFront();
+                    playerList[0].get(j).setVisible(true);
                     setComponentZOrder(playerList[0].get(j),0);
                     Common.move(playerList[1].get(j),playerList[1].get(j).getLocation(),new Point(1550,280+((j-1)*3+3)*6),(j-1)*3+3);
+                    playerList[1].get(j).turnRear();
+                    playerList[1].get(j).setVisible(true);
                     setComponentZOrder(playerList[1].get(j),0);
                     Common.move(playerList[2].get(j),playerList[1].get(j).getLocation(),new Point(250,280+((j-1)*3+1)*6),(j-1)*3+1);
+                    playerList[2].get(j).turnRear();
+                    playerList[2].get(j).setVisible(true);
                     setComponentZOrder(playerList[2].get(j),0);
                 }else if(playerNum == 1){
                     Common.move(playerList[1].get(j),playerList[1].get(j).getLocation(),new Point(550+((j-1)*3+2)*12,700),(j-1)*3+2);
                     setComponentZOrder(playerList[1].get(j),0);
                     playerList[1].get(j).turnFront();
+                    playerList[1].get(j).setVisible(true);
                     Common.move(playerList[2].get(j),playerList[2].get(j).getLocation(),new Point(1550,280+((j-1)*3+3)*6),(j-1)*3+3);
                     setComponentZOrder(playerList[2].get(j),0);
+                    playerList[2].get(j).turnRear();
+                    playerList[2].get(j).setVisible(true);
                     Common.move(playerList[0].get(j),playerList[0].get(j).getLocation(),new Point(250,280+((j-1)*3+1)*6),(j-1)*3+1);
                     setComponentZOrder(playerList[0].get(j),0);
+                    playerList[0].get(j).turnRear();
+                    playerList[0].get(j).setVisible(true);
                 }else{
                     Common.move(playerList[2].get(j),playerList[0].get(j).getLocation(),new Point(550+((j-1)*3+2)*12,700),(j-1)*3+2);
                     setComponentZOrder(playerList[2].get(j),0);
                     playerList[2].get(j).turnFront();
+                    playerList[2].get(j).setVisible(true);
                     setComponentZOrder(playerList[0].get(j),0);
                     Common.move(playerList[0].get(j),playerList[1].get(j).getLocation(),new Point(1550,280+((j-1)*3+3)*6),(j-1)*3+3);
+                    playerList[0].get(j).turnRear();
+                    playerList[0].get(j).setVisible(true);
                     setComponentZOrder(playerList[0].get(j),0);
                     Common.move(playerList[1].get(j),playerList[1].get(j).getLocation(),new Point(250,280+((j-1)*3+1)*6),(j-1)*3+1);
+                    playerList[1].get(j).turnRear();
+                    playerList[1].get(j).setVisible(true);
                     setComponentZOrder(playerList[1].get(j),0);
                 }
             }
@@ -204,8 +260,12 @@ public class OnlineLayout extends JPanel implements ActionListener {
         for (int i = 0; i <=2 ; i++) {
             Common.move(lordList.get(i), lordList.get(i).getLocation(),new Point(300+i*80,50),53);
             Common.move(lordList.get(i), lordList.get(i).getLocation(),new Point(300+i*80,50),53);
+            lordList.get(i).turnRear();
+            lordList.get(i).setVisible(true);
             setComponentZOrder(lordCardCopy[i], 0);
             setComponentZOrder(cards[i], 0);
+            lordListCopy.get(i).turnRear();
+            lordListCopy.get(i).setVisible(true);
         }
         //    经过与server交互 得到了LordList和LordListcopy 以及其中一个playerCard[i] 其他玩家的手牌拿不到，名称随便赋，只要背面朝上即可
 //    并且要设置每张牌的zOrder 因为server返回的牌值是已经排好序的，因此不需要像单机进行order
