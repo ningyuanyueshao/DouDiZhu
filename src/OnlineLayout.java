@@ -136,6 +136,7 @@ public class OnlineLayout extends JPanel implements ActionListener {
     }
     public void CardsInit(){
         SinglePoker tempCard;
+        int pokerColor,pokerNum;
         int count = 0;
         int index = -1;
 //        先初始化52张
@@ -153,8 +154,9 @@ public class OnlineLayout extends JPanel implements ActionListener {
 
         if(playerNum == 0){
             for (int i = 0; i < 17; i++) {
-                index = (Character.getNumericValue(player0CardsStr[i].charAt(0))  -1)*13 +  Character.getNumericValue(player0CardsStr[i].charAt(2));
-                System.out.println(index);
+                pokerColor = Integer.parseInt(player0CardsStr[i].substring(0,1));
+                pokerNum = Integer.parseInt(player0CardsStr[i].substring(2));
+                index = (pokerColor  -1)*13 + pokerNum;
                 playerList[0].add(cards[index]);
             }
             for (int i = 0; i < 17; i++) {
@@ -168,7 +170,9 @@ public class OnlineLayout extends JPanel implements ActionListener {
         }
         else if(playerNum == 1){
             for (int i = 0; i < 17; i++) {
-                index = (Character.getNumericValue(player1CardsStr[i].charAt(0)) -1)*13 +  Character.getNumericValue(player1CardsStr[i].charAt(2));
+                pokerColor = Integer.parseInt(player1CardsStr[i].substring(0,1));
+                pokerNum = Integer.parseInt(player1CardsStr[i].substring(2));
+                index = (pokerColor -1)*13 + pokerNum;
                 playerList[1].add(cards[index]);
             }
             for (int i = 0; i < 17; i++) {
@@ -182,7 +186,9 @@ public class OnlineLayout extends JPanel implements ActionListener {
         }
         else{
             for (int i = 0; i < 17; i++) {
-                index = (Character.getNumericValue(player2CardsStr[i].charAt(0)) -1)*13 +  Character.getNumericValue(player2CardsStr[i].charAt(2));
+                pokerColor = Integer.parseInt(player2CardsStr[i].substring(0,1));
+                pokerNum = Integer.parseInt(player2CardsStr[i].substring(2));
+                index = (pokerColor  -1)*13 + pokerNum;
                 playerList[2].add(cards[index]);
             }
             for (int i = 0; i < 17; i++) {
@@ -195,7 +201,9 @@ public class OnlineLayout extends JPanel implements ActionListener {
             }
         }
         for (int i = 0; i < 3; i++) {
-            index = (Character.getNumericValue(lordCardsStr[i].charAt(0)) -1)*13 +  Character.getNumericValue(lordCardsStr[i].charAt(2));
+            pokerColor = Integer.parseInt(lordCardsStr[i].substring(0,1));
+            pokerNum = Integer.parseInt(lordCardsStr[i].substring(2));
+            index = (pokerColor  -1)*13 + pokerNum;
             lordList.add(cards[index]);
             cards[index].turnRear();
 
