@@ -8,7 +8,7 @@ import java.util.List;
 public class OnlineLayout extends JPanel implements ActionListener {
     int playerNum;//该客户端玩家座次号 0 1 2//todo
     int priorityNum;//优先叫地主的座次号 最开始server会传给玩家自己的座次号
-    boolean preOneFlag=false,preTwoFlag=false,preThrFlag=false;
+    boolean[] preFlag = new boolean[3];//默认值为false
 
     ImageIcon backgroundImage;//背景图片
     JLabel backgroundLabel;//背景图片对应的JLabel
@@ -22,22 +22,23 @@ public class OnlineLayout extends JPanel implements ActionListener {
     SinglePoker cards[] = new SinglePoker[54]; // 定义54张牌
 
     String playerStr,lordStr;//?
-    JButton landlord[] = new JButton[2];//抢地主按钮
+    JButton landlord[] = new JButton[4];//抢地主按钮
     JButton publishCard[] = new JButton[2];//出牌按钮
     JButton prepare;//准备按钮
     JTextField time[] = new JTextField[3];//三个玩家的计时器
     JLabel dizhu; //地主图标
 
-//    OnlineTime t;
+    OnlineTime t;
     public OnlineLayout(){
         Init();
         setLayout(null);
-//        startPre();//开始准备 等全部准备好了就开始
+        SwingUtilities.invokeLater(new onLineNewTimer(this,10));//开启一个线程
 //        CardInit(playerStr);//先从服务端获取自己的手牌 其他的不要
 
 //        getLord();
         setBackground();
         add(backgroundLabel);
+//        startPre();//开始准备 等全部准备好了就开始
     }
     public void setBackground(){//设置背景图片
         int width = Toolkit.getDefaultToolkit().getScreenSize().width;
@@ -66,8 +67,8 @@ public class OnlineLayout extends JPanel implements ActionListener {
         landlord[1]=new JButton("2 分");
         landlord[2]=new JButton("1 分");
         landlord[3]=new JButton("不 抢");
-        publishCard[0]= new JButton("出牌");
-        publishCard[1]= new JButton("不要");
+        publishCard[0]= new JButton("出 牌");
+        publishCard[1]= new JButton("不 要");
 
         prepare.setBounds(1000,550,60,40);
         add(prepare);
@@ -135,20 +136,7 @@ public class OnlineLayout extends JPanel implements ActionListener {
 //    }
     public void startPre(){//开始准备
         //server先传给客户端已经做桌的玩家座次号，并且是否准备
-        while(true){
-            if(preOneFlag){//座位0的玩家准备好
-                time[0].setText("已准备");
-            }
-            if(preTwoFlag){//座位1的玩家准备好
-                time[1].setText("已准备");
-            }
-            if(preThrFlag){
-                time[2].setText("已准备");
-            }
-            if(time[0].getText().equals("已准备")&&time[1].getText().equals("已准备")&&time[2].getText().equals("已准备")){
-                break;//全部都准备好了
-            }
-        }
+
     }
     public void actionPerformed(ActionEvent e){
 //        if(e.getSource()==landlord[0])
@@ -170,10 +158,11 @@ public class OnlineLayout extends JPanel implements ActionListener {
 //            t.isRun=false; //时钟终结
 //        }
 //
-//        if(e.getSource()==prepare){
-//            time[playerNum].setText("已准备");
-//            prepare.setVisible(false);
-//        }
+        if(e.getSource()==prepare){
+            time[playerNum].setText("已准备");
+            preFlag[playerNum] = true;
+            prepare.setVisible(false);
+        }
 //        如果是不要
 //        if(e.getSource()==publishCard[1])
 //        {
@@ -185,19 +174,19 @@ public class OnlineLayout extends JPanel implements ActionListener {
 
 
 }
-//class onLineNewTimer implements Runnable {
-//
-//    OnlineLayout onlineLayout;
-//    int i;
-//
-//    public onLineNewTimer(OnlineLayout onlineLayout, int i) {
-//        this.onlineLayout = onlineLayout;
-//        this.i = i;
-//    }
-//
-////    @Override
-////    public void run() {
-////        onlineLayout.t = new OnlineTime(onlineLayout, 12);//从10开始倒计时
-////        onlineLayout.t.start();
-////    }
-//}
+class onLineNewTimer implements Runnable {
+
+    OnlineLayout onlineLayout;
+    int i;
+
+    public onLineNewTimer(OnlineLayout onlineLayout, int i) {
+        this.onlineLayout = onlineLayout;
+        this.i = i;
+    }
+
+    @Override
+    public void run() {
+        onlineLayout.t = new OnlineTime(onlineLayout, 12);//从10开始倒计时
+        onlineLayout.t.start();
+    }
+}

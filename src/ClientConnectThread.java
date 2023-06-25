@@ -270,13 +270,13 @@ public class ClientConnectThread extends Thread{
     public void givePrepareToFrame(char positionChar){
         switch (positionChar){
             case'0':
-                frame.onlineLayout.preOneFlag = true;
+                frame.onlineLayout.preFlag[0] = true;
                 break;
             case'1':
-                frame.onlineLayout.preTwoFlag = true;
+                frame.onlineLayout.preFlag[1] = true;
                 break;
             case'2':
-                frame.onlineLayout.preThrFlag = true;
+                frame.onlineLayout.preFlag[2] = true;
                 break;
         }
     }
