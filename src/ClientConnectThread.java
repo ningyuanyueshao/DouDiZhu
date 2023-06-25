@@ -80,12 +80,20 @@ public class ClientConnectThread extends Thread{
                 break;
             case '7':
                 //TODo：此时可以调用图形化界面显示游戏内部房间信息,第一位为房间号的长度n，后面n位为房间号，再后面若为9，说明房间没人
-                int roomIDLength = from.charAt(2) - '0';
-                String roomID = from.substring(3,3+roomIDLength);
-                setupLayout.roomID = Integer.parseInt(roomID);
-                mainChatInviteFrame.roomID = Integer.parseInt(roomID);
-                System.out.println("-----");
+                String string = from.substring(2);
+                String[] strings = string.split("-");
+                setupLayout.roomID = Integer.parseInt(strings[0]);
+                mainChatInviteFrame.roomID = Integer.parseInt(strings[0]);
                 frame.showOnlineLayout();//展现onlinePanel
+                if(strings[1].equals("9")){
+                    frame.onlineLayout.playerNum = 0;//房间没人，第一个进去的座位为0；
+                }
+                else{
+                    if(strings.length == 2)
+                        frame.onlineLayout.playerNum = 1;//房间内已经有一个人
+                    else if(strings.length == 3)
+                        frame.onlineLayout.playerNum = 2;//房间内已经有两个人
+                }
                 System.out.println("加入房间并显示当前房间内有多少人");
                 to = null;
                 break;

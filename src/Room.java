@@ -39,13 +39,13 @@ public class Room{
     public String getPlayersNow(){
         String to = "7:";
         String temp = String.valueOf(roomNumber);
-        to = to.concat(temp.length() + temp);
+        to = to.concat(temp);
         if(clientThreads[0] == null)
-            to = to.concat("9");//客户端收到9说明房间内一开始没有其他用户
+            to = to.concat("-"+"9");//客户端收到9说明房间内一开始没有其他用户
         else {
             for (int i = 0; i < clientThreads.length; i++) {
                 if (clientThreads[i] != null) {
-                    to = to.concat(i + clientThreads[i].username + ";"); //i表示几号位
+                    to = to.concat("-"+i + clientThreads[i].username); //i表示几号位
                 }
             }
         }
