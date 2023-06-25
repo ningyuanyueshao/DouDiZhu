@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class OnlineLayout extends JPanel implements ActionListener {
-    int playerNum;//该客户端玩家座次号 0 1 2//todo
+    int playerNum =-1;//该客户端玩家座次号 0 1 2 可以根据座次号推断前面有多少人进去了
     int priorityNum;//优先叫地主的座次号 最开始server会传给玩家自己的座次号
     boolean[] preFlag = new boolean[3];//默认值为false
 
@@ -136,7 +136,6 @@ public class OnlineLayout extends JPanel implements ActionListener {
 //    }
     public void startPre(){//开始准备
         //server先传给客户端已经做桌的玩家座次号，并且是否准备
-
     }
     public void actionPerformed(ActionEvent e){
 //        if(e.getSource()==landlord[0])

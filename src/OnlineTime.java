@@ -11,22 +11,35 @@ public class OnlineTime extends Thread{
     }
     public void run(){
         boolean isSetLandlord = false;
+        while(true){
+            if(onlineLayout.playerNum != -1)    break;
+        }
+        System.out.println("当前玩家您的编号是"+onlineLayout.playerNum);
+        System.out.println("当前房间人数为"+ (onlineLayout.playerNum+1));
 
         while(true){//进入各玩家的准备阶段
             if(onlineLayout.preFlag[0]){//座位0的玩家准备好
                 onlineLayout.time[0].setText("已准备");
+                onlineLayout.time[0].setVisible(true);//置为可见
+            }
+            else{
+
             }
             if(onlineLayout.preFlag[1]){//座位1的玩家准备好
                 onlineLayout.time[1].setText("已准备");
+                onlineLayout.time[1].setVisible(true);
             }
             if(onlineLayout.preFlag[2]){
                 onlineLayout.time[2].setText("已准备");
+                onlineLayout.time[2].setVisible(true);
             }
             if(onlineLayout.preFlag[0]&&onlineLayout.preFlag[1]&&onlineLayout.preFlag[2]){
                 break;//全部都准备好了
             }
         }
         System.out.println("各个玩家都准备好了，可以开始游戏");
+
+
 //        for(int count=0;count<3;count++){
 //            if((count+onlineLayout.priorityNum)%3 == onlineLayout.playerNum){//轮到自己了
 //                for(int i=0;i<4;i++)
