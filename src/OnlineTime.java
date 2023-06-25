@@ -23,30 +23,37 @@ public class OnlineTime extends Thread{
         System.out.println("当前房间人数为"+ (onlineLayout.playerNum+1));
         for (int j = 0; j < 3; j++) {
             if(j != onlineLayout.playerNum)
-                onlineLayout.players[j] = null;
+                onlineLayout.playerNames[j] = null;
         }
+//        把出自己之外的名字置空
         onlineLayout.time[0].setText("未准备");
         onlineLayout.time[1].setText("未准备");
         onlineLayout.time[2].setText("未准备");
         while(true){//进入各玩家的准备阶段
             try {
-                Thread.sleep(10);
+                Thread.sleep(40);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+//            进行一定时间的等待
             for (int j = 0; j < 3; j++) {
-                    if(onlineLayout.players[j] != null){
-                        System.out.println(onlineLayout.players[j]);
+                    if(onlineLayout.playerNames[j] != null){
+                        System.out.println(onlineLayout.playerNames[j]);
                     }
             }
-            if(onlineLayout.players[(onlineLayout.playerNum-1 + 3)%3] != null){//有玩家进来
-                onlineLayout.names[0].setText(onlineLayout.players[(onlineLayout.playerNum-1)%3]);
-                onlineLayout.names[0].setVisible(true);
+//            打印各玩家的姓名
+            if(onlineLayout.playerNames[(onlineLayout.playerNum-1 + 3)%3] != null){//有玩家进来
+                onlineLayout.namesJText[0].setText(onlineLayout.playerNames[(onlineLayout.playerNum-1)%3]);
+                onlineLayout.avatarLabel[0].setVisible(true);
+                onlineLayout.namesJText[0].setVisible(true);
             }
-            if(onlineLayout.players[(onlineLayout.playerNum+1)%3] != null){//有玩家进来
-                onlineLayout.names[2].setText(onlineLayout.players[(onlineLayout.playerNum+1)%3]);
-                onlineLayout.names[2].setVisible(true);
+            if(onlineLayout.playerNames[(onlineLayout.playerNum+1)%3] != null){//有玩家进来
+                onlineLayout.namesJText[2].setText(onlineLayout.playerNames[(onlineLayout.playerNum+1)%3]);
+                onlineLayout.avatarLabel[2].setVisible(true);
+                onlineLayout.namesJText[2].setVisible(true);
             }
+//            检测是否有玩家进入，若有玩家进入则显示其名字以及头像
+
             if(onlineLayout.preFlag[0]){//0号的玩家准备好
                 if(onlineLayout.playerNum == 0){
                     onlineLayout.time[1].setText("已准备");
@@ -58,11 +65,6 @@ public class OnlineTime extends Thread{
                     onlineLayout.time[2].setText("已准备");
                     onlineLayout.time[2].setVisible(true);
                 }
-            }
-            try {
-                Thread.sleep(10);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
             }
             if(onlineLayout.preFlag[1]){//1号的玩家准备好
                 if(onlineLayout.playerNum == 0){
@@ -76,11 +78,6 @@ public class OnlineTime extends Thread{
                     onlineLayout.time[0].setVisible(true);
                 }
             }
-            try {
-                Thread.sleep(10);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
             if(onlineLayout.preFlag[2]){//2号
                 if(onlineLayout.playerNum == 0){
                     onlineLayout.time[0].setText("已准备");
@@ -93,11 +90,7 @@ public class OnlineTime extends Thread{
                     onlineLayout.time[1].setVisible(true);
                 }
             }
-            try {
-                Thread.sleep(10);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+//            检测是否玩家的准备，若准备好则显示已准备字样
             System.out.println("玩家0的准备状态"+ onlineLayout.preFlag[0]);
             System.out.println("玩家1的准备状态"+ onlineLayout.preFlag[1]);
             System.out.println("玩家2的准备状态"+ onlineLayout.preFlag[2]);
@@ -105,8 +98,24 @@ public class OnlineTime extends Thread{
                 break;//全部都准备好了
             }
         }
-        System.out.println("各个玩家都准备好了，可以开始游戏");
+        System.out.println("各个玩家都准备好了，可以发牌");
+        for(int i=0;i<3;i++){
+            onlineLayout.time[i].setVisible(false);
+        }
 
+        while(true){
+            try {
+                Thread.sleep(40);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            if(onlineLayout.player0CardsStr[0] !=null && onlineLayout.lordCardsStr[0] != null) break;
+//            如果本客户端拿到了自己的牌与地主牌，那么就可以退出循环
+        }
+        onlineLayout.CardsInit();//根据两个str数组来初始化所有的牌
+
+
+//        客户端需要先随机一个priority值
 
 //        for(int count=0;count<3;count++){
 //            if((count+onlineLayout.priorityNum)%3 == onlineLayout.playerNum){//轮到自己了

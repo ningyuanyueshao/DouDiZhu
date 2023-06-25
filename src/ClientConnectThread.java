@@ -95,14 +95,14 @@ public class ClientConnectThread extends Thread{
                     else if(strings.length == 3)
                         frame.onlineLayout.playerNum = 2;//房间内已经有两个人
                 }
-                frame.onlineLayout.players[frame.onlineLayout.playerNum] = setupLayout.getPlayerName();
+                frame.onlineLayout.playerNames[frame.onlineLayout.playerNum] = setupLayout.getPlayerName();
                 System.out.println("加入房间并显示当前房间内有多少人");
                 to = null;
                 break;
             case '8':
                 String[] strings1 = from.substring(2).split("-");
                 int newPlayerPosition = Integer.parseInt(strings1[0]);
-                frame.onlineLayout.players[newPlayerPosition] = strings1[1];
+                frame.onlineLayout.playerNames[newPlayerPosition] = strings1[1];
                 System.out.println("有新用户加入房间");
                 to = null;
                 break;
@@ -221,10 +221,19 @@ public class ClientConnectThread extends Thread{
         String[] position2Cards = position2CardsString.split("、");
         String landlordCardsString = cards.substring(thirdSemicolon + 1);
         String[] landlordCards = landlordCardsString.split("、");
-        //public void getCards(String[] playerCards,String[] landlordCards){
-        //
-    //}
-        //发牌只需要发某个人的牌和其他人的牌数就行了
+
+
+        if(frame.onlineLayout.playerNum == 0){
+            frame.onlineLayout.player0CardsStr = position0Cards;
+        }
+        else if(frame.onlineLayout.playerNum == 1){
+            frame.onlineLayout.player1CardsStr = position1Cards;
+        }
+        else {
+            frame.onlineLayout.player2CardsStr = position2Cards;
+        }
+        frame.onlineLayout.lordCardsStr = landlordCards;
+
     }
 
     public void giveChatItemsToServer(String username,String items){
@@ -232,7 +241,6 @@ public class ClientConnectThread extends Thread{
         System.out.println("客户端要给"+username+"的信息为"+items);
         printWriter.println(to);
     }
-
 
     public void giveInviteMessageToWindow(String string) {
         System.out.println("服务器给的信息为" + string);

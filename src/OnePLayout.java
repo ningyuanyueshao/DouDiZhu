@@ -206,7 +206,6 @@ public class OnePLayout extends JPanel implements ActionListener {
             time[1].setText("不要");
         }
 
-
         //如果是出牌按钮
         if(e.getSource()==publishCard[0]){
 

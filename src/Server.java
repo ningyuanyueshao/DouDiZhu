@@ -13,7 +13,7 @@ import java.util.ArrayList;
 public class Server {
     public static void main(String[] args) throws IOException {
         int roomSize = 10; //一开始系统给的房间数
-        int port = 8080;
+        int port = 8081;
         ServerSocket serverSocket = new ServerSocket(port);
         System.out.println("服务器端开始运行");
         ArrayList<Room> roomArrayList = new ArrayList<>();
