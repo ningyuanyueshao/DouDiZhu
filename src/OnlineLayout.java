@@ -159,6 +159,7 @@ public class OnlineLayout extends JPanel implements ActionListener {
 //
         if(e.getSource()==prepare){
             time[1].setText("已准备");//保证自己的编号是1
+            time[1].setVisible(true);
             preFlag[playerNum] = true;
             prepare.setVisible(false);
         }
