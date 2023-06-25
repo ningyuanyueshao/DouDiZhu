@@ -126,7 +126,7 @@ public class Time extends Thread{
                 onePLayout.lordList.get(i).turnFront(); // 地主牌翻看
             }
             else {
-                onePLayout.lordListCopy.get(i).turnRear();
+//                onePLayout.lordListCopy.get(i).turnRear(); bug1 注意如果要盖上地主牌 那么copy不能盖上
                 onePLayout.lordList.get(i).turnRear(); // 地主牌闭合
             }
             onePLayout.lordList.get(i).canClick = true;// 可被点击
