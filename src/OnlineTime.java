@@ -10,7 +10,6 @@ public class OnlineTime extends Thread{
         this.i = i;
     }
     public void run(){
-        int off = Math.abs(onlineLayout.playerNum - 1);//偏移量
         boolean isSetLandlord = false;
         while(true){
             try {
@@ -82,6 +81,9 @@ public class OnlineTime extends Thread{
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+            System.out.println("玩家0的准备状态"+ onlineLayout.preFlag[0]);
+            System.out.println("玩家1的准备状态"+ onlineLayout.preFlag[1]);
+            System.out.println("玩家2的准备状态"+ onlineLayout.preFlag[2]);
             if(onlineLayout.preFlag[0]&&onlineLayout.preFlag[1]&&onlineLayout.preFlag[2]){
                 break;//全部都准备好了
             }
