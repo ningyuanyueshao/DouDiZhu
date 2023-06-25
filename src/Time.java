@@ -4,22 +4,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Time extends Thread{
-    boolean mustPlay = false;//是否是本人的牌权呢？
-    boolean isFirst = false;//如果玩家当地主且这次是第一手出牌 则为true
+    boolean mustPlay = false;// 是否是本人的牌权呢？
+    boolean isFirst = false;// 如果玩家当地主且这次是第一手出牌 则为true
     OnePLayout onePLayout;
     boolean isRun = true;
     int i = 10;
-    public Time(OnePLayout onePLayout,int i){
+    
+    public Time(OnePLayout onePLayout, int i) {
         this.onePLayout = onePLayout;
         this.i = i;
     }
-    public void run(){//自动执行run方法
+    
+    public void run() {//自动执行run方法
         while(i>-1 && isRun){
             System.out.println("1");
             onePLayout.time[1].setText("倒计时:"+ i--);
             second(1);//等一秒
         }
-        if(i==-1){//正常终结，说明超时
+        if(i == -1){//正常终结，说明超时
             onePLayout.time[1].setText("不抢");
         }
         onePLayout.landlord[0].setVisible(false);
@@ -31,12 +33,12 @@ public class Time extends Thread{
             // 得到地主牌
             onePLayout.playerList[1].addAll(onePLayout.lordList);
             openlord(true);
-            second(2);// 等待五秒
+            second(2); // 等待五秒
             Common.order(onePLayout.playerList[1]);
             Common.rePosition(onePLayout, onePLayout.playerList[1], 1);
             setlord(1);
-            mustPlay = true;//这是玩家的牌权
-            isFirst = true;//这是玩家第一次出牌
+            mustPlay = true; // 这是玩家的牌权
+            isFirst = true; // 这是玩家第一次出牌
         }
         else{
             // 电脑选地主
@@ -44,8 +46,8 @@ public class Time extends Thread{
                     .getScore(onePLayout.playerList[2])) {
                 onePLayout.time[2].setText("抢地主");
                 onePLayout.time[2].setVisible(true);
-                setlord(2);// 设定地主
-                openlord(true);//把地主牌翻开
+                setlord(2); // 设定地主
+                openlord(true); // 把地主牌翻开
                 second(3);
                 onePLayout.playerList[2].addAll(onePLayout.lordList);
                 Common.order(onePLayout.playerList[2]);
@@ -108,6 +110,7 @@ public class Time extends Thread{
             }
         }
     }
+    
     public void second(int i){
         try {
             Thread.sleep(i * 1000);
@@ -115,6 +118,7 @@ public class Time extends Thread{
             e.printStackTrace();
         }
     }
+    
     public void openlord(boolean is) {
         for (int i = 0; i < 3; i++) {
             if (is) {
@@ -128,6 +132,7 @@ public class Time extends Thread{
             onePLayout.lordList.get(i).canClick = true;// 可被点击
         }
     }
+    
     public void setlord(int i) {
         Point point = new Point();
         if (i == 1)// 我是地主
@@ -161,7 +166,7 @@ public class Time extends Thread{
             Common.hideCards(onePLayout.currentList[player]);
         if (player == 1)
             // 如果是我，n秒到后直接出最小的牌
-            //Todo 如果是自己的牌权，超时则必须要自己出牌
+            // 如果是自己的牌权，超时则必须要自己出牌
         {
             int i = n;
             while (onePLayout.nextPlayer == false && i >= 0) {
@@ -188,16 +193,14 @@ public class Time extends Thread{
     }
     public boolean win(){
         for(int i=0;i<3;i++){
-            if(onePLayout.playerList[i].size()==0)
-            {
+            if(onePLayout.playerList[i].size()==0) {
                 for(int j=0;j<3;j++){
                     for(int k=0;k<onePLayout.playerList[j].size();k++){
                         onePLayout.playerList[j].get(k).turnFront();
                     }
                 }
                 String s;
-                if(i==1)
-                {
+                if(i==1) {
                     s="恭喜你，胜利了!";
                 }else {
                     s="恭喜电脑"+i+",赢了! 你的智商有待提高哦";
@@ -219,7 +222,7 @@ public class Time extends Thread{
 
     }
     public void ShowCard(int role) {
-        Model model = Common.getModel(onePLayout.playerList[role]);
+        Model model = Model.getModel(onePLayout.playerList[role]);
         // 待走的牌
         java.util.List<String> list = new ArrayList<String>();
         // 如果是主动出牌 即自己的牌权
@@ -377,24 +380,18 @@ public class Time extends Thread{
             card.turnFront();
     }
     public void AI_1(List<String> model,List<SinglePoker> player,List<String> list,int role){
-        //顶家
-        if((role+1)%3==onePLayout.dizhuFlag)
-        {
-
-            for(int i=0,len=model.size();i<len;i++)
-            {
-                if(getValueInt(model.get(i))>Common.getValue(player.get(0)))
-                {
+        // 顶家
+        if((role+1)%3==onePLayout.dizhuFlag) {
+            for(int i=0,len=model.size();i<len;i++) {
+                if(getValueInt(model.get(i))>Common.getValue(player.get(0))) {
                     list.add(model.get(i));
                     break;
                 }
             }
-        }else {//偏家
-
-            for(int len=model.size(),i=len-1;i>=0;i--)
-            {
-                if(getValueInt(model.get(i))>Common.getValue(player.get(0)))
-                {
+        }else {
+        	// 偏家
+            for(int len=model.size(),i=len-1;i>=0;i--) {
+                if(getValueInt(model.get(i))>Common.getValue(player.get(0))) {
                     list.add(model.get(i));
                     break;
                 }
@@ -409,8 +406,7 @@ public class Time extends Thread{
         int len1=model1.size();
         int len2=model2.size();
         //如果有王直接炸了
-        if(len1>0&&model1.get(0).length()<10)
-        {
+        if(len1>0&&model1.get(0).length()<10) {
             list.add(model1.get(0));
             System.out.println("王炸");
             return;
@@ -487,6 +483,7 @@ public class Time extends Thread{
             }
         }
     }
+    
     public List<SinglePoker> getCardByName(List<SinglePoker> list, String n) {
         String[] name = n.split(",");
         List<SinglePoker> cardsList = new ArrayList<SinglePoker>();

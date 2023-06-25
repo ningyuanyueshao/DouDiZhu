@@ -10,24 +10,16 @@ public class Common {
             double k=(1.0)*(to.y-from.y)/(to.x-from.x);
             double b=to.y-to.x*k;
             int flag=0;//判断向左还是向右移动步幅
-            if(from.x<to.x){
-
-                if(t%3==2){
-                    flag=3;
-                }else{
-                    flag=10;
-                }
-            }else {
-                if(t%3==2){
-                    flag=-3;
-                }else{
-                    flag=-10;
-                }
+            if(from.x<to.x) {
+                if(t%3 == 2) { flag = 3; }
+                else { flag = 10; }
+            } else {
+                if(t%3 == 2){ flag = -3; }
+                else { flag = -10; }
             }
             for(int i=from.x;Math.abs(i-to.x)>20;i+=flag)
             {
                 double y=k*i+b;//这里主要用的数学中的线性函数
-                System.out.println(y+"="+k+"*"+i+"+"+b);
                 card.setLocation(i,(int)y);
 
 //                try {
@@ -48,50 +40,40 @@ public class Common {
             public int compare(SinglePoker o1, SinglePoker o2) {
 
                 // TODO Auto-generated method stub
-                int a1=Integer.parseInt(o1.name.substring(0, 1));//花色
-
-                int a2=Integer.parseInt(o2.name.substring(0,1));
-                int b1=Integer.parseInt(o1.name.substring(2,o1.name.length()));//数值
-                int b2=Integer.parseInt(o2.name.substring(2,o2.name.length()));
-                int flag=0;
+                int a1 = Integer.parseInt(o1.name.substring(0, 1));//花色
+                int a2 = Integer.parseInt(o2.name.substring(0, 1));
+                int b1 = Integer.parseInt(o1.name.substring(2, o1.name.length()));//数值
+                int b2 = Integer.parseInt(o2.name.substring(2, o2.name.length()));
+                int flag = 0;
                 //如果是王的话
-                if(a1==5) b1+=100;
-                if(a1==5&&b1==1) b1+=50;
-                if(a2==5) b2+=100;
-                if(a2==5&&b2==1) b2+=50;
+                if(a1 == 5) b1 += 100;
+                if(a1 == 5 && b1 == 1) b1 += 50;
+                if(a2 == 5) b2 += 100;
+                if(a2 == 5 && b2 == 1) b2 += 50;
                 //如果是A或者2
-                if(b1==1) b1+=20;
-                if(b2==1) b2+=20;
-                if(b1==2) b1+=30;
-                if(b2==2) b2+=30;
-                flag=b2-b1;
-                if(flag==0){
-
-                    return a2-a1;
-                }
-                else {
-
-                    return flag;
-                }
-
+                if(b1 == 1) b1 += 20;
+                if(b2 == 1) b2 += 20;
+                if(b1 == 2) b1 += 30;
+                if(b2 == 2) b2 += 30;
+                flag = b2-b1;
+                if(flag == 0) { return a2 - a1; }
+                else { return flag; }
             }
         });
     }
     //重新定位 flag代表电脑1 ,2 或者是我
-    public static void rePosition(OnePLayout onePLayout,List<SinglePoker> list,int flag){
-        Point p=new Point();
-        if(flag==0)
-        {
-            p.x=250;
-            p.y=(760/2)-(list.size()+1)*15/2;
+    public static void rePosition(OnePLayout onePLayout,List<SinglePoker> list, int flag){
+        Point p = new Point();
+        if(flag == 0) {
+            p.x = 250;
+            p.y = (760 / 2) - (list.size() + 1) * 15 / 2;
         }
-        if(flag==1)
-        {//我的排序 _y=450 width=830
+        if(flag==1) {
+        //我的排序 _y=450 width=830
             p.x=(1600/2)-(list.size()+1)*21/2;
             p.y=700;
         }
-        if(flag==2)
-        {
+        if(flag==2) {
             p.x=1550;
             p.y=(760/2)-(list.size()+1)*15/2;
         }
@@ -166,217 +148,24 @@ public class Common {
             }
         }
     }
+    
     public static void hideCards(List<SinglePoker> list){
         for(int i=0,len=list.size();i<len;i++){
             list.get(i).setVisible(false);
         }
     }
-    public static Model getModel(List<SinglePoker> list){
-        //先复制一个list
-        List<SinglePoker> list2=new ArrayList<SinglePoker>(list);
-        Model model=new Model();
-        //------先拆炸弹
-        Common.getBoomb(list2, model); //ok
-        //------拆3带
-        Common.getThree(list2, model);
-        //拆飞机
-        Common.getPlane(list2, model);
-        //------拆对子
-        Common.getTwo(list2, model);
-        //拆连队
-        Common.getTwoTwo(list2, model);
-        //拆顺子
-        Common.get123(list2, model);
-        //拆单
-        Common.getSingle(list2, model);
-        return model;
-    }
-    public static void getBoomb(List<SinglePoker> list,Model model){
-        List<SinglePoker> del=new ArrayList<SinglePoker>();//要删除的Cards
-        //王炸
-        if(list.size()>=2 &&Common.getColor(list.get(0))==5 && Common.getColor(list.get(1))==5)
-        {
-            model.a4.add(list.get(0).name+","+list.get(1).name); //按名字加入
-            del.add(list.get(0));
-            del.add(list.get(1));
-        }
-        //如果王不构成炸弹咋先拆单
-        if(Common.getColor(list.get(0))==5&&Common.getColor(list.get(1))!=5)
-        {
-            del.add(list.get(0));
-            model.a1.add(list.get(0).name);
-        }
-        list.removeAll(del);
-        //一般的炸弹
-        for(int i=0,len=list.size();i<len;i++){
-            if(i+3<len && Common.getValue(list.get(i))==Common.getValue(list.get(i+3)))
-            {
-                String s=list.get(i).name+",";
-                s+=list.get(i+1).name+",";
-                s+=list.get(i+2).name+",";
-                s+=list.get(i+3).name;
-                model.a4.add(s);
-                for(int j=i;j<=i+3;j++)
-                    del.add(list.get(j));
-                i=i+3;
-            }
-        }
-        list.removeAll(del);
-    }
+    
 
-    public static void getThree(List<SinglePoker> list,Model model){
-        List<SinglePoker> del=new ArrayList<SinglePoker>();//要删除的Cards
-        //连续3张相同
-        for(int i=0,len=list.size();i<len;i++){
-            if(i+2<len&&Common.getValue(list.get(i))==Common.getValue(list.get(i+2)))
-            {
-                String s=list.get(i).name+",";
-                s+=list.get(i+1).name+",";
-                s+=list.get(i+2).name;
-                model.a3.add(s);
-                for(int j=i;j<=i+2;j++)
-                    del.add(list.get(j));
-                i=i+2;
-            }
-        }
-        list.removeAll(del);
-    }
-    public static void getTwo(List<SinglePoker> list,Model model){
-        List<SinglePoker> del=new ArrayList<SinglePoker>();//要删除的Cards
-        //连续2张相同
-        for(int i=0,len=list.size();i<len;i++){
-            if(i+1<len&&Common.getValue(list.get(i))==Common.getValue(list.get(i+1)))
-            {
-                String s=list.get(i).name+",";
-                s+=list.get(i+1).name;
-                model.a2.add(s);
-                for(int j=i;j<=i+1;j++)
-                    del.add(list.get(j));
-                i=i+1;
-            }
-        }
-        list.removeAll(del);
-    }
+    
 
-    public static void getSingle(List<SinglePoker> list,Model model){
-        List<SinglePoker> del=new ArrayList<SinglePoker>();//要删除的Cards
-        //1
-        for(int i=0,len=list.size();i<len;i++){
-            model.a1.add(list.get(i).name);
-            del.add(list.get(i));
-        }
-        list.removeAll(del);
-    }
-    public static void getPlane(List<SinglePoker> list,Model model){
-        List<String> del=new ArrayList<String>();//要删除的Cards
-        //从model里面的3带找
-        List<String> l=model.a3;
-        if(l.size()<2)
-            return ;
-        Integer s[]=new Integer[l.size()];
-        for(int i=0,len=l.size();i<len;i++){
-            String []name=l.get(i).split(",");
-            s[i]=Integer.parseInt(name[0].substring(2,name[0].length()));
-        }
-        for(int i=0,len=l.size();i<len;i++){
-            int k=i;
-            for(int j=i;j<len;j++)
-            {
-                if(s[i]-s[j]==j-i)
-                    k=j;
-            }
-            if(k!=i)
-            {//说明从i到k是飞机
-                String ss="";
-                for(int j=i;j<k;j++)
-                {
-                    ss+=l.get(j)+",";
-                    del.add(l.get(j));
-                }
-                ss+=l.get(k);
-                model.a111222.add(ss);
-                del.add(l.get(k));
-                i=k;
-            }
-        }
-        l.removeAll(del);
-    }
-
-    public static void getTwoTwo(List<SinglePoker> list,Model model){
-        List<String> del=new ArrayList<String>();//要删除的Cards
-        //从model里面的对子找
-        List<String> l=model.a2;
-        if(l.size()<3)
-            return ;
-        Integer s[]=new Integer[l.size()];
-        for(int i=0,len=l.size();i<len;i++){
-            String []name=l.get(i).split(",");
-            s[i]=Integer.parseInt(name[0].substring(2,name[0].length()));
-        }
-        //s0,1,2,3,4  13,9,8,7,6
-        for(int i=0,len=l.size();i<len;i++){
-            int k=i;
-            for(int j=i;j<len;j++)
-            {
-                if(s[i]-s[j]==j-i)
-                    k=j;
-            }
-            if(k-i>=2)//k=4 i=1
-            {//说明从i到k是连队
-                String ss="";
-                for(int j=i;j<k;j++)
-                {
-                    ss+=l.get(j)+",";
-                    del.add(l.get(j));
-                }
-                ss+=l.get(k);
-                model.a112233.add(ss);
-                del.add(l.get(k));
-                i=k;
-            }
-        }
-        l.removeAll(del);
-    }
-
-    public static void get123(List<SinglePoker> list,Model model){
-        List<SinglePoker> del=new ArrayList<SinglePoker>();//要删除的Cards
-        if(list.size()>0&&(Common.getValue(list.get(0))<7 ||Common.getValue(list.get(list.size()-1))>10))
-            return;
-        if(list.size()<5)
-            return;
-        for(int i=0,len=list.size();i<len;i++)
-        {
-            int k=i;
-            for(int j=i;j<len;j++){
-                if(Common.getValue(list.get(i))-Common.getValue(list.get(j))==j-i)
-                {
-                    k=j;
-                }
-            }
-            if(k-i>=4)
-            {
-                String s="";
-                for(int j=i;j<k;j++)
-                {
-                    s+=list.get(j).name+",";
-                    del.add(list.get(j));
-                }
-                s+=list.get(k).name;
-                del.add(list.get(k));
-                model.a123.add(s);
-                i=k;
-            }
-        }
-        list.removeAll(del);
-    }
-
-    public static CardType jugdeType(List<SinglePoker> list){
+    public static CardType jugdeType(List<SinglePoker> list) {
         //因为之前排序过所以比较好判断
         int len=list.size();
         //单牌,对子，3不带，4个一样炸弹
         if(len<=4)
         {	//如果第一个和最后个相同，说明全部相同
-            if(list.size()>0&&Common.getValue(list.get(0))==Common.getValue(list.get(len-1)))
+            if(list.size() > 0 
+            		&& Common.getValue(list.get(0)) == Common.getValue(list.get(len - 1)))
             {
                 switch (len) {
                     case 1:
@@ -390,7 +179,8 @@ public class Common {
                 }
             }
             //双王,炸弹
-            if(len==2&&Common.getColor(list.get(1))==5&&Common.getColor(list.get(0))==5)
+            if(len == 2 && Common.getColor(list.get(1)) == 5 
+            		&& Common.getColor(list.get(0)) == 5)
                 return CardType.c4;
             //当第一个和最后个不同时,3带1
             if(len==4 &&((Common.getValue(list.get(0))==Common.getValue(list.get(len-2)))||
@@ -446,7 +236,7 @@ public class Common {
         }
         return CardType.c0;
     }
-    public static List getOrder2(List<SinglePoker> list){
+    public static List<SinglePoker> getOrder2(List<SinglePoker> list){
         List<SinglePoker> list2=new ArrayList<SinglePoker>(list);
         List<SinglePoker> list3=new ArrayList<SinglePoker>();
         //	List<Integer> list4=new ArrayList<Integer>();
@@ -454,8 +244,7 @@ public class Common {
         int a[]=new int[20];//记录数
         for(int i=0;i<20;i++)
             a[i]=0;
-        for(int i=0;i<len;i++)
-        {
+        for(int i=0;i<len;i++) {
             a[Common.getValue(list2.get(i))]++;
         }
         int max=0;
@@ -478,23 +267,23 @@ public class Common {
     }
 
     public static int checkCards(List<SinglePoker> c,List<SinglePoker>[] current){
-        //找出当前最大的牌是哪个电脑出的,c是点选的牌
+        // 找出当前最大的牌是哪个电脑出的,c是点选的牌
         List<SinglePoker> currentlist=(current[0].size()>0)?current[0]:current[2];
         CardType cType=Common.jugdeType(c);
-        //如果张数不同直接过滤 但是炸弹不会直接return 0
+        // 如果张数不同直接过滤 但是炸弹不会直接return 0
         if(cType!=CardType.c4&&c.size()!=currentlist.size())
             return 0;
-        //比较我的出牌类型
-        if(Common.jugdeType(c)!=Common.jugdeType(currentlist))//两个类型不等的话
-        {
-            if(cType!=CardType.c4)//如果cType不是炸弹的话 直接不能出牌
+        // 比较我的出牌类型
+        if(Common.jugdeType(c)!=Common.jugdeType(currentlist)) {
+        	// 两个类型不等的话
+            if(cType!=CardType.c4)// 如果cType不是炸弹的话 直接不能出牌
                 return 0;
-            else{//如果cType是炸弹，那么肯定可以出牌
+            else{// 如果cType是炸弹，那么肯定可以出牌
                 return 1;
             }
         }
-        //比较出的牌是否要大
-        //王炸弹
+        // 比较出的牌是否要大
+        // 王炸弹
         if(cType==CardType.c4)
         {
             if(c.size()==2)
@@ -502,16 +291,13 @@ public class Common {
             if(currentlist.size()==2)
                 return 0;
         }
-        //单牌,对子,3带,4炸弹
+        // 单牌,对子,3带,4炸弹
         if(cType==CardType.c1||cType==CardType.c2||cType==CardType.c3||cType==CardType.c4){
-            if(Common.getValue(c.get(0))<=Common.getValue(currentlist.get(0)))
-            {
+            if(Common.getValue(c.get(0))<=Common.getValue(currentlist.get(0))) {
                 return 0;
-            }else {
-                return 1;
-            }
+            } else { return 1; }
         }
-        //顺子,连队，飞机裸
+        // 顺子,连队，飞机裸
         if(cType==CardType.c123||cType==CardType.c1122||cType==CardType.c111222)
         {
             if(Common.getValue(c.get(0))<=Common.getValue(currentlist.get(0)))
@@ -519,13 +305,14 @@ public class Common {
             else
                 return 1;
         }
-        //按重复多少排序
-        //3带1,3带2 ,飞机带单，双,4带1,2,只需比较第一个就行，独一无二的
-        if(cType==CardType.c31||cType==CardType.c32||cType==CardType.c411||cType==CardType.c422
-                ||cType==CardType.c11122234||cType==CardType.c1112223344){
-            List<SinglePoker> a1=Common.getOrder2(c); //我出的牌
-            List<SinglePoker> a2=Common.getOrder2(currentlist);//当前最大牌
-            if(Common.getValue(a1.get(0))<Common.getValue(a2.get(0)))
+        // 按重复多少排序
+        // 3带1,3带2 ,飞机带单，双,4带1,2,只需比较第一个就行，独一无二的
+        if(cType == CardType.c31 || cType == CardType.c32 
+        		|| cType == CardType.c411 || cType == CardType.c422
+                || cType == CardType.c11122234 || cType==CardType.c1112223344){
+            List<SinglePoker> a1 = Common.getOrder2(c); // 我出的牌
+            List<SinglePoker> a2 = Common.getOrder2(currentlist);// 当前最大牌
+            if(Common.getValue(a1.get(0)) < Common.getValue(a2.get(0)))
                 return 0;
         }
         return 1;

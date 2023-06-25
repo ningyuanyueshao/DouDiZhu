@@ -1,5 +1,3 @@
-
-
 public class Card {
     private String suit;//花色
     private String rank;//大小
