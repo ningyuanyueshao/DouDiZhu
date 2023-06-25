@@ -206,37 +206,53 @@ public class OnlineLayout extends JPanel implements ActionListener {
             index = (pokerColor -1)*13 + pokerNum;
             lordList.add(cards[index]);
             cards[index].turnRear();
-
+            cards[index].setVisible(true);
             lordCardCopy[i] = new SinglePoker(cards[index]);
             lordListCopy.add(lordCardCopy[i]);
             lordCardCopy[i].turnRear();
+            lordCardCopy[i].setVisible(true);
         }
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 17; j++) {
                 if(playerNum == 0){
                     Common.move(playerList[0].get(j),playerList[0].get(j).getLocation(),new Point(550+((j-1)*3+2)*12,700),(j-1)*3+2);
                     playerList[0].get(j).turnFront();
+                    playerList[0].get(j).setVisible(true);
                     setComponentZOrder(playerList[0].get(j),0);
                     Common.move(playerList[1].get(j),playerList[1].get(j).getLocation(),new Point(1550,280+((j-1)*3+3)*6),(j-1)*3+3);
+                    playerList[1].get(j).turnRear();
+                    playerList[1].get(j).setVisible(true);
                     setComponentZOrder(playerList[1].get(j),0);
                     Common.move(playerList[2].get(j),playerList[1].get(j).getLocation(),new Point(250,280+((j-1)*3+1)*6),(j-1)*3+1);
+                    playerList[2].get(j).turnRear();
+                    playerList[2].get(j).setVisible(true);
                     setComponentZOrder(playerList[2].get(j),0);
                 }else if(playerNum == 1){
                     Common.move(playerList[1].get(j),playerList[1].get(j).getLocation(),new Point(550+((j-1)*3+2)*12,700),(j-1)*3+2);
                     setComponentZOrder(playerList[1].get(j),0);
                     playerList[1].get(j).turnFront();
+                    playerList[1].get(j).setVisible(true);
                     Common.move(playerList[2].get(j),playerList[2].get(j).getLocation(),new Point(1550,280+((j-1)*3+3)*6),(j-1)*3+3);
                     setComponentZOrder(playerList[2].get(j),0);
+                    playerList[2].get(j).turnRear();
+                    playerList[2].get(j).setVisible(true);
                     Common.move(playerList[0].get(j),playerList[0].get(j).getLocation(),new Point(250,280+((j-1)*3+1)*6),(j-1)*3+1);
                     setComponentZOrder(playerList[0].get(j),0);
+                    playerList[0].get(j).turnRear();
+                    playerList[0].get(j).setVisible(true);
                 }else{
                     Common.move(playerList[2].get(j),playerList[0].get(j).getLocation(),new Point(550+((j-1)*3+2)*12,700),(j-1)*3+2);
                     setComponentZOrder(playerList[2].get(j),0);
                     playerList[2].get(j).turnFront();
+                    playerList[2].get(j).setVisible(true);
                     setComponentZOrder(playerList[0].get(j),0);
                     Common.move(playerList[0].get(j),playerList[1].get(j).getLocation(),new Point(1550,280+((j-1)*3+3)*6),(j-1)*3+3);
+                    playerList[0].get(j).turnRear();
+                    playerList[0].get(j).setVisible(true);
                     setComponentZOrder(playerList[0].get(j),0);
                     Common.move(playerList[1].get(j),playerList[1].get(j).getLocation(),new Point(250,280+((j-1)*3+1)*6),(j-1)*3+1);
+                    playerList[1].get(j).turnRear();
+                    playerList[1].get(j).setVisible(true);
                     setComponentZOrder(playerList[1].get(j),0);
                 }
             }
@@ -244,8 +260,12 @@ public class OnlineLayout extends JPanel implements ActionListener {
         for (int i = 0; i <=2 ; i++) {
             Common.move(lordList.get(i), lordList.get(i).getLocation(),new Point(300+i*80,50),53);
             Common.move(lordList.get(i), lordList.get(i).getLocation(),new Point(300+i*80,50),53);
+            lordList.get(i).turnRear();
+            lordList.get(i).setVisible(true);
             setComponentZOrder(lordCardCopy[i], 0);
             setComponentZOrder(cards[i], 0);
+            lordListCopy.get(i).turnRear();
+            lordListCopy.get(i).setVisible(true);
         }
         //    经过与server交互 得到了LordList和LordListcopy 以及其中一个playerCard[i] 其他玩家的手牌拿不到，名称随便赋，只要背面朝上即可
 //    并且要设置每张牌的zOrder 因为server返回的牌值是已经排好序的，因此不需要像单机进行order
