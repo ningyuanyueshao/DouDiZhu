@@ -28,6 +28,7 @@ public class OnlineLayout extends JPanel implements ActionListener {
     JButton publishCard[] = new JButton[2];//出牌按钮
     JButton prepare;//准备按钮
     JTextField time[] = new JTextField[3];//三个玩家的计时器
+    JTextField names[] = new JTextField[3];//三个玩家的名字显示
     JLabel dizhu; //地主图标
 
     OnlineTime t;
@@ -97,10 +98,17 @@ public class OnlineLayout extends JPanel implements ActionListener {
             time[i].setFont(new Font("Serif",Font.PLAIN,20));
             time[i].setVisible(false);
             add(time[i]);
+            names[i]=new JTextField("游戏玩家");
+            names[i].setFont(new Font("Serif",Font.PLAIN,20));
+            names[i].setVisible(false);
+            add(names[i]);
         }
         time[0].setBounds(350, 450, 100, 50);
         time[1].setBounds(850, 550, 150, 50);
         time[2].setBounds(1400, 450, 100, 50);
+        names[0].setBounds(300,300,100,50);
+        names[1].setBounds(800,400,100,50);
+        names[2].setBounds(1300,300,100,50);
         dizhu = new JLabel(new ImageIcon("src/img/dizhu.png"));
         dizhu.setVisible(false);
         dizhu.setSize(40,40);
