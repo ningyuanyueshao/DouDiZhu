@@ -25,6 +25,11 @@ public class OnlineTime extends Thread{
         onlineLayout.time[1].setText("未准备");
         onlineLayout.time[2].setText("未准备");
         while(true){//进入各玩家的准备阶段
+            try {
+                Thread.sleep(10);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
             if(onlineLayout.preFlag[0]){//座位0的玩家准备好
                 onlineLayout.time[0].setText("已准备");
                 onlineLayout.time[0].setVisible(true);//置为可见
