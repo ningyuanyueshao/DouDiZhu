@@ -39,6 +39,12 @@ public class OnlineLayout extends JPanel implements ActionListener {
     JButton prepare;//准备按钮
     JTextField time[] = new JTextField[3];//三个玩家的计时器
     JTextField namesJText[] = new JTextField[3];//三个玩家的名字显示
+
+    JTextField leftPokersNum = new JTextField();
+    JTextField rightPokerNum = new JTextField();
+    SinglePoker nullCardOne = new SinglePoker("1-1",false);//用来放在两侧
+    SinglePoker nullCardTwo = new SinglePoker("1-1",false);
+
     JLabel dizhu; //地主图标
 
     OnlineTime t;
@@ -49,8 +55,8 @@ public class OnlineLayout extends JPanel implements ActionListener {
         SwingUtilities.invokeLater(new onLineNewTimer(this,10));//开启新的线程 进行准备 发牌 叫分 游戏
         CardsInit();//不在进程中初始化cards 试试能不能在屏幕中显示 说明可以显示
 //        getLord();
-        setBackground();
-        add(backgroundLabel);
+//        setBackground();
+//        add(backgroundLabel);
     }
     public void setBackground(){//设置背景图片
         int width = Toolkit.getDefaultToolkit().getScreenSize().width;
@@ -135,6 +141,10 @@ public class OnlineLayout extends JPanel implements ActionListener {
         for(int i=0;i<3;i++){
             playerList[i] = new ArrayList<>();//初始化每个人的牌
         }
+        nullCardOne.setLocation(300,400);
+        nullCardTwo.setLocation(1400,400);
+        add(nullCardOne);
+        add(nullCardTwo);
     }
     public void CardsInit(){//把cards数组进行初始化
         int count = 0;
@@ -144,7 +154,7 @@ public class OnlineLayout extends JPanel implements ActionListener {
                 cards[count] = new SinglePoker(i+"-"+j,false);
                 cards[count].setLocation(300+(i*20),50);
                 add(cards[count]);//会不会是因为cards没有加入到jpanel里面去导致显示不出来?
-                cards[count].setVisible(true);
+                cards[count].setVisible(false);//先不让所有的cards显示
                 count++;
             }
         }
@@ -153,7 +163,7 @@ public class OnlineLayout extends JPanel implements ActionListener {
             cards[count] = new SinglePoker("5-"+i,false);
             cards[count].setLocation(400,50);
             add(cards[count]);
-            cards[count].setVisible(true);
+            cards[count].setVisible(false);
             count++;
         }
     }
@@ -219,6 +229,10 @@ public class OnlineLayout extends JPanel implements ActionListener {
                 nullCardsTwo[i] = new SinglePoker("1-1",false);
                 playerList[2].add(nullCardsTwo[i]);
             }
+            leftPokersNum.setText(Integer.toString(playerList[(playerNum +2)%3].size()));
+            leftPokersNum.setVisible(true);//显示牌张数
+            rightPokerNum.setText(Integer.toString(playerList[(playerNum +1)%3].size()));
+            rightPokerNum.setVisible(true);
         }
         else if(playerNum == 1){
             for (int i = 0; i < 17; i++) {
@@ -273,61 +287,29 @@ public class OnlineLayout extends JPanel implements ActionListener {
                     Common.move(playerList[0].get(j),playerList[0].get(j).getLocation(),new Point(550+((j-1)*3+2)*12,700),(j-1)*3+2);
                     playerList[0].get(j).turnFront();
                     playerList[0].get(j).setVisible(true);
-//                    setComponentZOrder(playerList[0].get(j),0);
-
-                    Common.move(playerList[1].get(j),playerList[1].get(j).getLocation(),new Point(1550,280+((j-1)*3+3)*6),(j-1)*3+3);
-                    playerList[1].get(j).turnRear();
-                    playerList[1].get(j).setVisible(true);
-//                    setComponentZOrder(playerList[1].get(j),0);
-
-                    Common.move(playerList[2].get(j),playerList[2].get(j).getLocation(),new Point(250,280+((j-1)*3+1)*6),(j-1)*3+1);
-                    playerList[2].get(j).turnRear();
-                    playerList[2].get(j).setVisible(true);
-//                    setComponentZOrder(playerList[2].get(j),0);
+                    setComponentZOrder(playerList[0].get(j),0);
                 }
                 else if(playerNum == 1){//若本client的playerNum是1 则从左至右为012
                     Common.move(playerList[1].get(j),playerList[1].get(j).getLocation(),new Point(550+((j-1)*3+2)*12,700),(j-1)*3+2);
 
                     playerList[1].get(j).turnFront();
                     playerList[1].get(j).setVisible(true);
-//                    setComponentZOrder(playerList[1].get(j),0);
-
-                    Common.move(playerList[2].get(j),playerList[2].get(j).getLocation(),new Point(1550,280+((j-1)*3+3)*6),(j-1)*3+3);
-                    playerList[2].get(j).turnRear();
-                    playerList[2].get(j).setVisible(true);
-//                    setComponentZOrder(playerList[2].get(j),0);
-
-                    Common.move(playerList[0].get(j),playerList[0].get(j).getLocation(),new Point(250,280+((j-1)*3+1)*6),(j-1)*3+1);
-                    playerList[0].get(j).turnRear();
-                    playerList[0].get(j).setVisible(true);
-//                    setComponentZOrder(playerList[0].get(j),0);
+                    setComponentZOrder(playerList[1].get(j),0);
                 }
                 else{//若本client的playerNum是2 则从左至右为120
                     Common.move(playerList[2].get(j),playerList[2].get(j).getLocation(),new Point(550+((j-1)*3+2)*12,700),(j-1)*3+2);
                     playerList[2].get(j).turnFront();
                     playerList[2].get(j).setVisible(true);
-//                    setComponentZOrder(playerList[2].get(j),0);
-
-                    Common.move(playerList[0].get(j),playerList[0].get(j).getLocation(),new Point(1550,280+((j-1)*3+3)*6),(j-1)*3+3);
-                    playerList[0].get(j).turnRear();
-                    playerList[0].get(j).setVisible(true);
-//                    setComponentZOrder(playerList[0].get(j),0);
-
-                    Common.move(playerList[1].get(j),playerList[1].get(j).getLocation(),new Point(250,280+((j-1)*3+1)*6),(j-1)*3+1);
-                    playerList[1].get(j).turnRear();
-                    playerList[1].get(j).setVisible(true);
-//                    setComponentZOrder(playerList[1].get(j),0);
+                    setComponentZOrder(playerList[2].get(j),0);
                 }
             }
             try {
-                Thread.sleep(3 * 1000);
+                Thread.sleep(1 * 1000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            for(int i=0;i<3;i++){
-                Common.order(playerList[i]);
-                rePosition(this,playerList[i],i);//重新定位
-            }
+            Common.order(playerList[playerNum]);
+            rePosition(this,playerList[playerNum],1);
         //设置地主牌的位置和z轴顺序
         for (int i = 0; i <=2 ; i++) {
             Common.move(lordList.get(i), lordList.get(i).getLocation(),new Point(300+i*80,50),53);
@@ -345,30 +327,28 @@ public class OnlineLayout extends JPanel implements ActionListener {
         frame.repaint();
         System.out.println("窗口已经刷新");
     }
-    public void rePosition(OnlineLayout onlineLayout,List<SinglePoker> list,int flag){
-        Point p=new Point();
-        if(flag==0)
-        {
-            p.x=50;
-            p.y=(450/2)-(list.size()+1)*15/2;
+    public static void rePosition(OnlineLayout onlineLayout,List<SinglePoker> list, int flag){
+        Point p = new Point();
+        if(flag == 0) {
+            p.x = 250;
+            p.y = (760 / 2) - (list.size() + 1) * 15 / 2;
         }
-        if(flag==1)
-        {//我的排序 _y=450 width=830
-            p.x=(800/2)-(list.size()+1)*21/2;
-            p.y=450;
+        if(flag==1) {
+            //我的排序 _y=450 width=830
+            p.x=(1600/2)-(list.size()+1)*21/2;
+            p.y=700;
         }
-        if(flag==2)
-        {
-            p.x=700;
-            p.y=(450/2)-(list.size()+1)*15/2;
+        if(flag==2) {
+            p.x=1550;
+            p.y=(760/2)-(list.size()+1)*15/2;
         }
         int len=list.size();
         for(int i=0;i<len;i++){
             SinglePoker card=list.get(i);
             Common.move(card, card.getLocation(), p,10);
-//            setComponentZOrder(card, 0);
-            if(flag==1)p.x+=21;
-            else p.y+=15;
+            onlineLayout.setComponentZOrder(card, 0);
+            if(flag==1)p.x+=34;
+            else p.y+=20;
         }
     }
 }

@@ -178,6 +178,7 @@ public class Time extends Thread{
             }
             if (i == -1) {
                 onePLayout.time[1].setText("超时");
+
             }
             onePLayout.nextPlayer = false;
         }
