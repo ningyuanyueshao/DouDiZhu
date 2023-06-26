@@ -110,7 +110,7 @@ public class ClientConnectThread extends Thread{
                 givePrepareToFrame(from.charAt(2));
                 System.out.println("有人准备就绪");
                 to = null;
-                break;
+                break;//
             case 'b':
                 getCards(from.substring(from.indexOf(':')+1));
                 to = null;

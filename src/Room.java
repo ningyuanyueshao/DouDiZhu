@@ -74,6 +74,7 @@ public class Room{
         }
         List<Card> landlordCards = deck.deal(3);
         for (int i = 0; i < 3; i++) {
+            System.out.println("向座位"+i+"的玩家发牌");
             this.giveTheCards(clientThreads[i],tempList,landlordCards);
         }
     }//给所有线程发牌
