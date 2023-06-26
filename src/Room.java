@@ -9,7 +9,7 @@ import java.util.List;
 public class Room{
     int roomNumber;//房间号
     int playerSize; //当前房间内玩家数量
-    int readySize = 0;
+    volatile int readySize = 0;
     boolean[] positionReady = new boolean[3];
     boolean isPrivate = false; //房间默认不是私密的
     public Room(int roomNumber) {
@@ -46,11 +46,11 @@ public class Room{
             for (int i = 0; i < clientThreads.length; i++) {
                 if (clientThreads[i] != null) {
                     to = to.concat("-" + clientThreads[i].username); //i表示几号位
+                    if(positionReady[i])
+                        to = to.concat("、1");
+                    else
+                        to = to.concat("、0");
                 }
-                if(positionReady[i])
-                    to = to.concat("、1");
-                else
-                    to = to.concat("、0");
             }
         }
         return to;
@@ -112,6 +112,7 @@ public class Room{
     public void deletePlayer(ClientThread clientThread){
         int temp = clientThread.position;
         clientThreads[temp] = null;
+        positionReady[temp] = false;
         playerSize--;
         System.out.println("该房间内的用户"+temp+"的线程已被剔除");
     }//当用户退出的时候，从房间中剔除该用户

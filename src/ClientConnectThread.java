@@ -94,6 +94,7 @@ public class ClientConnectThread extends Thread{
                         frame.onlineLayout.playerNum = 1;//房间内已经有一个人
                         int index = strings[1].indexOf('、');
                         frame.onlineLayout.playerNames[0] = strings[1].substring(0,index);
+                        System.out.println(frame.onlineLayout.playerNames[0]);
                         if(strings[1].charAt(index+1) == '1')
                             frame.onlineLayout.preFlag[0] = true;
                     }
@@ -101,10 +102,13 @@ public class ClientConnectThread extends Thread{
                         frame.onlineLayout.playerNum = 2;//房间内已经有两个人
                         int index = strings[1].indexOf('、');
                         frame.onlineLayout.playerNames[0] = strings[1].substring(0,index);
+                        System.out.println(frame.onlineLayout.playerNames[0]);
                         if(strings[1].charAt(index+1) == '1')
                             frame.onlineLayout.preFlag[0] = true;
+
                         index = strings[2].indexOf('、');
                         frame.onlineLayout.playerNames[1] = strings[2].substring(0,index);
+                        System.out.println(frame.onlineLayout.playerNames[1]);
                         if(strings[2].charAt(index+1) == '1')
                             frame.onlineLayout.preFlag[1] = true;
                     }
