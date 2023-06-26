@@ -83,6 +83,10 @@ public class ClientThread extends Thread{
                 roomArrayList.get(room).setPlayerReady(this);//告知房间该玩家准备就绪
                 to = null;
                 break;
+            case 'c':
+                roomArrayList.get(room).giveScores(from.substring(':')+1);
+                to=null;
+                break;
             case 'o':
                 String fromAll = from.substring(from.indexOf(':')+1);
                 String[] strings = fromAll.split("-");
@@ -191,7 +195,9 @@ public class ClientThread extends Thread{
         System.out.println("服务端返回的卡牌信息为"+to3);
         printWriter.println(to3);
     }
-
+    public void giveScore(String string){
+        printWriter.println("d:"+string);
+    }
     public void giveInviteMessage(String sourceUsername,int roomID){
         String to = "p:"+sourceUsername+"-"+roomID;
         System.out.println("服务器返回的邀请信息为"+to);

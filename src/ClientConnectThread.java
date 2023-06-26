@@ -61,7 +61,7 @@ public class ClientConnectThread extends Thread{
         }
     }
 
-        public String clientOperators(String from,SetupLayout setupLayout){
+    public String clientOperators(String from,SetupLayout setupLayout){
         String to = "";
         switch (from.charAt(0)){
             case '1': //”连接成功“
@@ -98,6 +98,10 @@ public class ClientConnectThread extends Thread{
             case 'b':
                 getCards(from.substring(from.indexOf(':')+1));
                 to = null;
+                break;
+            case 'd':
+                giveScoreToFrame(from.charAt(2));
+                to=null;
                 break;
             case 'p':
                 giveInviteMessageToWindow(from.substring(from.indexOf(':')+1));
@@ -300,5 +304,20 @@ public class ClientConnectThread extends Thread{
                 break;
         }
     }
-
+    public void giveScoreToFrame(char score){
+        switch (score){
+            case '0':
+                frame.onlineLayout.onlineTime.score[frame.onlineLayout.priorityNum] = 0;
+                break;
+            case '1':
+                frame.onlineLayout.onlineTime.score[frame.onlineLayout.priorityNum] = 1;
+                break;
+            case '2':
+                frame.onlineLayout.onlineTime.score[frame.onlineLayout.priorityNum] = 2;
+                break;
+            case '3':
+                frame.onlineLayout.onlineTime.score[frame.onlineLayout.priorityNum] = 3;
+                break;
+        }
+    }
 }

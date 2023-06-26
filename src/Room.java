@@ -109,6 +109,17 @@ public class Room{
         tempClient.giveCards(temp);
     } //给单个线程发牌，客户端要根据位置来知晓谁得到了哪些牌
 
+    public void giveScores(String string){
+        int position = string.charAt(0) - '0';
+        int score = string.charAt(2) - '0';
+        //座位号-分数。要通知该座位外的两个人抢的分数
+        for (int i = 0; i < clientThreads.length; i++) {
+            if(clientThreads[i].position != position){
+                clientThreads[i].giveScore(String.valueOf(score));
+            }
+        }
+    }
+
     public void deletePlayer(ClientThread clientThread){
         int temp = clientThread.position;
         clientThreads[temp] = null;

@@ -47,7 +47,7 @@ public class OnlineLayout extends JPanel implements ActionListener {
 
     JLabel dizhu; //地主图标
 
-    OnlineTime t;
+    OnlineTime onlineTime;
     public OnlineLayout(Frame frame){
         this.frame = frame;
         Init();
@@ -173,24 +173,24 @@ public class OnlineLayout extends JPanel implements ActionListener {
         if(e.getSource()==landlord[3])
         {
             time[playerNum].setText("3 分");
-            t.score[playerNum] = 3;
-            t.isRun=false; //时钟终结
+            onlineTime.score[playerNum] = 3;
+            onlineTime.isRun=false; //时钟终结
         }
         else if(e.getSource()==landlord[2])
         {
             time[playerNum].setText("2 分");
-            t.score[playerNum] = 2;
-            t.isRun=false; //时钟终结
+            onlineTime.score[playerNum] = 2;
+            onlineTime.isRun=false; //时钟终结
         }
         else if(e.getSource()==landlord[1]){
             time[playerNum].setText("1 分");
-            t.score[playerNum] = 1;
-            t.isRun=false; //时钟终结
+            onlineTime.score[playerNum] = 1;
+            onlineTime.isRun=false; //时钟终结
         }
         else {
             time[playerNum].setText("不 抢");
-            t.score[playerNum] = 0;
-            t.isRun=false; //时钟终结
+            onlineTime.score[playerNum] = 0;
+            onlineTime.isRun=false; //时钟终结
         }
 //          todo 叫分之后客户端要怎么传给server？然后server如何去通知其他的客户端？
 //        客户端传给server：点击了按钮之后 ……
@@ -366,8 +366,8 @@ class onLineNewTimer implements Runnable {
 
     @Override
     public void run() {
-        onlineLayout.t = new OnlineTime(onlineLayout, 12);//从10开始倒计时
-        onlineLayout.t.start();
+        onlineLayout.onlineTime = new OnlineTime(onlineLayout, 12);//从10开始倒计时
+        onlineLayout.onlineTime.start();
     }
 
 }
