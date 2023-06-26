@@ -147,12 +147,15 @@ public class OnlineTime extends Thread{
                 e.printStackTrace();
             }
             if(onlineLayout.playerNum == 0){
+                System.out.println("player0"+onlineLayout.player0CardsStr);
                 if(onlineLayout.player0CardsStr != null) break;
             }
             else if(onlineLayout.playerNum == 1){
+                System.out.println("player1"+onlineLayout.player1CardsStr);
                 if(onlineLayout.player1CardsStr != null) break;
             }
             else{
+                System.out.println("player2"+onlineLayout.player2CardsStr);
                 if(onlineLayout.player2CardsStr != null) break;
             }
             System.out.println("服务器还没有发给我牌");
