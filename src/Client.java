@@ -8,6 +8,7 @@ public class Client {
         //这里调用图形化的主菜单界面
         Frame frame = new Frame();
         frame.setVisible(true);
+        boolean isTry = false;
          // 要不要设成static，因为ClientThread肯定要调用它。也可以在Invite里return它自己
         while(true){
             try {
@@ -16,8 +17,11 @@ public class Client {
                 e.printStackTrace();
             }
             if(frame.IsOnlineGame()){
-                ClientConnectThread clientConnectThread = new ClientConnectThread(frame.SpLayout,frame);
-                clientConnectThread.start(); // 额外创建一个线程用来网络连接，减少网络连接等带来的图形化界面停顿影响
+                if(!isTry) {
+                    ClientConnectThread clientConnectThread = new ClientConnectThread(frame.SpLayout, frame);
+                    clientConnectThread.start(); // 额外创建一个线程用来网络连接，减少网络连接等带来的图形化界面停顿影响
+                    isTry = true;
+                }
                 try {
                     Thread.sleep(10);
                 } catch (InterruptedException e) {
