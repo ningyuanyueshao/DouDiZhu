@@ -48,8 +48,8 @@ public class OnlineLayout extends JPanel implements ActionListener {
         SwingUtilities.invokeLater(new onLineNewTimer(this,10));//开启新的线程 进行准备 发牌 叫分 游戏
 
 //        getLord();
-        setBackground();
-        add(backgroundLabel);
+//        setBackground();
+//        add(backgroundLabel);
 //        startPre();//开始准备 等全部准备好了就开始
     }
     public void setBackground(){//设置背景图片
@@ -262,13 +262,13 @@ public class OnlineLayout extends JPanel implements ActionListener {
         }
     }
     public void setLocationAndZorder(){//设置每张牌的位置和z轴顺序
-        for (int i = 0; i < 3; i++) {//3个人
             for (int j = 0; j < 17; j++) {//每个人的17张手牌
+                System.out.println(j);
                 if(playerNum == 0){//若本client的playerNum是0 则从左至右为201
                     Common.move(playerList[0].get(j),playerList[0].get(j).getLocation(),new Point(550+((j-1)*3+2)*12,700),(j-1)*3+2);
                     playerList[0].get(j).turnFront();
                     playerList[0].get(j).setVisible(true);
-//                    setComponentZOrder(playerList[0].get(j),0);
+                    setComponentZOrder(playerList[0].get(j),0);
 
                     Common.move(playerList[1].get(j),playerList[1].get(j).getLocation(),new Point(1550,280+((j-1)*3+3)*6),(j-1)*3+3);
                     playerList[1].get(j).turnRear();
@@ -282,6 +282,7 @@ public class OnlineLayout extends JPanel implements ActionListener {
                 }
                 else if(playerNum == 1){//若本client的playerNum是1 则从左至右为012
                     Common.move(playerList[1].get(j),playerList[1].get(j).getLocation(),new Point(550+((j-1)*3+2)*12,700),(j-1)*3+2);
+
                     playerList[1].get(j).turnFront();
                     playerList[1].get(j).setVisible(true);
 //                    setComponentZOrder(playerList[1].get(j),0);
@@ -312,7 +313,6 @@ public class OnlineLayout extends JPanel implements ActionListener {
                     playerList[1].get(j).setVisible(true);
 //                    setComponentZOrder(playerList[1].get(j),0);
                 }
-            }
         }
         //设置地主牌的位置和z轴顺序
         for (int i = 0; i <=2 ; i++) {
