@@ -186,6 +186,18 @@ public class OnePLayout extends JPanel implements ActionListener {
         {
             currentList[i]=new ArrayList<SinglePoker>();//初始化要出的牌
         }
+        // 添加退出单机按钮
+        JButton exitButton = new RoundRectButton("退出单机");
+        exitButton.setBounds(1800, 10, 75, 40); // 设置按钮位置和大小
+        add(exitButton);
+        exitButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                int result = JOptionPane.showConfirmDialog(null, "确认要退出程序吗？", "确认退出", JOptionPane.YES_NO_OPTION);
+                if (result == JOptionPane.YES_OPTION) {
+                    System.exit(0); // 退出程序
+                }
+            }
+        });
     }
     public void actionPerformed(ActionEvent e){
         if(e.getSource()==landlord[0])
@@ -220,7 +232,7 @@ public class OnePLayout extends JPanel implements ActionListener {
                 }
             }
             /** 给点选的牌排序 */
-			/*for(int i=0;i<c.size();i++){
+            /*for(int i=0;i<c.size();i++){
 				System.out.println("点选的牌是："+c.get(i).name);
 			}*/
 
