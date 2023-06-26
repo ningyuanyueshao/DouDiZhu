@@ -57,6 +57,7 @@ public class ClientThread extends Thread{
                 printWriter.println(to);
             }
         } catch (IOException e) {
+            e.printStackTrace();
             System.out.println("终止连接或数据传输出错");
             //todo:记录时间并给数据库
             roomArrayList.get(room).deletePlayer(this);

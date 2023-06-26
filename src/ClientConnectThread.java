@@ -90,10 +90,24 @@ public class ClientConnectThread extends Thread{
                     frame.onlineLayout.playerNum = 0;//房间没人，第一个进去的座位为0；
                 }
                 else{
-                    if(strings.length == 2)
+                    if(strings.length == 2) {
                         frame.onlineLayout.playerNum = 1;//房间内已经有一个人
-                    else if(strings.length == 3)
+                        int index = strings[1].indexOf('、');
+                        frame.onlineLayout.playerNames[0] = strings[1].substring(0,index);
+                        if(strings[1].charAt(index+1) == '1')
+                            frame.onlineLayout.preFlag[0] = true;
+                    }
+                    else if(strings.length == 3){
                         frame.onlineLayout.playerNum = 2;//房间内已经有两个人
+                        int index = strings[1].indexOf('、');
+                        frame.onlineLayout.playerNames[0] = strings[1].substring(0,index);
+                        if(strings[1].charAt(index+1) == '1')
+                            frame.onlineLayout.preFlag[0] = true;
+                        index = strings[2].indexOf('、');
+                        frame.onlineLayout.playerNames[1] = strings[2].substring(0,index);
+                        if(strings[2].charAt(index+1) == '1')
+                            frame.onlineLayout.preFlag[1] = true;
+                    }
                 }
                 frame.onlineLayout.playerNames[frame.onlineLayout.playerNum] = setupLayout.getPlayerName();
                 System.out.println("加入房间并显示当前房间内有多少人");
