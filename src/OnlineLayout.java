@@ -326,7 +326,8 @@ public class OnlineLayout extends JPanel implements ActionListener {
 //            setComponentZOrder(lordList.get(i), 0);
 //            setComponentZOrder(lordListCopy.get(i), 0);
         }
-        frame.showOnlineLayout();//在此进行刷新窗口
+        frame.revalidate();
+        frame.repaint();
         System.out.println("窗口已经刷新");
     }
 }
