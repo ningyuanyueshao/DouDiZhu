@@ -47,6 +47,16 @@ public class OnlineLayout extends JPanel implements ActionListener {
         Init();
         setLayout(null);
         SwingUtilities.invokeLater(new onLineNewTimer(this,10));//开启新的线程 进行准备 发牌 叫分 游戏
+        while(true){
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            if(preFlag[0] && preFlag[1] && preFlag[2]){
+                break;
+            }
+        }
 //        getLord();
 //        setBackground();
 //        add(backgroundLabel);
