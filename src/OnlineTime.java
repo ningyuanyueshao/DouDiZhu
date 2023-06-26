@@ -13,7 +13,6 @@ public class OnlineTime extends Thread{
     OnlineLayout onlineLayout;
     int i;
 
-
     public OnlineTime(OnlineLayout onlineLayout,int i){
         this.onlineLayout = onlineLayout;
         this.i = i;
@@ -28,6 +27,7 @@ public class OnlineTime extends Thread{
         onlineLayout.setLocationAndZorder();
 //        callPoints();//叫分环节
 //        allocateLord();//分配地主
+
     }
     public void second(int i){
         try {

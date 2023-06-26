@@ -268,49 +268,49 @@ public class OnlineLayout extends JPanel implements ActionListener {
                     Common.move(playerList[0].get(j),playerList[0].get(j).getLocation(),new Point(550+((j-1)*3+2)*12,700),(j-1)*3+2);
                     playerList[0].get(j).turnFront();
                     playerList[0].get(j).setVisible(true);
-                    setComponentZOrder(playerList[0].get(j),0);
+//                    setComponentZOrder(playerList[0].get(j),0);
 
                     Common.move(playerList[1].get(j),playerList[1].get(j).getLocation(),new Point(1550,280+((j-1)*3+3)*6),(j-1)*3+3);
                     playerList[1].get(j).turnRear();
                     playerList[1].get(j).setVisible(true);
-                    setComponentZOrder(playerList[1].get(j),0);
+//                    setComponentZOrder(playerList[1].get(j),0);
 
                     Common.move(playerList[2].get(j),playerList[1].get(j).getLocation(),new Point(250,280+((j-1)*3+1)*6),(j-1)*3+1);
                     playerList[2].get(j).turnRear();
                     playerList[2].get(j).setVisible(true);
-                    setComponentZOrder(playerList[2].get(j),0);
+//                    setComponentZOrder(playerList[2].get(j),0);
                 }
                 else if(playerNum == 1){//若本client的playerNum是1 则从左至右为012
                     Common.move(playerList[1].get(j),playerList[1].get(j).getLocation(),new Point(550+((j-1)*3+2)*12,700),(j-1)*3+2);
                     playerList[1].get(j).turnFront();
                     playerList[1].get(j).setVisible(true);
-                    setComponentZOrder(playerList[1].get(j),0);
+//                    setComponentZOrder(playerList[1].get(j),0);
 
                     Common.move(playerList[2].get(j),playerList[2].get(j).getLocation(),new Point(1550,280+((j-1)*3+3)*6),(j-1)*3+3);
                     playerList[2].get(j).turnRear();
                     playerList[2].get(j).setVisible(true);
-                    setComponentZOrder(playerList[2].get(j),0);
+//                    setComponentZOrder(playerList[2].get(j),0);
 
                     Common.move(playerList[0].get(j),playerList[0].get(j).getLocation(),new Point(250,280+((j-1)*3+1)*6),(j-1)*3+1);
                     playerList[0].get(j).turnRear();
                     playerList[0].get(j).setVisible(true);
-                    setComponentZOrder(playerList[0].get(j),0);
+//                    setComponentZOrder(playerList[0].get(j),0);
                 }
                 else{//若本client的playerNum是2 则从左至右为120
                     Common.move(playerList[2].get(j),playerList[0].get(j).getLocation(),new Point(550+((j-1)*3+2)*12,700),(j-1)*3+2);
                     playerList[2].get(j).turnFront();
                     playerList[2].get(j).setVisible(true);
-                    setComponentZOrder(playerList[2].get(j),0);
+//                    setComponentZOrder(playerList[2].get(j),0);
 
                     Common.move(playerList[0].get(j),playerList[1].get(j).getLocation(),new Point(1550,280+((j-1)*3+3)*6),(j-1)*3+3);
                     playerList[0].get(j).turnRear();
                     playerList[0].get(j).setVisible(true);
-                    setComponentZOrder(playerList[0].get(j),0);
+//                    setComponentZOrder(playerList[0].get(j),0);
 
                     Common.move(playerList[1].get(j),playerList[1].get(j).getLocation(),new Point(250,280+((j-1)*3+1)*6),(j-1)*3+1);
                     playerList[1].get(j).turnRear();
                     playerList[1].get(j).setVisible(true);
-                    setComponentZOrder(playerList[1].get(j),0);
+//                    setComponentZOrder(playerList[1].get(j),0);
                 }
             }
         }
@@ -322,8 +322,8 @@ public class OnlineLayout extends JPanel implements ActionListener {
             lordList.get(i).setVisible(true);
             lordListCopy.get(i).turnRear();
             lordListCopy.get(i).setVisible(true);
-            setComponentZOrder(lordList.get(i), 0);
-            setComponentZOrder(lordListCopy.get(i), 0);
+//            setComponentZOrder(lordList.get(i), 0);
+//            setComponentZOrder(lordListCopy.get(i), 0);
         }
     }
 }
