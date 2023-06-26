@@ -37,7 +37,7 @@ public class Frame extends JFrame {
     }
 
     public void showOnlineLayout(){
-        onlineLayout = new OnlineLayout();
+        onlineLayout = new OnlineLayout(this);
         getContentPane().removeAll(); // 从 frame 的 contentPane 中移除所有现有组件
         getContentPane().add(onlineLayout); // 将 onePLayout 面板添加到 contentPane 中
         revalidate(); // 刷新布局

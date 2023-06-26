@@ -14,7 +14,7 @@ public class OnlineLayout extends JPanel implements ActionListener {
     PrintWriter printWriter;
     ImageIcon backgroundImage;//背景图片
     JLabel backgroundLabel;//背景图片对应的JLabel
-
+    Frame frame;
     ImageIcon[] avatar = new ImageIcon[3];
     JLabel[] avatarLabel = new JLabel[3];
 
@@ -42,15 +42,14 @@ public class OnlineLayout extends JPanel implements ActionListener {
     JLabel dizhu; //地主图标
 
     OnlineTime t;
-    public OnlineLayout(){
+    public OnlineLayout(Frame frame){
+        this.frame = frame;
         Init();
         setLayout(null);
         SwingUtilities.invokeLater(new onLineNewTimer(this,10));//开启新的线程 进行准备 发牌 叫分 游戏
-
 //        getLord();
 //        setBackground();
 //        add(backgroundLabel);
-//        startPre();//开始准备 等全部准备好了就开始
     }
     public void setBackground(){//设置背景图片
         int width = Toolkit.getDefaultToolkit().getScreenSize().width;
@@ -143,12 +142,14 @@ public class OnlineLayout extends JPanel implements ActionListener {
         for(int i=1;i<=4;i++){
             for(int j=1;j<=13;j++){
                 cards[count] = new SinglePoker(i+"-"+j,false);
+                cards[count].setLocation(300+(i*20),50);
                 count++;
             }
         }
 //        再初始化双王
         for(int i=1;i<=2;i++){
             cards[count] = new SinglePoker("5-"+i,false);
+            cards[count].setLocation(400,50);
             count++;
         }
     }
@@ -268,7 +269,7 @@ public class OnlineLayout extends JPanel implements ActionListener {
                     Common.move(playerList[0].get(j),playerList[0].get(j).getLocation(),new Point(550+((j-1)*3+2)*12,700),(j-1)*3+2);
                     playerList[0].get(j).turnFront();
                     playerList[0].get(j).setVisible(true);
-                    setComponentZOrder(playerList[0].get(j),0);
+//                    setComponentZOrder(playerList[0].get(j),0);
 
                     Common.move(playerList[1].get(j),playerList[1].get(j).getLocation(),new Point(1550,280+((j-1)*3+3)*6),(j-1)*3+3);
                     playerList[1].get(j).turnRear();
@@ -325,6 +326,8 @@ public class OnlineLayout extends JPanel implements ActionListener {
 //            setComponentZOrder(lordList.get(i), 0);
 //            setComponentZOrder(lordListCopy.get(i), 0);
         }
+        frame.showOnlineLayout();//在此进行刷新窗口
+        System.out.println("窗口已经刷新");
     }
 }
 class onLineNewTimer implements Runnable {
