@@ -54,6 +54,10 @@ public class OnlineTime extends Thread{
         onlineLayout.time[0].setText("未准备");
         onlineLayout.time[1].setText("未准备");
         onlineLayout.time[2].setText("未准备");
+
+        score[0] = -1;
+        score[1] = -1;
+        score[2] = -1;
     }
     public void beginPrepare(){//进入各玩家的准备阶段
         while(true){
@@ -173,6 +177,7 @@ public class OnlineTime extends Thread{
         while(onlineLayout.priorityNum == -1){//若priority不为-1则退出循环
             second(1);
         }
+        System.out.println("priorityNum是"+onlineLayout.priorityNum);
         for (int j = 0; j < 3; j++) {
             if(onlineLayout.priorityNum == onlineLayout.playerNum){
                 //显现四个按钮

@@ -244,6 +244,7 @@ public class ClientConnectThread extends Thread{
         String[] position2Cards = ss[2].split("、");
         String[] landlordCards = ss[3].split("、");
         int firstActionPosition = Integer.parseInt(ss[4]);
+        System.out.println("第一个行动的人"+firstActionPosition);
         if(frame.onlineLayout.playerNum == 0){
             frame.onlineLayout.player0CardsStr = position0Cards;
         }
