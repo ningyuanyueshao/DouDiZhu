@@ -167,27 +167,29 @@ public class OnlineLayout extends JPanel implements ActionListener {
             count++;
         }
     }
+
+
     public void actionPerformed(ActionEvent e){
         if(e.getSource()==landlord[3])
         {
             time[playerNum].setText("3 分");
-            t.isCallScore[playerNum] = true;
+            t.score[playerNum] = 3;
             t.isRun=false; //时钟终结
         }
         else if(e.getSource()==landlord[2])
         {
             time[playerNum].setText("2 分");
-            t.isCallScore[playerNum] = true;
+            t.score[playerNum] = 2;
             t.isRun=false; //时钟终结
         }
         else if(e.getSource()==landlord[1]){
             time[playerNum].setText("1 分");
-            t.isCallScore[playerNum] = true;
+            t.score[playerNum] = 1;
             t.isRun=false; //时钟终结
         }
         else {
             time[playerNum].setText("不 抢");
-            t.isCallScore[playerNum] = true;
+            t.score[playerNum] = 0;
             t.isRun=false; //时钟终结
         }
 //          todo 叫分之后客户端要怎么传给server？然后server如何去通知其他的客户端？
