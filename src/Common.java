@@ -4,9 +4,9 @@ import java.util.List;
 public class Common {
     //移动效果的函数,用于发牌
     public static void move(SinglePoker card,Point from,Point to,int t){
-        System.out.println(card);
-        System.out.println("----------");
-        System.out.println(from);
+        //System.out.println(card);
+        //System.out.println("----------");
+        //System.out.println(from);
         if(to.x!=from.x){
             double k=(1.0)*(to.y-from.y)/(to.x-from.x);
             double b=to.y-to.x*k;

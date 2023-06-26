@@ -24,7 +24,7 @@ public class OnlineLayout extends JPanel implements ActionListener {
 //    因为其他两家要背面朝上
     List<SinglePoker> lordList;//地主牌
     List<SinglePoker> lordListCopy;//地主牌的备份 显示在页面顶端
-    SinglePoker cards[] = new SinglePoker[56]; // 定义54张牌
+    SinglePoker cards[] = new SinglePoker[54]; // 定义54张牌
     SinglePoker nullCardsOne[] = new SinglePoker[17];
     SinglePoker nullCardsTwo[] = new SinglePoker[17];
 //    用来给其他两个玩家发牌，这些牌只需要背面朝上
@@ -204,7 +204,7 @@ public class OnlineLayout extends JPanel implements ActionListener {
             for (int i = 0; i < 17; i++) {
                 pokerColor = Integer.parseInt(player0CardsStr[i].substring(0,1));
                 pokerNum = Integer.parseInt(player0CardsStr[i].substring(2));
-                index = (pokerColor  -1)*13 + pokerNum;
+                index = (pokerColor  -1)*13 + pokerNum -1;
                 playerList[0].add(cards[index]);
 
             }
@@ -221,7 +221,7 @@ public class OnlineLayout extends JPanel implements ActionListener {
             for (int i = 0; i < 17; i++) {
                 pokerColor = Integer.parseInt(player1CardsStr[i].substring(0,1));
                 pokerNum = Integer.parseInt(player1CardsStr[i].substring(2));
-                index = (pokerColor -1)*13 + pokerNum;
+                index = (pokerColor -1)*13 + pokerNum -1 ;
                 playerList[1].add(cards[index]);
             }
             for (int i = 0; i < 17; i++) {
@@ -237,7 +237,7 @@ public class OnlineLayout extends JPanel implements ActionListener {
             for (int i = 0; i < 17; i++) {
                 pokerColor = Integer.parseInt(player2CardsStr[i].substring(0,1));
                 pokerNum = Integer.parseInt(player2CardsStr[i].substring(2));
-                index = (pokerColor  -1)*13 + pokerNum;
+                index = (pokerColor  -1)*13 + pokerNum -1;
                 playerList[2].add(cards[index]);
             }
             for (int i = 0; i < 17; i++) {
@@ -252,7 +252,7 @@ public class OnlineLayout extends JPanel implements ActionListener {
         for (int i = 0; i < 3; i++) {
             pokerColor = Integer.parseInt(lordCardsStr[i].substring(0,1));
             pokerNum = Integer.parseInt(lordCardsStr[i].substring(2));
-            index = (pokerColor -1)*13 + pokerNum;
+            index = (pokerColor -1)*13 + pokerNum -1 ;
             lordList.add(cards[index]);
             cards[index].turnRear();
             cards[index].setVisible(true);
@@ -326,6 +326,8 @@ public class OnlineLayout extends JPanel implements ActionListener {
 //            setComponentZOrder(lordList.get(i), 0);
 //            setComponentZOrder(lordListCopy.get(i), 0);
         }
+        frame.getContentPane().removeAll();
+        frame.getContentPane().add(this);
         frame.revalidate();
         frame.repaint();
         System.out.println("窗口已经刷新");
