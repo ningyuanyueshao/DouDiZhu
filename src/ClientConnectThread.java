@@ -237,12 +237,13 @@ public class ClientConnectThread extends Thread{
         System.out.println("加入房间并显示当前房间内有多少人");
     }
     public void getCards(String cards) {
-        //格式例子为"1-1、2-2、······;2-1、3-4、······;1-1、2-2、······;地主牌"
+        //格式例子为"1-1、2-2、······;2-1、3-4、······;1-1、2-2、······;地主牌;第一个行动的人的座位"
         String[] ss = cards.split(";");
         String[] position0Cards = ss[0].split("、");
         String[] position1Cards = ss[1].split("、");
         String[] position2Cards = ss[2].split("、");
         String[] landlordCards = ss[3].split("、");
+        int firstActionPosition = Integer.parseInt(ss[4]);
         if(frame.onlineLayout.playerNum == 0){
             frame.onlineLayout.player0CardsStr = position0Cards;
         }
@@ -253,7 +254,7 @@ public class ClientConnectThread extends Thread{
             frame.onlineLayout.player2CardsStr = position2Cards;
         }
         frame.onlineLayout.lordCardsStr = landlordCards;
-
+        frame.onlineLayout.priorityNum = firstActionPosition;
     }
 
     public void giveChatItemsToServer(String username,String items){

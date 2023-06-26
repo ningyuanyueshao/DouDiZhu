@@ -80,13 +80,14 @@ public class Room{
             tempList.add(deck.deal(17));
         }
         List<Card> landlordCards = deck.deal(3);
+        int random = (int)(Math.random() * 3);
         for (int i = 0; i < 3; i++) {
             System.out.println("向座位"+i+"的玩家发牌");
-            this.giveTheCards(clientThreads[i],tempList,landlordCards);
+            this.giveTheCards(clientThreads[i],tempList,landlordCards,random);
         }
     }//给所有线程发牌
 
-    public void giveTheCards(ClientThread tempClient,List<ArrayList<Card>> tempList,List<Card> landlordCards){
+    public void giveTheCards(ClientThread tempClient,List<ArrayList<Card>> tempList,List<Card> landlordCards,int firstActorPosition){
         String temp = "";
         Card tempCard;
         String[] colors = {"0","黑桃","红心","梅花","方块","王"};
@@ -106,6 +107,7 @@ public class Room{
             tempCard = card;
             temp = temp.concat(cardColors.indexOf(tempCard.getSuit()) + "-" + cardValues.indexOf(tempCard.getRank())+"、"); //加入地主牌
         }
+        temp = temp.concat(";"+firstActorPosition);
         tempClient.giveCards(temp);
     } //给单个线程发牌，客户端要根据位置来知晓谁得到了哪些牌
 
