@@ -56,7 +56,7 @@ public class OnePLayout extends JPanel implements ActionListener {
                 else {
                     card[count] = new SinglePoker(i + "-" + j, false);
                     card[count].setLocation(300+(i*20), 50);
-//                    add(card[count]);
+//                    add(card[count]); //为什么不把card加入呢
                     count++;
                 }
             }

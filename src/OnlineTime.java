@@ -50,10 +50,6 @@ public class OnlineTime extends Thread{
         System.out.println("当前玩家您的编号是"+onlineLayout.playerNum);
         System.out.println("当前房间人数为"+ (onlineLayout.playerNum+1));
 
-        for (int j = 0; j < 3; j++) {
-            if(j != onlineLayout.playerNum)
-                onlineLayout.playerNames[j] = null;
-        }
 //        把出自己之外的名字的 String 置空
 //        并且把其余三个置为未准备状态
 //        todo 要与后端交换信息，（bug待修复：当玩家进入时已经有其他玩家准备了，client无法获知）

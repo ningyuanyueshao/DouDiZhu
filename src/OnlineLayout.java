@@ -47,9 +47,10 @@ public class OnlineLayout extends JPanel implements ActionListener {
         Init();
         setLayout(null);
         SwingUtilities.invokeLater(new onLineNewTimer(this,10));//开启新的线程 进行准备 发牌 叫分 游戏
+        CardsInit();//不在进程中初始化cards 试试能不能在屏幕中显示 说明可以显示
 //        getLord();
-//        setBackground();
-//        add(backgroundLabel);
+        setBackground();
+        add(backgroundLabel);
     }
     public void setBackground(){//设置背景图片
         int width = Toolkit.getDefaultToolkit().getScreenSize().width;
@@ -85,7 +86,6 @@ public class OnlineLayout extends JPanel implements ActionListener {
         avatarLabel[2].setBounds(1650,400,avatar[2].getIconWidth(),avatar[2].getIconHeight());
         avatarLabel[1].setVisible(false);
         avatarLabel[2].setVisible(false);
-
 
         for(int i=0;i<2;i++)
         {
@@ -143,6 +143,8 @@ public class OnlineLayout extends JPanel implements ActionListener {
             for(int j=1;j<=13;j++){
                 cards[count] = new SinglePoker(i+"-"+j,false);
                 cards[count].setLocation(300+(i*20),50);
+                add(cards[count]);//会不会是因为cards没有加入到jpanel里面去导致显示不出来?
+                cards[count].setVisible(true);
                 count++;
             }
         }
@@ -150,6 +152,8 @@ public class OnlineLayout extends JPanel implements ActionListener {
         for(int i=1;i<=2;i++){
             cards[count] = new SinglePoker("5-"+i,false);
             cards[count].setLocation(400,50);
+            add(cards[count]);
+            cards[count].setVisible(true);
             count++;
         }
     }
@@ -206,7 +210,6 @@ public class OnlineLayout extends JPanel implements ActionListener {
                 pokerNum = Integer.parseInt(player0CardsStr[i].substring(2));
                 index = (pokerColor  -1)*13 + pokerNum -1;
                 playerList[0].add(cards[index]);
-
             }
             for (int i = 0; i < 17; i++) {
                 nullCardsOne[i] = new SinglePoker("1-1",false);
@@ -250,17 +253,18 @@ public class OnlineLayout extends JPanel implements ActionListener {
             }
         }
         for (int i = 0; i < 3; i++) {
-            pokerColor = Integer.parseInt(lordCardsStr[i].substring(0,1));
+            pokerColor = Integer.parseInt(lordCardsStr[i].substring(0, 1));
             pokerNum = Integer.parseInt(lordCardsStr[i].substring(2));
-            index = (pokerColor -1)*13 + pokerNum -1 ;
+            index = (pokerColor - 1) * 13 + pokerNum - 1;
+            lordCardCopy[i] = new SinglePoker(cards[index]);
             lordList.add(cards[index]);
+            lordListCopy.add(lordCardCopy[i]);
             cards[index].turnRear();
             cards[index].setVisible(true);
-            lordCardCopy[i] = new SinglePoker(cards[index]);
-            lordListCopy.add(lordCardCopy[i]);
             lordCardCopy[i].turnRear();
             lordCardCopy[i].setVisible(true);
         }
+
     }
     public void setLocationAndZorder(){//设置每张牌的位置和z轴顺序
             for (int j = 0; j < 17; j++) {//每个人的17张手牌
@@ -314,7 +318,16 @@ public class OnlineLayout extends JPanel implements ActionListener {
                     playerList[1].get(j).setVisible(true);
 //                    setComponentZOrder(playerList[1].get(j),0);
                 }
-        }
+            }
+            try {
+                Thread.sleep(3 * 1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            for(int i=0;i<3;i++){
+                Common.order(playerList[i]);
+                rePosition(this,playerList[i],i);//重新定位
+            }
         //设置地主牌的位置和z轴顺序
         for (int i = 0; i <=2 ; i++) {
             Common.move(lordList.get(i), lordList.get(i).getLocation(),new Point(300+i*80,50),53);
@@ -332,6 +345,32 @@ public class OnlineLayout extends JPanel implements ActionListener {
         frame.repaint();
         System.out.println("窗口已经刷新");
     }
+    public void rePosition(OnlineLayout onlineLayout,List<SinglePoker> list,int flag){
+        Point p=new Point();
+        if(flag==0)
+        {
+            p.x=50;
+            p.y=(450/2)-(list.size()+1)*15/2;
+        }
+        if(flag==1)
+        {//我的排序 _y=450 width=830
+            p.x=(800/2)-(list.size()+1)*21/2;
+            p.y=450;
+        }
+        if(flag==2)
+        {
+            p.x=700;
+            p.y=(450/2)-(list.size()+1)*15/2;
+        }
+        int len=list.size();
+        for(int i=0;i<len;i++){
+            SinglePoker card=list.get(i);
+            Common.move(card, card.getLocation(), p,10);
+//            setComponentZOrder(card, 0);
+            if(flag==1)p.x+=21;
+            else p.y+=15;
+        }
+    }
 }
 class onLineNewTimer implements Runnable {
 
@@ -348,4 +387,5 @@ class onLineNewTimer implements Runnable {
         onlineLayout.t = new OnlineTime(onlineLayout, 12);//从10开始倒计时
         onlineLayout.t.start();
     }
+
 }
