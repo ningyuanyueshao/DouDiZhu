@@ -1,9 +1,7 @@
 import java.awt.*;
 import java.util.*;
 import java.util.List;
-
 public class Common {
-
     //移动效果的函数,用于发牌
     public static void move(SinglePoker card,Point from,Point to,int t){
         if(to.x!=from.x){
@@ -11,35 +9,33 @@ public class Common {
             double b=to.y-to.x*k;
             int flag=0;//判断向左还是向右移动步幅
             if(from.x<to.x) {
-                if(t%3 == 2) { flag = 3; }
-                else { flag = 10; }
+                if(t%3 == 2) { 
+                    flag = 3; 
+                }
+                else { 
+                    flag = 10; 
+                }
             } else {
-                if(t%3 == 2){ flag = -3; }
-                else { flag = -10; }
+                if(t%3 == 2){ 
+                    flag = -3; 
+                }
+                else { 
+                    flag = -10; 
+                }
             }
-            for(int i=from.x;Math.abs(i-to.x)>20;i+=flag)
-            {
+            for(int i=from.x;Math.abs(i-to.x)>20;i+=flag){
                 double y=k*i+b;//这里主要用的数学中的线性函数
                 card.setLocation(i,(int)y);
-
-//                try {
-//                    Thread.sleep(5); //延迟，可自己设置
-//                } catch (InterruptedException e) {
-//                    e.printStackTrace();
-//                }
             }
         }
         //位置校准
         card.setLocation(to);
     }
-//    对list排序
+    //对list排序
     public static void order(List<SinglePoker> list){
 
         Collections.sort(list,new Comparator<SinglePoker>() {
-
             public int compare(SinglePoker o1, SinglePoker o2) {
-
-                // TODO Auto-generated method stub
                 int a1 = Integer.parseInt(o1.name.substring(0, 1));//花色
                 int a2 = Integer.parseInt(o2.name.substring(0, 1));
                 int b1 = Integer.parseInt(o1.name.substring(2, o1.name.length()));//数值
@@ -56,8 +52,12 @@ public class Common {
                 if(b1 == 2) b1 += 30;
                 if(b2 == 2) b2 += 30;
                 flag = b2-b1;
-                if(flag == 0) { return a2 - a1; }
-                else { return flag; }
+                if(flag == 0) { 
+                    return a2 - a1; 
+                }
+                else { 
+                    return flag; 
+                }
             }
         });
     }
@@ -91,13 +91,11 @@ public class Common {
         int count=0;
         for(int i=0,len=list.size();i<len;i++){
             SinglePoker card=list.get(i);
-            if(card.name.substring(0, 1).equals("5"))
-            {
+            if(card.name.substring(0, 1).equals("5")){
                 //System.out.println(card.name.substring(0, 1));
                 count+=5;
             }
-            if(card.name.substring(2, card.name.length()).equals("2"))
-            {
+            if(card.name.substring(2, card.name.length()).equals("2")){
                 //System.out.println(2);
                 count+=2;
             }
@@ -130,8 +128,7 @@ public class Common {
             else
                 count[Common.getValue(list.get(i))-1]++;
         }
-        for(int i=0;i<14;i++)
-        {
+        for(int i=0;i<14;i++){
             switch (count[i]) {
                 case 1:
                     card_index.a[0].add(i+1);
@@ -162,11 +159,8 @@ public class Common {
         //因为之前排序过所以比较好判断
         int len=list.size();
         //单牌,对子，3不带，4个一样炸弹
-        if(len<=4)
-        {	//如果第一个和最后个相同，说明全部相同
-            if(list.size() > 0 
-            		&& Common.getValue(list.get(0)) == Common.getValue(list.get(len - 1)))
-            {
+        if(len<=4){	//如果第一个和最后个相同，说明全部相同
+            if(list.size() > 0&& Common.getValue(list.get(0)) == Common.getValue(list.get(len - 1))){
                 switch (len) {
                     case 1:
                         return CardType.c1;
@@ -179,20 +173,17 @@ public class Common {
                 }
             }
             //双王,炸弹
-            if(len == 2 && Common.getColor(list.get(1)) == 5 
-            		&& Common.getColor(list.get(0)) == 5)
+            if(len == 2 && Common.getColor(list.get(1)) == 5&& Common.getColor(list.get(0)) == 5)
                 return CardType.c4;
             //当第一个和最后个不同时,3带1
-            if(len==4 &&((Common.getValue(list.get(0))==Common.getValue(list.get(len-2)))||
-                    Common.getValue(list.get(1))==Common.getValue(list.get(len-1))))
+            if(len==4 &&((Common.getValue(list.get(0))==Common.getValue(list.get(len-2)))||Common.getValue(list.get(1))==Common.getValue(list.get(len-1))))
                 return CardType.c31;
             else {
                 return CardType.c0;
             }
         }
         //当5张以上时，连字，3带2，飞机，2顺，4带2等等
-        if(len>=5)
-        {//现在按相同数字最大出现次数
+        if(len>=5){//现在按相同数字最大出现次数
             Card_index card_index=new Card_index();
             for(int i=0;i<4;i++)
                 card_index.a[i]=new ArrayList<Integer>();
@@ -208,31 +199,21 @@ public class Common {
             if(card_index.a[3].size()==1 && card_index.a[1].size()==2 &&len==8)
                 return CardType.c422;
             //顺子,保证不存在王
-            if((Common.getColor(list.get(0))!=5)&&(card_index.a[0].size()==len) &&
-                    (Common.getValue(list.get(0))-Common.getValue(list.get(len-1))==len-1))
+            if((Common.getColor(list.get(0))!=5)&&(card_index.a[0].size()==len) &&(Common.getValue(list.get(0))-Common.getValue(list.get(len-1))==len-1))
                 return CardType.c123;
             //连队
-            if(card_index.a[1].size()==len/2 && len%2==0 && len/2>=3
-                    &&(Common.getValue(list.get(0))-Common.getValue(list.get(len-1))==(len/2-1)))
+            if(card_index.a[1].size()==len/2 && len%2==0 && len/2>=3&&(Common.getValue(list.get(0))-Common.getValue(list.get(len-1))==(len/2-1)))
                 return CardType.c1122;
             //飞机
-            if(card_index.a[2].size()==len/3 && (len%3==0) &&
-                    (Common.getValue(list.get(0))-Common.getValue(list.get(len-1))==(len/3-1)))
+            if(card_index.a[2].size()==len/3 && (len%3==0) &&(Common.getValue(list.get(0))-Common.getValue(list.get(len-1))==(len/3-1)))
                 return CardType.c111222;
-
             //飞机带n单,n/2对
-            if(card_index.a[2].size()==len/4 &&
-                    ((Integer)(card_index.a[2].get(len/4-1))-(Integer)(card_index.a[2].get(0))==len/4-1)
-            &&(len>=8))
+            if(card_index.a[2].size()==len/4 &&((Integer)(card_index.a[2].get(len/4-1))-(Integer)(card_index.a[2].get(0))==len/4-1)&&(len>=8))
                 return CardType.c11122234;
-//jjj43 len=5 a[2]=1 a[0]=2 会导致 (j-j)==5/4-1
-
-
+            //jjj43 len=5 a[2]=1 a[0]=2 会导致 (j-j)==5/4-1
             //飞机带n双
-            if(card_index.a[2].size()==len/5 && card_index.a[2].size()==len/5 &&
-                    ((Integer)(card_index.a[2].get(len/5-1))-(Integer)(card_index.a[2].get(0))==len/5-1)&&(len>=10))
+            if(card_index.a[2].size()==len/5 && card_index.a[2].size()==len/5 &&((Integer)(card_index.a[2].get(len/5-1))-(Integer)(card_index.a[2].get(0))==len/5-1)&&(len>=10))
                 return CardType.c1112223344;
-
         }
         return CardType.c0;
     }
@@ -254,7 +235,6 @@ public class Common {
                 if(a[j]>a[max])
                     max=j;
             }
-
             for(int k=0;k<len;k++){
                 if(Common.getValue(list2.get(k))==max){
                     list3.add(list2.get(k));
@@ -265,7 +245,6 @@ public class Common {
         }
         return list3;
     }
-
     public static int checkCards(List<SinglePoker> c,List<SinglePoker>[] current){
         // 找出当前最大的牌是哪个电脑出的,c是点选的牌
         List<SinglePoker> currentlist=(current[0].size()>0)?current[0]:current[2];
@@ -284,8 +263,7 @@ public class Common {
         }
         // 比较出的牌是否要大
         // 王炸弹
-        if(cType==CardType.c4)
-        {
+        if(cType==CardType.c4){
             if(c.size()==2)
                 return 1;
             if(currentlist.size()==2)
@@ -295,11 +273,12 @@ public class Common {
         if(cType==CardType.c1||cType==CardType.c2||cType==CardType.c3||cType==CardType.c4){
             if(Common.getValue(c.get(0))<=Common.getValue(currentlist.get(0))) {
                 return 0;
-            } else { return 1; }
+            } else { 
+                return 1; 
+            }
         }
         // 顺子,连队，飞机裸
-        if(cType==CardType.c123||cType==CardType.c1122||cType==CardType.c111222)
-        {
+        if(cType==CardType.c123||cType==CardType.c1122||cType==CardType.c111222){
             if(Common.getValue(c.get(0))<=Common.getValue(currentlist.get(0)))
                 return 0;
             else

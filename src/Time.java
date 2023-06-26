@@ -8,7 +8,7 @@ public class Time extends Thread{
     boolean isFirst = false;// 如果玩家当地主且这次是第一手出牌 则为true
     OnePLayout onePLayout;
     boolean isRun = true;
-    int i = 10;
+    int i = 5;
     
     public Time(OnePLayout onePLayout, int i) {
         this.onePLayout = onePLayout;
@@ -87,7 +87,7 @@ public class Time extends Thread{
                     isFirst = false;
                 }
                 turnOn(true);// 出牌按钮 --我出牌
-                timeWait(30, 1);// 我自己的定时器
+                timeWait(10, 1);// 我自己的定时器
                 System.out.println("我出牌");
                 turnOn(false);//选完关闭出牌按钮
                 onePLayout.turn=(onePLayout.turn+1)%3;
@@ -126,7 +126,7 @@ public class Time extends Thread{
                 onePLayout.lordList.get(i).turnFront(); // 地主牌翻看
             }
             else {
-                onePLayout.lordListCopy.get(i).turnRear();
+//                onePLayout.lordListCopy.get(i).turnRear(); bug1 注意如果要盖上地主牌 那么copy不能盖上
                 onePLayout.lordList.get(i).turnRear(); // 地主牌闭合
             }
             onePLayout.lordList.get(i).canClick = true;// 可被点击
@@ -212,12 +212,12 @@ public class Time extends Thread{
         return false;
     }
     public void computer0() {
-        timeWait(3, 0); // 定时
+        timeWait(1, 0); // 定时
         ShowCard(0); // 出牌
 
     }
     public void computer2() {
-        timeWait(3, 2); // 定时
+        timeWait(1, 2); // 定时
         ShowCard(2); // 出牌
 
     }
