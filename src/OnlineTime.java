@@ -199,6 +199,8 @@ public class OnlineTime extends Thread{
                 if(timeLeft<0){
                     score[onlineLayout.priorityNum] = 0;//直接不抢
                     System.out.println("已超时");
+                    for(int i=0;i<4;i++)
+                        onlineLayout.landlord[i].setVisible(false);
                     onlineLayout.printWriter.println("c:"+onlineLayout.playerNum+"-"+score[onlineLayout.priorityNum]);
                 }
             }
