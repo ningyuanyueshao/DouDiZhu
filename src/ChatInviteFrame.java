@@ -174,6 +174,8 @@ public class ChatInviteFrame {
         if (roomID == -1) {
             System.out.println("未进入房间，未向服务器发送邀请信息");
             JOptionPane.showMessageDialog(mainFrame, "未加入房间！");
+        } else if (currentSelectedPlayer.equals("")) {
+            JOptionPane.showMessageDialog(mainFrame, "未选择玩家！");
         } else {
             System.out.println("向服务器发送邀请信息");
             printWriter.println("o:" + username + "-" + roomID + "-" + currentSelectedPlayer);
@@ -184,7 +186,7 @@ public class ChatInviteFrame {
         System.out.println("向服务器获取所有玩家信息");
         printWriter.println("u:");
         playerNameList.clear();
-        while(allUsernames == null) {
+        while (allUsernames == null) {
             try {
                 Thread.sleep(10);
             } catch (InterruptedException ex) {
@@ -196,7 +198,7 @@ public class ChatInviteFrame {
             System.out.println(allUsernames[i]);
         }
         for (int i = 0; i < allUsernames.length; i++) {
-            if(allUsernames[i].equals(username))
+            if (allUsernames[i].equals(username))
                 continue;
             playerNameList.addElement(allUsernames[i]); //重新添加所有刷新后在线玩家
 
