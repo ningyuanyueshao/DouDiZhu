@@ -170,24 +170,24 @@ public class OnlineLayout extends JPanel implements ActionListener {
 
 
     public void actionPerformed(ActionEvent e){
-        if(e.getSource()==landlord[3])
+        if(e.getSource()==landlord[0])
         {
             time[playerNum].setText("3 分");
             onlineTime.score[playerNum] = 3;
             onlineTime.isRun=false; //时钟终结
         }
-        else if(e.getSource()==landlord[2])
+        else if(e.getSource()==landlord[1])
         {
             time[playerNum].setText("2 分");
             onlineTime.score[playerNum] = 2;
             onlineTime.isRun=false; //时钟终结
         }
-        else if(e.getSource()==landlord[1]){
+        else if(e.getSource()==landlord[2]){
             time[playerNum].setText("1 分");
             onlineTime.score[playerNum] = 1;
             onlineTime.isRun=false; //时钟终结
         }
-        else if(e.getSource()==landlord[0]){
+        else if(e.getSource()==landlord[3]){
             time[playerNum].setText("不 抢");
             onlineTime.score[playerNum] = 0;
             onlineTime.isRun=false; //时钟终结
