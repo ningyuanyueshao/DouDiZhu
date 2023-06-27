@@ -24,7 +24,7 @@ public class OnlineTime extends Thread{
         onlineLayout.addCardsToList();//把cards添加到每个玩家的手牌List 以及 地主牌List中去
         onlineLayout.setLocationAndZorder();
         callPoints();//叫分环节
-        allocateLord();//分配地主
+        allocateLord();//分配地主 并加入地主牌
 
     }
     public void second(int i){
@@ -260,7 +260,7 @@ public class OnlineTime extends Thread{
         }
         else{
             onlineLayout.playerList[onlineLayout.playerNum].addAll(onlineLayout.lordList);
-            openlord(false);
+            openlord(true);
         }
     }
     public void showTimeText(int currentIndex){
@@ -308,6 +308,42 @@ public class OnlineTime extends Thread{
         }
     }
     public void showScoreText(int currentIndex) {
+        if(score[currentIndex] == 0){//如果是不抢的话
+            if(currentIndex == 0){
+                if(onlineLayout.playerNum == 0){
+                    onlineLayout.time[1].setText("不 抢");
+                }
+                else if(onlineLayout.playerNum == 1){
+                    onlineLayout.time[0].setText("不 抢");
+                }
+                else {
+                    onlineLayout.time[2].setText("不 抢");
+                }
+            }
+            else if(currentIndex == 1){
+                if(onlineLayout.playerNum == 0){
+                    onlineLayout.time[2].setText("不 抢");
+                }
+                else if(onlineLayout.playerNum == 1){
+                    onlineLayout.time[1].setText("不 抢");
+                }
+                else {
+                    onlineLayout.time[0].setText("不 抢");
+                }
+            }
+            else{//currentIndex == 2
+                if(onlineLayout.playerNum == 0){
+                    onlineLayout.time[0].setText("不 抢");
+                }
+                else if(onlineLayout.playerNum == 1){
+                    onlineLayout.time[2].setText("不 抢");
+                }
+                else {
+                    onlineLayout.time[1].setText("不 抢");
+                }
+            }
+        }
+        else {//如果是其他分值
             if (currentIndex == 0) {
                 if (onlineLayout.playerNum == 0) {
                     onlineLayout.time[1].setText(score[currentIndex] + " 分");
@@ -338,10 +374,11 @@ public class OnlineTime extends Thread{
                     onlineLayout.time[2].setText(score[currentIndex] + " 分");
                     onlineLayout.time[2].setVisible(true);
                 } else {
-                    onlineLayout.time[0].setText(score[currentIndex] + " 分");
-                    onlineLayout.time[0].setVisible(true);
+                    onlineLayout.time[1].setText(score[currentIndex] + " 分");
+                    onlineLayout.time[1].setVisible(true);
                 }
             }
+        }
     }
     public void showNoNeedText(int currentIndex){
         if(currentIndex == 0){
