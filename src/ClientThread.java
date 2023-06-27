@@ -84,7 +84,7 @@ public class ClientThread extends Thread{
                 to = null;
                 break;
             case 'c':
-                roomArrayList.get(room).giveScores(from.substring(':')+1);
+                roomArrayList.get(room).giveScores(from.substring(2));
                 to=null;
                 break;
             case 'o':

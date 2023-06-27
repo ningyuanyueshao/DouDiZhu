@@ -179,6 +179,7 @@ public class OnlineTime extends Thread{
         }
         System.out.println("priorityNum是"+onlineLayout.priorityNum);
         for (int j = 0; j < 3; j++) {
+            timeLeft = 10;//叫分计时为10秒
             if(onlineLayout.priorityNum == onlineLayout.playerNum){
                 //显现四个按钮
                 for(int i=0;i<4;i++)

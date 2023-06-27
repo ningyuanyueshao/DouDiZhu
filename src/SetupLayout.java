@@ -176,6 +176,14 @@ public class SetupLayout extends JPanel implements ActionListener {
                 } else if (roomChoice == 1) {
                     printWriter.println("4:"+roomChoice);
                     //TODO:创建私人房间
+                    while (roomID == -1) {
+                        try {
+                            Thread.sleep(10);
+                        } catch (InterruptedException ex) {
+                            ex.printStackTrace();
+                        }
+                    }
+                    JOptionPane.showMessageDialog(this,"分配的私人房间号是"+roomID+"，请邀请您的好友");
 
                 } else if (roomChoice == 2) {
                     printWriter.println("4:"+roomChoice);
