@@ -605,18 +605,18 @@ public class OnlineTime extends Thread{
         }
         else if(onlineLayout.playerNum == 1){
             if(onlineLayout.priorityNum == 0){
-                point.x = 1400;
+                point.x = 500;
             }
             else if(onlineLayout.priorityNum == 2){
-                point.x = 500;
+                point.x = 1400;
             }
         }
         else{
             if(onlineLayout.priorityNum == 0){
-                point.x = 500;
+                point.x = 1400;
             }
             else if(onlineLayout.priorityNum == 1){
-                point.x = 1400;
+                point.x = 500;
             }
         }
 //        其中x的取值是根据 priorityNum 和 playNum 而定的
