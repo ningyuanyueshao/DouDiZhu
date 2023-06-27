@@ -296,7 +296,6 @@ public class OnlineTime extends Thread{
             onlineLayout.rePosition(onlineLayout,onlineLayout.playerList[onlineLayout.playerNum],1);
         }
         else{
-//            onlineLayout.playerList[onlineLayout.playerNum].addAll(onlineLayout.lordList);
             openlord(true);
         }
     }
@@ -458,7 +457,9 @@ public class OnlineTime extends Thread{
                 onlineLayout.add(onlineLayout.lordListCopy.get(i));//把这个加入进去
                 onlineLayout.lordListCopy.get(i).setVisible(true);
                 onlineLayout.lordListCopy.get(i).turnFront();
+
                 onlineLayout.lordList.get(i).turnFront(); // 地主牌翻看
+                onlineLayout.lordList.get(i).setVisible(true);
             }
             else {
 //                onePLayout.lordListCopy.get(i).turnRear(); bug1 注意如果要盖上地主牌 那么copy不能盖上

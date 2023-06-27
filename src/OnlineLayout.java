@@ -25,10 +25,10 @@ public class OnlineLayout extends JPanel implements ActionListener {
     List<SinglePoker> lordList;//地主牌
     List<SinglePoker> lordListCopy;//地主牌的备份 显示在页面顶端
     SinglePoker cards[] = new SinglePoker[54]; // 定义54张牌
+    SinglePoker cardsCopy[] = new SinglePoker[54];//定义54张牌的备份 用于三张copy的地主牌
     SinglePoker nullCardsOne[] = new SinglePoker[17];
     SinglePoker nullCardsTwo[] = new SinglePoker[17];
 //    用来给其他两个玩家发牌，这些牌只需要背面朝上
-    SinglePoker[] lordCardCopy = new SinglePoker[3];//三张备份的地主牌
 
     String[] player0CardsStr = null;
     String[] player1CardsStr = null;
@@ -198,6 +198,12 @@ public class OnlineLayout extends JPanel implements ActionListener {
                 cards[count].setLocation(300+(i*20),50);
                 add(cards[count]);//会不会是因为cards没有加入到jpanel里面去导致显示不出来?
                 cards[count].setVisible(false);//先不让所有的cards显示
+
+                cardsCopy[count] = new SinglePoker(i+"-"+j,false);
+                cardsCopy[count].setLocation(300+(i*20),50);
+                add(cardsCopy[count]);//会不会是因为cards没有加入到jpanel里面去导致显示不出来?
+                cardsCopy[count].setVisible(false);//先不让所有的cards显示
+
                 count++;
             }
         }
@@ -207,6 +213,11 @@ public class OnlineLayout extends JPanel implements ActionListener {
             cards[count].setLocation(400,50);
             add(cards[count]);
             cards[count].setVisible(false);
+
+            cardsCopy[count] = new SinglePoker("5-"+i,false);
+            cardsCopy[count].setLocation(400,50);
+            add(cardsCopy[count]);
+            cardsCopy[count].setVisible(false);
             count++;
         }
 
@@ -331,13 +342,13 @@ public class OnlineLayout extends JPanel implements ActionListener {
             pokerColor = Integer.parseInt(lordCardsStr[i].substring(0, 1));
             pokerNum = Integer.parseInt(lordCardsStr[i].substring(2));
             index = (pokerColor - 1) * 13 + pokerNum - 1;
-            lordCardCopy[i] = new SinglePoker(cards[index]);
+
             lordList.add(cards[index]);
-            lordListCopy.add(lordCardCopy[i]);
+            lordListCopy.add(cardsCopy[index]);
             cards[index].turnRear();
             cards[index].setVisible(true);
-            lordCardCopy[i].turnRear();
-            lordCardCopy[i].setVisible(true);
+            cardsCopy[index].turnRear();
+            cardsCopy[index].setVisible(true);
         }
 
     }
@@ -379,8 +390,9 @@ public class OnlineLayout extends JPanel implements ActionListener {
             lordList.get(i).setVisible(true);
             lordListCopy.get(i).turnRear();
             lordListCopy.get(i).setVisible(true);
-//            setComponentZOrder(lordList.get(i), 0);
+            setComponentZOrder(lordList.get(i), 0);
             setComponentZOrder(lordListCopy.get(i), 0);
+
         }
         frame.getContentPane().removeAll();
         frame.getContentPane().add(this);
