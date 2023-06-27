@@ -33,6 +33,8 @@ public class SetupLayout extends JPanel implements ActionListener {
     ImageIcon backgroundImage;//背景图片
     JLabel backgroundLabel;//背景图片对应的JLabel
 
+    Clip clip;
+
     PrintWriter printWriter;
 
     public SetupLayout(){
@@ -301,7 +303,7 @@ public class SetupLayout extends JPanel implements ActionListener {
     public void Music(){
         try {
             AudioInputStream inputStream = AudioSystem.getAudioInputStream(new File("src/sound/纯音乐 - 欢乐斗地主.wav"));
-            Clip clip = AudioSystem.getClip();
+            clip = AudioSystem.getClip();
             clip.open(inputStream);
             clip.loop(Clip.LOOP_CONTINUOUSLY);
         } catch (Exception e) {

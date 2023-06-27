@@ -188,6 +188,7 @@ public class OnePLayout extends JPanel implements ActionListener {
         }
         // 添加退出单机按钮
         JButton exitButton = new RoundRectButton("退出单机");
+        exitButton.setFont(font);
         exitButton.setBounds(1800, 10, 75, 40); // 设置按钮位置和大小
         add(exitButton);
         exitButton.addActionListener(new ActionListener() {
@@ -195,6 +196,23 @@ public class OnePLayout extends JPanel implements ActionListener {
                 int result = JOptionPane.showConfirmDialog(null, "确认要退出程序吗？", "确认退出", JOptionPane.YES_NO_OPTION);
                 if (result == JOptionPane.YES_OPTION) {
                     System.exit(0); // 退出程序
+                }
+            }
+        });
+        // 添加再来一局按钮
+        JButton againButton = new RoundRectButton("再来一局");
+        againButton.setFont(font);
+        againButton.setBounds(1700, 10, 75, 40); // 设置按钮位置和大小
+        add(againButton);
+        againButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                int result = JOptionPane.showConfirmDialog(null, "确认要再来一局吗？", "再来一局", JOptionPane.YES_NO_OPTION);
+                if (result == JOptionPane.YES_OPTION) {
+                    SwingUtilities.getWindowAncestor(exitButton).dispose();
+                    Frame a = new Frame();
+                    a.showOnePLayout();
+                    a.setVisible(true);
+                    a.SpLayout.clip.close();
                 }
             }
         });
