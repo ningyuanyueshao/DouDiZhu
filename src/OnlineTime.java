@@ -620,6 +620,7 @@ public class OnlineTime extends Thread{
 //        其中x的取值是根据 priorityNum 和 playNum 而定的
         for (SinglePoker card : onlineLayout.currentCardsList[onlineLayout.priorityNum]) {
             Common.move(card, card.getLocation(), point,10);
+            card.setVisible(true);
             point.y += 30;
         }
     }
