@@ -76,15 +76,13 @@ public class OnlineTime extends Thread{
             }
             if(onlineLayout.playerNames[(onlineLayout.playerNum-1 + 3)%3] != null){//左侧（本client视角）有玩家进来
                 onlineLayout.namesJText[0].setText(onlineLayout.playerNames[(onlineLayout.playerNum-1+3)%3]);
-                onlineLayout.avatarLabel[0].setVisible(true);
+                onlineLayout.avatarLabel[0].setVisible(true);//在此显示头像
                 onlineLayout.namesJText[0].setVisible(true);
-//                todo 显示头像
             }
             if(onlineLayout.playerNames[(onlineLayout.playerNum+1)%3] != null){//右侧（本client视角）有玩家进来
                 onlineLayout.namesJText[2].setText(onlineLayout.playerNames[(onlineLayout.playerNum+1)%3]);
-                onlineLayout.avatarLabel[2].setVisible(true);
+                onlineLayout.avatarLabel[2].setVisible(true);//显示头像
                 onlineLayout.namesJText[2].setVisible(true);
-//                todo 显示头像
             }
 //      据自己的playerNum不同，去讨论 preFlag为true时，对应哪个time元素需要被写出“已准备”
             if(onlineLayout.preFlag[0]){//0号的玩家准备好
@@ -245,7 +243,11 @@ public class OnlineTime extends Thread{
         else if(score[2] > score[0] && score[2] > score [1]){
             lordIndex = 2;
         }
-        System.out.println("分配地主环节结束,地主玩家编号是"+lordIndex);
+
+        for (SinglePoker card2 : onlineLayout.playerList[onlineLayout.playerNum])//增加牌可被点击
+            card2.canClick = true;// 可被点击 但是点击牌前移动画还没做
+
+        System.out.println("此时玩家面前的牌可以被点击.分配地主环节结束,地主玩家编号是"+lordIndex);
     }
     public void showTimeText(int currentIndex){
         if(currentIndex == 0){//如果是轮到0号

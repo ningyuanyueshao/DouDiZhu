@@ -86,8 +86,10 @@ public class OnlineLayout extends JPanel implements ActionListener {
         for(int i=0;i<3;i++){
             avatar[i] = new ImageIcon("src/img/avatar"+i+".jpg");
             avatarLabel[i] = new JLabel(avatar[i]);
+//            add(avatarLabel[i]);
         }
         avatarLabel[0].setBounds(0,900,avatar[0].getIconWidth(),avatar[0].getIconHeight());
+        avatarLabel[0].setVisible(true);
         avatarLabel[1].setBounds(0,400,avatar[1].getIconWidth(),avatar[1].getIconHeight());
         avatarLabel[2].setBounds(1650,400,avatar[2].getIconWidth(),avatar[2].getIconHeight());
         avatarLabel[1].setVisible(false);
