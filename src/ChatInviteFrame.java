@@ -161,7 +161,7 @@ public class ChatInviteFrame {
         chatTextArea.setText(chatRecord.get(currentSelectedPlayer));
         inputTextField.setText(""); // 清空输入框
 
-        clientConnectThread.giveChatItemsToServer(currentSelectedPlayer, "s:".concat(message)); //发送的消息前加上"s:"使服务端识别
+        clientConnectThread.giveChatItemsToServer(currentSelectedPlayer, message);
 
     }
 

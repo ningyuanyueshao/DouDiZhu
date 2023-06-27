@@ -19,7 +19,7 @@ public class Invite {
     public static void newMessage(String sourceUsername,int roomID,String aimUsername){
         for (ClientThread clientThread : clientThreads) {
             String username = clientThread.username;
-            if (username.equals(aimUsername))
+            if (username!=null && username.equals(aimUsername))
                 clientThread.giveInviteMessage(sourceUsername,roomID);
         }//检查现在处于登录状态的客户端，若有匹配的，直接发送信息
         //若没有，新建一个Message对象，填入messages中等待处理
