@@ -116,8 +116,8 @@ public class ClientConnectThread extends Thread{
                 String[] str = string.split("-");
                 JOptionPane.showMessageDialog(null,"对方"+str[0]+"了您的邀请请求","通知",JOptionPane.PLAIN_MESSAGE);
                 if(str[0].equals("同意")){
-                    int position = Integer.parseInt(str[3]);
-                    frame.onlineLayout.playerNames[position] = str[2];
+                    int position = Integer.parseInt(str[2]);
+                    frame.onlineLayout.playerNames[position] = str[1];
                 }
                 to = null;
                 break;

@@ -10,8 +10,8 @@ import java.util.ArrayList;
  */
 public class ClientThread extends Thread{
 
-    public String username;
-    public String password;
+    public String username = null;
+    public String password = null;
     public int position;//在房间内是几号位，012三个值按进入房间顺序进行分配
     private Socket clientSocket;
     private InputStream inputStream;
@@ -48,7 +48,7 @@ public class ClientThread extends Thread{
             System.out.println("服务端一开始给予的信息为"+to);
             //TODO 现在是有收才有发，最好是没收也能发,有收可以不发
             while((from = bufferedReader.readLine()) != null){//从输入输出流获取交互信息
-                //TODO:主要操作应该都在这里面
+                //主要操作应该都在这里面
                 System.out.println("客户端给的信息为"+ from);
                 to = serverOperators(from,roomArrayList);
                 if(to == null)
@@ -59,9 +59,13 @@ public class ClientThread extends Thread{
         } catch (IOException e) {
             e.printStackTrace();
             System.out.println("终止连接或数据传输出错");
-            //todo:记录时间并给数据库
+            if(DataBase.usr_name_isExist(username)){
+                DataBase.update_usr_playtime(username,System.currentTimeMillis()); //记录时间给数据库
+            }
             roomArrayList.get(room).deletePlayer(this);
             Invite.clientThreads.remove(this);
+            if(username != null)
+                Invite.onlineUsers.remove(username);
         }
     }
 
@@ -88,9 +92,12 @@ public class ClientThread extends Thread{
                 to=null;
                 break;
             case 'e':
-                //拿到牌的格式为
-                roomArrayList.get(room).giveActionCardsToOthers(from.substring(2));
+                roomArrayList.get(room).giveActionCardsToOthers(this,from.substring(2));
                 to=null;
+                break;
+            case 'g':
+                roomArrayList.get(room).recordDataBase(from.substring(2));
+                to =null;
                 break;
             case 'o':
                 String fromAll = from.substring(from.indexOf(':')+1);
@@ -101,11 +108,18 @@ public class ClientThread extends Thread{
             case 'q':
                 String string = from.substring(2);
                 String[] str = string.split("-");
+                position = Integer.parseInt(str[3]);
                 for (ClientThread clientThread:Invite.clientThreads) {
-                    if(clientThread.username.equals(str[1])) {
-                        clientThread.printWriter.println("r:" + str[0] + "-" + str[2] + "-" + str[3]);
-
-                        clientThread.printWriter.println("8:"+str[2]+"-"+str[3]); //用之前的通知新玩家进入房间的逻辑。因为合并在r：的信息里好像有问题，没时间修改了
+                    if(clientThread.username!= null && clientThread.username.equals(str[1])) {
+                        if(str[0].equals("同意"))
+                            clientThread.printWriter.println("r:" + str[0] + "-" + str[2] + "-" + str[3]);
+                        else if (str[0].equals("拒绝"))
+                            clientThread.printWriter.println("r:" + str[0]);
+                        try {
+                            Thread.sleep(100);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
                     }
                 }
                 to = null;
@@ -140,24 +154,23 @@ public class ClientThread extends Thread{
                 //用户注册，数据库检验用户名是否重复即可,若重复要返回失败
                 break;
             case '1':
-                /*if(!Invite.isLogIn(all.substring(1,all.indexOf('-')))){
+                if(!Invite.isLogIn(all.substring(1,all.indexOf('-')))){
                     to = to.concat("登录失败");
                     break;
-                }//与在线玩家冲突*/
+                }//与在线玩家冲突
                 username = all.substring(1,all.indexOf('-'));
                 password = all.substring(all.indexOf('-')+1);
                 String pass = DataBase.get_usr_pwd(username);
                 if(password.equals(pass)){
                     to = to.concat("登录成功");
+                    Invite.onlineUsers.add(username);
                 }
                 else {
                     to = to.concat("登录失败");
                 }
                 //用户登录，数据库检验用户名与密码是否匹配
-                //Invite.checkMessages(this); //todo:根据返回值决定是否对该用户进行邀请信息的通知
                 break;
             case '2':
-                //todo :数据库返回所有用户名 ； 当用户加入到房间的时候也要得到所有用户名，且要按最近游戏的时间进行排序
                 to = to.concat("用户列表");
                 to = to.concat(DataBase.get_All_user_name());
                 break;
@@ -245,5 +258,8 @@ public class ClientThread extends Thread{
         System.out.println("服务器返回的所有在线玩家信息为"+to);
         printWriter.println(to);
         printWriter.flush();
+    }
+    public void updateScoreToDatabase(int score){
+        DataBase.update_usr_score(this.username,score);
     }
 }

@@ -130,10 +130,27 @@ public class Room{
         System.out.println("该房间内的用户"+temp+"的线程已被剔除");
     }//当用户退出的时候，从房间中剔除该用户
 
-    public void giveActionCardsToOthers(String cards){
+    public void giveActionCardsToOthers(ClientThread client,String cards){
         for (ClientThread clientThread:clientThreads) {
-            clientThread.giveActionCardsToClient(cards);
+            if(clientThread != client)
+                clientThread.giveActionCardsToClient(cards);
         }
     }
     //可以在这个房间里调用每个线程类的方法，就可以修改每个线程里的from和to了
+    public void recordDataBase(String string){
+        String[] strings = string.split("-");
+        int score = Integer.parseInt(strings[0]);//叫的分
+        if(strings.length ==2){
+            //一个人获胜，那就是地主
+            int position = Integer.parseInt(strings[1]);
+            clientThreads[position].updateScoreToDatabase(score*2); //地主获胜为叫的分*2
+        }
+        else if(strings.length == 3){
+            //两个人获胜，那就是农民
+            int position = Integer.parseInt(strings[1]);
+            clientThreads[position].updateScoreToDatabase(score); //农民获胜为叫的分
+            position = Integer.parseInt(strings[2]);
+            clientThreads[position].updateScoreToDatabase(score);
+        }
+    }
 }

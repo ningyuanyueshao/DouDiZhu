@@ -9,7 +9,7 @@ public class Chat {
         ClientThread temp;
         for (int i = 0; i < Invite.clientThreads.size(); i++) {
             temp = Invite.clientThreads.get(i);
-            if(temp.username.equals(toUsername)){
+            if(temp.username!=null && temp.username.equals(toUsername)){
                 to = Invite.clientThreads.get(i);
             }
         }
