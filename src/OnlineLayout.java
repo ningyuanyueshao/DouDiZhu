@@ -55,8 +55,8 @@ public class OnlineLayout extends JPanel implements ActionListener {
         SwingUtilities.invokeLater(new onLineNewTimer(this,10));//开启新的线程 进行准备 发牌 叫分 游戏
         CardsInit();//不在进程中初始化cards 试试能不能在屏幕中显示 说明可以显示
 //        getLord();
-//        setBackground();
-//        add(backgroundLabel);
+        setBackground();
+        add(backgroundLabel);
     }
     public void setBackground(){//设置背景图片
         int width = Toolkit.getDefaultToolkit().getScreenSize().width;
