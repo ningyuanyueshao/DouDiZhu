@@ -184,10 +184,11 @@ public class OnlineTime extends Thread{
                     onlineLayout.landlord[i].setVisible(true);//把四个按钮打开
                 while(timeLeft>=0) {
                     second(1);
-                    if(score[onlineLayout.priorityNum] != -1){
+                    if(score[onlineLayout.priorityNum] != -1){//已叫分
                         //通知服务端
                         for(int i=0;i<4;i++)
                             onlineLayout.landlord[i].setVisible(false);
+                        showScoreText(onlineLayout.priorityNum);
                         System.out.println("本客户端叫了"+score[onlineLayout.priorityNum]);
                         onlineLayout.printWriter.println("c:"+onlineLayout.playerNum+"-"+score[onlineLayout.priorityNum]);
                         break;
