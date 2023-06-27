@@ -30,7 +30,7 @@ public class OnlineTime extends Thread{
         allocateLord();//分配地主 并加入地主牌
         setlord(lordIndex);
         playingGames();//开始打牌
-
+        returnInfor();//返回字符串消息给后端
     }
     public void second(int i){
         try {
@@ -566,7 +566,6 @@ public class OnlineTime extends Thread{
             onlineLayout.priorityNum = (onlineLayout.priorityNum+1 )%3;//每次一个人轮完之后 priorityNum自增取模
             judgeIsEnd();
         }
-        System.out.println("游戏结束,获胜玩家是:"+winIndex);
     }
     public void judgeIsEnd(){//判断游戏是否结束
         if(restCardsNum[0] == 0){
@@ -691,6 +690,23 @@ public class OnlineTime extends Thread{
                 onlineLayout.time[1].setText("要");
                 onlineLayout.time[1].setVisible(false);
             }
+        }
+
+    }
+    public void returnInfor(){
+        int maxScore = -1;
+        for (int i = 0; i < 3; i++) {
+            if(score[i] > maxScore){
+                maxScore = score[i];
+            }
+        }
+        if(lordIndex == winIndex){
+            System.out.println("地主获胜，获胜玩家编号是"+winIndex);
+            onlineLayout.printWriter.println("g:"+maxScore+"-"+winIndex);
+        }
+        else{
+            System.out.println("农民获胜，获胜玩家编号是"+((lordIndex+1)%3+"+"+((lordIndex+2)%3)) );
+            onlineLayout.printWriter.println("g:"+maxScore+"-"+(lordIndex+1)%3+(lordIndex+2)%3);
         }
 
     }
