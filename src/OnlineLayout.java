@@ -252,6 +252,7 @@ public class OnlineLayout extends JPanel implements ActionListener {
                 onlineTime.isRun = false;//停掉计时器
                 currentCardsList[playerNum] = wantedSendCards;
                 playerList[playerNum].removeAll(currentCardsList[playerNum]);//从手牌中移除掉选中的牌
+                onlineTime.restCardsNum[playerNum] = onlineTime.restCardsNum[playerNum] - wantedSendCards.size();
                 positionSendedCards();//把要出的牌放到牌桌中央 并且调整剩余手牌位置
             }
         }

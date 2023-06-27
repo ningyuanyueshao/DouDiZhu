@@ -9,6 +9,7 @@ public class OnlineTime extends Thread{
     int lordIndex = -1;//地主的下标
     int winIndex = -1;//获胜玩家下标
     int[] score = new int[3];//三个人所叫的分数 每个人的玩家编号对应数组下标
+    int[] restCardsNum = new int[3];//剩余张数
 
     OnlineLayout onlineLayout;
     int timeLeft;
@@ -61,6 +62,10 @@ public class OnlineTime extends Thread{
         score[0] = -1;
         score[1] = -1;
         score[2] = -1;
+
+        restCardsNum[0] = 17;
+        restCardsNum[1] = 17;
+        restCardsNum[2] = 17;
     }
     public void beginPrepare(){//进入各玩家的准备阶段
         while(true){
@@ -243,12 +248,15 @@ public class OnlineTime extends Thread{
     public void allocateLord(){
         if(score[0] > score[1] && score[0] > score [2]){
             lordIndex = 0;
+            restCardsNum[0] = 20;
         }
         else if(score[1] > score[0] && score[1] > score [2]){
             lordIndex = 1;
+            restCardsNum[1] = 20;
         }
         else if(score[2] > score[0] && score[2] > score [1]){
             lordIndex = 2;
+            restCardsNum[2] = 20;
         }
 
         for (SinglePoker card2 : onlineLayout.playerList[onlineLayout.playerNum])//增加牌可被点击
@@ -266,7 +274,7 @@ public class OnlineTime extends Thread{
             onlineLayout.rePosition(onlineLayout,onlineLayout.playerList[onlineLayout.playerNum],1);
         }
         else{
-            onlineLayout.playerList[onlineLayout.playerNum].addAll(onlineLayout.lordList);
+//            onlineLayout.playerList[onlineLayout.playerNum].addAll(onlineLayout.lordList);
             openlord(true);
         }
     }
@@ -502,6 +510,7 @@ public class OnlineTime extends Thread{
                         else{//其他玩家有出牌
                             showSendText(onlineLayout.priorityNum);//展现“出”的信息
                             String[] cards = priorityActionCards.split(";");
+                            restCardsNum[onlineLayout.priorityNum] = restCardsNum[onlineLayout.priorityNum] - cards.length;
                             System.out.println(onlineLayout.priorityNum+"玩家出的牌是");
                             //把currentCardsList 数组进行维护
                             for (int i = 0; i < cards.length; i++) {
