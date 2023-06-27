@@ -102,7 +102,6 @@ public class OnlineTime extends Thread{
             for (int j = 0; j < 3; j++) {
                 if(onlineLayout.playerNames[j] != null){
                     System.out.println(onlineLayout.playerNames[j]);
-                    onlineLayout.avatarLabel[j].setVisible(true);
                 }
             }
             if(onlineLayout.playerNames[(onlineLayout.playerNum-1 + 3)%3] != null){//左侧（本client视角）有玩家进来
