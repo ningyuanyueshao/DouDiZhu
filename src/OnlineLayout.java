@@ -419,7 +419,7 @@ public class OnlineLayout extends JPanel implements ActionListener {
         time[1].setVisible(false);
     }
     public int checkCards(List<SinglePoker> wantedSendCards){//可以返回1 不能返回0
-        List<SinglePoker> tempList=(currentCardsList[(playerNum+2)%3].size()>0)?currentCardsList[(playerNum+2)%3]:currentCardsList[playerNum+1];
+        List<SinglePoker> tempList=(currentCardsList[(playerNum+2)%3].size()>0)?currentCardsList[(playerNum+2)%3]:currentCardsList[(playerNum+1)%3];
         CardType cType=Common.jugdeType(wantedSendCards);
         if(cType!=CardType.c4&&wantedSendCards.size()!=tempList.size())
             return 0;

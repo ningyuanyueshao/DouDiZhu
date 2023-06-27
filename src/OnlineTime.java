@@ -547,13 +547,13 @@ public class OnlineTime extends Thread{
         System.out.println("游戏结束,获胜玩家是:"+winIndex);
     }
     public void judgeIsEnd(){//判断游戏是否结束
-        if(onlineLayout.playerList[0].size()==0){
+        if(restCardsNum[0] == 0){
             winIndex = 0;
         }
-        else if(onlineLayout.playerList[1].size() == 0){
+        else if(restCardsNum[1] == 0){
             winIndex = 1;
         }
-        else if(onlineLayout.playerList[2].size() == 0){
+        else if(restCardsNum[2] == 0){
             winIndex = 2;
         }
     }
