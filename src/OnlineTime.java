@@ -124,9 +124,9 @@ public class OnlineTime extends Thread{
                 }
             }
 //            检测是否玩家的准备，若准备好则显示已准备字样
-            System.out.println("玩家0的准备状态"+ onlineLayout.preFlag[0]);
-            System.out.println("玩家1的准备状态"+ onlineLayout.preFlag[1]);
-            System.out.println("玩家2的准备状态"+ onlineLayout.preFlag[2]);
+//            System.out.println("玩家0的准备状态"+ onlineLayout.preFlag[0]);
+//            System.out.println("玩家1的准备状态"+ onlineLayout.preFlag[1]);
+//            System.out.println("玩家2的准备状态"+ onlineLayout.preFlag[2]);
 
             if(onlineLayout.preFlag[0]&&onlineLayout.preFlag[1]&&onlineLayout.preFlag[2]){
                 break;//全部都准备好了
@@ -190,6 +190,7 @@ public class OnlineTime extends Thread{
                         //通知服务端
                         for(int i=0;i<4;i++)
                             onlineLayout.landlord[i].setVisible(false);
+                        System.out.println("本客户端叫了"+score[onlineLayout.priorityNum]);
                         onlineLayout.printWriter.println("c:"+onlineLayout.playerNum+"-"+score[onlineLayout.priorityNum]);
                         break;
                     }
@@ -208,6 +209,7 @@ public class OnlineTime extends Thread{
                     second(1);
                     if(score[onlineLayout.priorityNum] != -1){
                         //当前该叫分的人叫分了
+                        System.out.println("玩家编号为"+onlineLayout.priorityNum+"的人叫了"+score[onlineLayout.priorityNum]);
                         showScoreText(onlineLayout.priorityNum);
                         break;
                         //onlineLayout.time[onlineLayout.priorityNum].setText(String.valueOf(score[onlineLayout.priorityNum]));
@@ -293,34 +295,43 @@ public class OnlineTime extends Thread{
         if(currentIndex == 0){//如果是轮到0号
             if(onlineLayout.playerNum == 0){
                 onlineLayout.time[1].setText("倒计时:"+ timeLeft--);
+                onlineLayout.time[1].setVisible(true);
             }
             else if(onlineLayout.playerNum == 1){
                 onlineLayout.time[0].setText("倒计时:"+ timeLeft--);
+                onlineLayout.time[0].setVisible(true);
             }
             else {
                 onlineLayout.time[2].setText("倒计时:"+ timeLeft--);
+                onlineLayout.time[2].setVisible(true);
             }
         }
         else if(currentIndex == 1){
             if(onlineLayout.playerNum == 0){
                 onlineLayout.time[2].setText("倒计时:"+ timeLeft--);
+                onlineLayout.time[2].setVisible(true);
             }
             else if(onlineLayout.playerNum == 1){
                 onlineLayout.time[1].setText("倒计时:"+ timeLeft--);
+                onlineLayout.time[1].setVisible(true);
             }
             else {
                 onlineLayout.time[0].setText("倒计时:"+ timeLeft--);
+                onlineLayout.time[0].setVisible(true);
             }
         }
         else{//轮到2号在叫分
             if(onlineLayout.playerNum == 0){
                 onlineLayout.time[0].setText("倒计时:"+ timeLeft--);
+                onlineLayout.time[0].setVisible(true);
             }
             else if(onlineLayout.playerNum == 1){
                 onlineLayout.time[2].setText("倒计时:"+ timeLeft--);
+                onlineLayout.time[2].setVisible(true);
             }
             else {
                 onlineLayout.time[1].setText("倒计时:"+ timeLeft--);
+                onlineLayout.time[1].setVisible(true);
             }
         }
     }
@@ -328,26 +339,35 @@ public class OnlineTime extends Thread{
             if (currentIndex == 0) {
                 if (onlineLayout.playerNum == 0) {
                     onlineLayout.time[1].setText(score[currentIndex] + " 分");
+                    onlineLayout.time[1].setVisible(true);
                 } else if (onlineLayout.playerNum == 1) {
                     onlineLayout.time[0].setText(score[currentIndex] + " 分");
+                    onlineLayout.time[0].setVisible(true);
                 } else {
                     onlineLayout.time[2].setText(score[currentIndex] + " 分");
+                    onlineLayout.time[2].setVisible(true);
                 }
             } else if (currentIndex == 1) {
                 if (onlineLayout.playerNum == 0) {
                     onlineLayout.time[2].setText(score[currentIndex] + " 分");
+                    onlineLayout.time[2].setVisible(true);
                 } else if (onlineLayout.playerNum == 1) {
                     onlineLayout.time[1].setText(score[currentIndex] + " 分");
+                    onlineLayout.time[1].setVisible(true);
                 } else {
                     onlineLayout.time[0].setText(score[currentIndex] + " 分");
+                    onlineLayout.time[0].setVisible(true);
                 }
             } else {//currentIndex 为2
                 if (onlineLayout.playerNum == 0) {
                     onlineLayout.time[0].setText(score[currentIndex] + " 分");
+                    onlineLayout.time[0].setVisible(true);
                 } else if (onlineLayout.playerNum == 1) {
                     onlineLayout.time[2].setText(score[currentIndex] + " 分");
+                    onlineLayout.time[2].setVisible(true);
                 } else {
                     onlineLayout.time[0].setText(score[currentIndex] + " 分");
+                    onlineLayout.time[0].setVisible(true);
                 }
             }
     }
