@@ -171,8 +171,13 @@ public class ChatInviteFrame {
     }
 
     private void invitePlayer() {
-        System.out.println("向服务器发送邀请信息");
-        printWriter.println("o:"+username+"-"+roomID+"-"+currentSelectedPlayer);
+        if (roomID == -1) {
+            System.out.println("未进入房间，未向服务器发送邀请信息");
+            JOptionPane.showMessageDialog(mainFrame, "未加入房间！");
+        } else {
+            System.out.println("向服务器发送邀请信息");
+            printWriter.println("o:" + username + "-" + roomID + "-" + currentSelectedPlayer);
+        }
     }
 
     private void refreshPlayer() {
