@@ -187,13 +187,13 @@ public class OnePLayout extends JPanel implements ActionListener {
             currentList[i]=new ArrayList<SinglePoker>();//初始化要出的牌
         }
         // 添加退出单机按钮
-        JButton exitButton = new RoundRectButton("退出单机");
+        JButton exitButton = new RoundRectButton("退出游戏");
         exitButton.setFont(font);
         exitButton.setBounds(1800, 10, 75, 40); // 设置按钮位置和大小
         add(exitButton);
         exitButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                int result = JOptionPane.showConfirmDialog(null, "确认要退出程序吗？", "确认退出", JOptionPane.YES_NO_OPTION);
+                int result = JOptionPane.showConfirmDialog(null, "确认要退出游戏吗？", "确认退出", JOptionPane.YES_NO_OPTION);
                 if (result == JOptionPane.YES_OPTION) {
                     System.exit(0); // 退出程序
                 }
