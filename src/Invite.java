@@ -31,7 +31,9 @@ public class Invite {
     public static String getAllUsernames(){
         String usernames = clientThreads.get(0).username;
         for (int i = 1; i < clientThreads.size(); i++) {
-            usernames = usernames.concat(";"+clientThreads.get(i).username);
+            String temp = clientThreads.get(i).username;
+            if(temp!=null)
+                usernames = usernames.concat(";"+clientThreads.get(i).username);
         }
         return usernames;
     }

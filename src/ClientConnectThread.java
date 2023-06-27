@@ -358,6 +358,6 @@ public class ClientConnectThread extends Thread{
     }
 
     public void giveActionCardsToFrame(String cards){
-
+        frame.onlineLayout.onlineTime.priorityActionCards =cards;
     }
 }

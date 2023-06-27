@@ -87,7 +87,7 @@ public class ClientThread extends Thread{
                 roomArrayList.get(room).giveScores(from.substring(2));
                 to=null;
                 break;
-            case 'f':
+            case 'e':
                 //拿到牌的格式为
                 roomArrayList.get(room).giveActionCardsToOthers(from.substring(2));
                 to=null;
@@ -102,8 +102,11 @@ public class ClientThread extends Thread{
                 String string = from.substring(2);
                 String[] str = string.split("-");
                 for (ClientThread clientThread:Invite.clientThreads) {
-                    if(clientThread.username.equals(str[1]))
-                        clientThread.printWriter.println("r:"+str[0]+"-"+str[2]+"-"+str[3]);
+                    if(clientThread.username.equals(str[1])) {
+                        clientThread.printWriter.println("r:" + str[0] + "-" + str[2] + "-" + str[3]);
+
+                        clientThread.printWriter.println("8:"+str[2]+"-"+str[3]); //用之前的通知新玩家进入房间的逻辑。因为合并在r：的信息里好像有问题，没时间修改了
+                    }
                 }
                 to = null;
                 break;

@@ -464,7 +464,7 @@ public class OnlineTime extends Thread{
                             onlineLayout.time[1].setVisible(false);
                             for (int i = 0; i < onlineLayout.currentCardsList[onlineLayout.playerNum].size(); i++) {
                                 System.out.println(onlineLayout.currentCardsList[onlineLayout.playerNum].get(i).name);
-                                priorityActionCards = priorityActionCards.concat(onlineLayout.currentCardsList[onlineLayout.playerNum].get(i).name);
+                                priorityActionCards = priorityActionCards.concat(onlineLayout.currentCardsList[onlineLayout.playerNum].get(i).name+";");
                             }
                             onlineLayout.printWriter.println(priorityActionCards);//把出牌信息给server
                         }
