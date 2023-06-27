@@ -24,7 +24,7 @@ public class OnlineTime extends Thread{
         onlineLayout.addCardsToList();//把cards添加到每个玩家的手牌List 以及 地主牌List中去
         onlineLayout.setLocationAndZorder();
         callPoints();//叫分环节
-//        allocateLord();//分配地主
+        allocateLord();//分配地主
 
     }
     public void second(int i){
@@ -199,23 +199,23 @@ public class OnlineTime extends Thread{
                     }
                 }
                 if(timeLeft<0){
-                    score[onlineLayout.priorityNum] = 0;
+                    score[onlineLayout.priorityNum] = 0;//直接不抢
                     System.out.println("已超时");
                     onlineLayout.printWriter.println("c:"+onlineLayout.playerNum+"-"+score[onlineLayout.priorityNum]);
                 }
             }
-            else{
+            else{//其他两个玩家在叫分
                 while(timeLeft>=0){
                     second(1);
                     if(score[onlineLayout.priorityNum] != -1){
                         //当前该叫分的人叫分了
                         System.out.println("玩家编号为"+onlineLayout.priorityNum+"的人叫了"+score[onlineLayout.priorityNum]);
-                        showScoreText(onlineLayout.priorityNum);
+                        showScoreText(onlineLayout.priorityNum);//显示该玩家的叫分值
                         break;
                         //onlineLayout.time[onlineLayout.priorityNum].setText(String.valueOf(score[onlineLayout.priorityNum]));
                     }
                     else{
-                        showTimeText(onlineLayout.priorityNum);
+                        showTimeText(onlineLayout.priorityNum);//没有叫分显示该玩家的剩余时间
                     }
                 }
 
@@ -225,60 +225,15 @@ public class OnlineTime extends Thread{
                 }
             }
             if(score[onlineLayout.priorityNum] == 3){
+                lordIndex = onlineLayout.priorityNum;
                 //有人叫三分,onlineLayout.priorityNum不能变
                 break;
             }
             else{
-                onlineLayout.priorityNum = (onlineLayout.priorityNum+1 )%3;
+                onlineLayout.priorityNum = (onlineLayout.priorityNum+1 )%3;//每人抢三分 priorityNum变化
                 //没人叫三分，进入下一个循环
             }
         }
-
-
-
-        /*while(onlineLayout.priorityNum == -1){//若priority不为-1则退出循环
-            second(1);
-        }
-        int currentIndex = -1;//当前叫分的玩家下标
-        for(int count=0;count<3;count++){
-            if(lordIndex != -1){//地主是否已经确定 也就是是否有人直接叫了三分
-                return;
-            }
-            currentIndex = (count+onlineLayout.priorityNum)%3;//当前叫分的玩家下标 priorityNum是server端给
-            if(currentIndex == onlineLayout.playerNum){//轮到自己了
-                for(int i=0;i<4;i++)
-                    onlineLayout.landlord[i].setVisible(true);//把四个按钮打开
-            }
-            i=10;//每个人叫分有十秒时间
-            isRun = true;
-            while(i>-1 && isRun){
-                showTimeText(currentIndex);//每一秒钟展现该玩家面前的time的text文字 在此函数中i--
-                second(1);//等一秒
-                showScoreText(currentIndex);//如果叫分了，展现该玩家面前的time的分数
-            }
-//            叫完分之后
-            if(score[onlineLayout.playerNum]!=-1){//本客户端玩家叫完分
-                for(int i=0;i<4;i++)
-                    onlineLayout.landlord[i].setVisible(false);//把四个按钮关闭
-                //todo 把分数值传给server
-            }
-            if(i==-1){//说明超时
-                showNoNeedText(currentIndex);
-            }
-            else{//非正常终结 说明是有叫分
-                if(score[onlineLayout.playerNum] == 3){//叫了三分
-                    lordIndex = onlineLayout.playerNum;
-                    for (int j = 0; j < 4; j++) {
-                        onlineLayout.landlord[j].setVisible(false);//打分按钮全部不可见 因为已经分配了地主 该客户端叫分已经没有意义
-                    }
-                    isRun = false;
-                }
-                else{//叫了其他分数
-                    onlineLayout.landlord[score[onlineLayout.playerNum]].setVisible(false);//不让这个按钮可见 不能打相同的分
-                }
-            }
-        }
-        */
     }
     public void allocateLord(){
         if(score[0] > score[1] && score[0] > score [2]){
@@ -290,6 +245,7 @@ public class OnlineTime extends Thread{
         else if(score[2] > score[0] && score[2] > score [1]){
             lordIndex = 2;
         }
+        System.out.println("分配地主环节结束,地主玩家编号是"+lordIndex);
     }
     public void showTimeText(int currentIndex){
         if(currentIndex == 0){//如果是轮到0号
