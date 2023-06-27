@@ -625,6 +625,7 @@ public class OnlineTime extends Thread{
             Common.move(card, card.getLocation(), point,10);
             card.setVisible(true);
             point.y += 30;
+            onlineLayout.setComponentZOrder(card,0);//显示次序
         }
     }
     public void showSendText(int currentIndex){
