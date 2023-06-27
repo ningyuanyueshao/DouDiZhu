@@ -103,7 +103,7 @@ public class ClientThread extends Thread{
                 String[] str = string.split("-");
                 for (ClientThread clientThread:Invite.clientThreads) {
                     if(clientThread.username.equals(str[1]))
-                        clientThread.printWriter.println("r:"+str[0]);
+                        clientThread.printWriter.println("r:"+str[0]+"-"+str[2]+"-"+str[3]);
                 }
                 to = null;
                 break;

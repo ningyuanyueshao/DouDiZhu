@@ -112,7 +112,13 @@ public class ClientConnectThread extends Thread{
                 to = null;
                 break;
             case 'r':
-                JOptionPane.showMessageDialog(null,"对方"+from.substring(2)+"了您的邀请请求","通知",JOptionPane.PLAIN_MESSAGE);
+                String string = from.substring(2);
+                String[] str = string.split("-");
+                JOptionPane.showMessageDialog(null,"对方"+str[0]+"了您的邀请请求","通知",JOptionPane.PLAIN_MESSAGE);
+                if(str[0].equals("同意")){
+                    int position = Integer.parseInt(str[3]);
+                    frame.onlineLayout.playerNames[position] = str[2];
+                }
                 to = null;
                 break;
             case 't':
@@ -281,11 +287,11 @@ public class ClientConnectThread extends Thread{
             System.out.println("用户选择加入房间");
             setupLayout.roomID = Integer.parseInt(str[1]);
             mainChatInviteFrame.roomID = Integer.parseInt(str[1]);
-            printWriter.println("q:同意"+"-"+str[0]);
             frame.showOnlineLayout();//展现onlinePanel
             frame.onlineLayout.printWriter = printWriter;
             if(str.length == 3){
                 frame.onlineLayout.playerNum = 1;
+                printWriter.println("q:同意"+"-"+str[0]+"-"+setupLayout.getPlayerName()+"-"+frame.onlineLayout.playerNum);
                 int index = str[2].indexOf("、");
                 frame.onlineLayout.playerNames[0] = str[2].substring(0,index);
                 frame.onlineLayout.playerNames[2] = null;
@@ -294,6 +300,7 @@ public class ClientConnectThread extends Thread{
             }
             else if(str.length == 4){
                 frame.onlineLayout.playerNum = 2;
+                printWriter.println("q:同意"+"-"+str[0]+"-"+setupLayout.getPlayerName()+"-"+frame.onlineLayout.playerNum);
                 int index = str[2].indexOf("、");
                 frame.onlineLayout.playerNames[0] = str[2].substring(0,index);
                 if(str[2].charAt(index+1) == '1')
