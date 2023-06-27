@@ -83,7 +83,7 @@ public class SetupLayout extends JPanel implements ActionListener {
         if (e.getSource() == singlePlayerButton) {
             // 处理单机游戏按钮被按下的事件
             System.out.println("欢迎进入单机游戏！");
-            JOptionPane.showMessageDialog(this, "欢迎进入单机游戏！");
+            JOptionPane.showMessageDialog(this, new JLabel("<html><h3><font color=#238E23>欢迎进入单机游戏！</font></h3></html>"));
             wantSingleConnected = true;
         } else if (e.getSource() == multiPlayerButton) {
             // 处理联机游戏按钮被按下的事件
@@ -94,7 +94,7 @@ public class SetupLayout extends JPanel implements ActionListener {
                 ex.printStackTrace();
             }
             if(wantGetConnected2 == true)
-                JOptionPane.showMessageDialog(this, "欢迎进入联机游戏！");
+                JOptionPane.showMessageDialog(this, new JLabel("<html><h3><font color=#238E23>欢迎进入联机游戏！</font></h3></html>"));
             else {
                 JOptionPane.showMessageDialog(this, "服务器维护中。。。");
                 wantGetConnected = false;
