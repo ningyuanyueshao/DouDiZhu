@@ -87,7 +87,7 @@ public class Time extends Thread{
                     isFirst = false;
                 }
                 turnOn(true);// 出牌按钮 --我出牌
-                timeWait(10, 1);// 我自己的定时器
+                timeWait(30, 1);// 我自己的定时器
                 System.out.println("我出牌");
                 turnOn(false);//选完关闭出牌按钮
                 onePLayout.turn=(onePLayout.turn+1)%3;
