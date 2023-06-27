@@ -70,7 +70,7 @@ public class OnlineLayout extends JPanel implements ActionListener {
     public void Init(){
         prepare = new RoundRectButton("准 备");
         Font font = new Font ("微软雅黑",Font.PLAIN,15);
-
+        prepare.setFont(font);
         //初始化自己面前的四个按钮
         landlord[0]=new RoundRectButton("3 分");
         landlord[1]=new RoundRectButton("2 分");
@@ -90,15 +90,33 @@ public class OnlineLayout extends JPanel implements ActionListener {
         prepare.setVisible(true);
         prepare.addActionListener(this);
 
+        ImageIcon[] originalIcon = new ImageIcon[3];
+        Image[] originalImage = new Image[3];
+
         for(int i=0;i<3;i++){
-            avatar[i] = new ImageIcon("src/img/avatar"+i+".jpg");
-            avatarLabel[i] = new JLabel(avatar[i]);
-//            add(avatarLabel[i]);
+            originalIcon[i] = new ImageIcon("src/img/avatar"+(i+1)+".jpg");
+            originalImage[i] = originalIcon[i].getImage();
         }
-        avatarLabel[0].setBounds(0,900,avatar[0].getIconWidth(),avatar[0].getIconHeight());
+        // 计算缩放后的宽度和高度
+        int scaledWidth = 80;
+        int scaledHeight = 80;
+        // 创建缩放后的图像
+        Image[] scaledImage = new Image[3];
+        // 创建缩放后的图标
+        ImageIcon[] scaledIcon = new ImageIcon[3];
+        for(int i=0;i<scaledIcon.length;i++){
+            scaledImage[i] = originalImage[i].getScaledInstance(scaledWidth, scaledHeight, Image.SCALE_SMOOTH);
+            scaledIcon[i] = new ImageIcon(scaledImage[i]);
+            avatar[i] = scaledIcon[i];
+            avatarLabel[i] = new JLabel(avatar[i]);
+            avatarLabel[i].setSize(scaledWidth, scaledHeight);
+            add(avatarLabel[i]);
+        }
+
+        avatarLabel[0].setLocation(100,850);
         avatarLabel[0].setVisible(true);
-        avatarLabel[1].setBounds(0,400,avatar[1].getIconWidth(),avatar[1].getIconHeight());
-        avatarLabel[2].setBounds(1650,400,avatar[2].getIconWidth(),avatar[2].getIconHeight());
+        avatarLabel[1].setLocation(0,400);
+        avatarLabel[2].setLocation(1650,400);
         avatarLabel[1].setVisible(false);
         avatarLabel[2].setVisible(false);
 
