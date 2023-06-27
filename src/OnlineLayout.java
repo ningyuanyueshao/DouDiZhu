@@ -18,7 +18,7 @@ public class OnlineLayout extends JPanel implements ActionListener {
     ImageIcon[] avatar = new ImageIcon[3];
     JLabel[] avatarLabel = new JLabel[3];
 
-    List<SinglePoker> currentList;//玩家准备出的牌,判断是否合规应该在客户端判断就好了？
+    List<SinglePoker> currentCardsList[] = new ArrayList[3];//三个玩家准备出的牌
     List<SinglePoker> playerList[] = new ArrayList[3]; // 定义3个玩家表,即使客户端没有把牌的内容传过来 还是需要这些对象
 //    注意自己的牌数组下标并不一定是1，而是座次号作为数组下标
 //    因为其他两家要背面朝上
@@ -98,7 +98,7 @@ public class OnlineLayout extends JPanel implements ActionListener {
         for(int i=0;i<2;i++)
         {
             publishCard[i].setBounds(820+i*100, 630, 60, 40);
-            add(publishCard[i]);
+            add(publishCard[i]);//已经加到窗口中去
             publishCard[i].setVisible(false);
             publishCard[i].addActionListener(this);
         }
@@ -136,8 +136,10 @@ public class OnlineLayout extends JPanel implements ActionListener {
         dizhu.setVisible(false);
         dizhu.setSize(40,40);
         add(dizhu);
-
-        currentList = new ArrayList<SinglePoker>();//初始化当前客户端用户要出的牌
+        for(int i=0;i<3;i++)
+        {
+            currentCardsList[i]=new ArrayList<SinglePoker>();//初始化要出的牌
+        }
         lordList = new ArrayList<>();//初始化地主牌 地主牌信息来自server
         lordListCopy = new ArrayList<>();//初始化地主牌复制品 一直放在桌面前的
         for(int i=0;i<3;i++){
@@ -194,9 +196,8 @@ public class OnlineLayout extends JPanel implements ActionListener {
             onlineTime.score[playerNum] = 0;
             onlineTime.isRun=false; //时钟终结
         }
-//          todo 叫分之后客户端要怎么传给server？然后server如何去通知其他的客户端？
 //        客户端传给server：点击了按钮之后 ……
-//        server传给其他两个客户端 更改他们的isCallScore 以及score数组
+//        server传给其他两个客户端 更改他们的score数组
 
         if(e.getSource()==prepare){
             time[1].setText("已准备");//保证自己的编号是1
@@ -207,13 +208,28 @@ public class OnlineLayout extends JPanel implements ActionListener {
             printWriter.println(to);
             prepare.setVisible(false);
         }
-//        如果是不要
-//        if(e.getSource()==publishCard[1])
-//        {
-//            this.nextPlayer=true;
-//            currentList[1].clear();
-//            time[1].setText("不要");
-//        }
+
+        if(e.getSource()==publishCard[1])//如果是不要
+        {
+            onlineTime.isRun = false;
+            currentCardsList[playerNum].clear();//清除掉currentCardsList
+        }
+        else if(e.getSource() == publishCard[0]){//如果要出牌
+            List<SinglePoker> wantedSendCards = new ArrayList<>();
+            //先拿到wantedSendCards
+            for (int i = 0; i < playerList[playerNum].size(); i++) {
+                SinglePoker tempCard = playerList[playerNum].get(i);
+                if(tempCard.clicked){
+                    wantedSendCards.add(tempCard);
+                }
+            }
+            if(judgeIsSendCards(wantedSendCards) == 1){//可以出牌
+                onlineTime.isRun = false;//停掉计时器
+                currentCardsList[playerNum] = wantedSendCards;
+                playerList[playerNum].removeAll(currentCardsList[playerNum]);//从手牌中移除掉选中的牌
+                positionSendedCards();//把要出的牌放到牌桌中央 并且调整剩余手牌位置
+            }
+        }
     }
     public void addCardsToList(){//把Cards添加到List中去，
         int pokerColor,pokerNum;//临时存储每张牌的花色和权值
@@ -354,6 +370,27 @@ public class OnlineLayout extends JPanel implements ActionListener {
             if(flag==1)p.x+=34;
             else p.y+=20;
         }
+    }
+    public int judgeIsSendCards(List<SinglePoker> wantedSendCards){//判断是否能够出牌
+        if(time[0].getText().equals("不要")&&time[2].getText().equals("不要")){//如果我主动出牌
+            if(Common.jugdeType(wantedSendCards) != CardType.c0){//如果能够出牌
+                return 1;
+            }
+        }
+        //如果接牌 则返回以下返回值
+        return Common.checkCards(wantedSendCards,currentCardsList);//0代表无法出牌 1代表可以出牌
+    }
+    public void positionSendedCards(){//把出的牌放到牌堆中央,并且调整自己的剩余手牌位置
+        Point point=new Point();
+        point.x=900-(currentCardsList[playerNum].size()+1)*15/2;;
+        point.y=550;
+        for (int i = 0; i < currentCardsList[playerNum].size(); i++) {
+            SinglePoker tempCard = currentCardsList[playerNum].get(i);
+            Common.move(tempCard,tempCard.getLocation(),point,10);
+            point.x+=25;
+        }
+        rePosition(this,playerList[playerNum],1);
+        time[1].setVisible(false);
     }
 }
 class onLineNewTimer implements Runnable {

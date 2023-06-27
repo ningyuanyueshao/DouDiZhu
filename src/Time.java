@@ -66,6 +66,8 @@ public class Time extends Thread{
                 openlord(false);
             }
         }
+
+
         turnOn(false);
         for (int i = 0; i < 3; i++)
         {
@@ -73,6 +75,8 @@ public class Time extends Thread{
             onePLayout.time[i].setVisible(false);
         }
         onePLayout.turn = onePLayout.dizhuFlag;
+
+
         while(true){
             if(onePLayout.turn==1) //我
             {
@@ -157,7 +161,7 @@ public class Time extends Thread{
     public void turnOn(boolean flag) {//打开出牌按钮
         onePLayout.publishCard[0].setVisible(flag);
         onePLayout.publishCard[1].setVisible(flag);//第一次出牌的话 不出按钮不可见
-        if(mustPlay == true) onePLayout.publishCard[1].setVisible(false);
+        if(mustPlay) onePLayout.publishCard[1].setVisible(false);
 
     }
     public void timeWait(int n, int player) {
@@ -363,8 +367,7 @@ public class Time extends Thread{
             point.y = 400 - (list.size() + 1) * 15 / 2;// 屏幕中部
             // 将name转换成Card
             for (int i = 0, len = list.size(); i < len; i++) {
-                List<SinglePoker> cards = getCardByName(onePLayout.playerList[role],
-                        list.get(i));
+                List<SinglePoker> cards = getCardByName(onePLayout.playerList[role], list.get(i));
                 for (SinglePoker card : cards) {
                     Common.move(card, card.getLocation(), point,10);
                     point.y += 30;

@@ -1,16 +1,18 @@
+import java.awt.*;
 import java.util.Arrays;
+import java.util.List;
 
 public class OnlineTime extends Thread{
-    boolean mustPlay = false;
+    boolean mustPlay = false;//本客户端是否必须出牌
     boolean isFirst = false;
     boolean isRun= false;
     int lordIndex = -1;//地主的下标
+    int winIndex = -1;//获胜玩家下标
     int[] score = new int[3];//三个人所叫的分数 每个人的玩家编号对应数组下标
-//    todo 每个client端叫分后，server就要修改其他两个client的score数组
 
     OnlineLayout onlineLayout;
     int timeLeft;
-
+    String priorityActionCards = null;
     public OnlineTime(OnlineLayout onlineLayout,int timeLeft){
         this.onlineLayout = onlineLayout;
         this.timeLeft = timeLeft;
@@ -25,6 +27,7 @@ public class OnlineTime extends Thread{
         onlineLayout.setLocationAndZorder();
         callPoints();//叫分环节
         allocateLord();//分配地主 并加入地主牌
+        playingGames();//开始打牌
 
     }
     public void second(int i){
@@ -185,9 +188,9 @@ public class OnlineTime extends Thread{
                 while(timeLeft>=0) {
                     second(1);
                     if(score[onlineLayout.priorityNum] != -1){//已叫分
-                        //通知服务端
                         for(int i=0;i<4;i++)
                             onlineLayout.landlord[i].setVisible(false);
+                        //通知服务端
                         showScoreText(onlineLayout.priorityNum);
                         System.out.println("本客户端叫了"+score[onlineLayout.priorityNum]);
                         onlineLayout.printWriter.println("c:"+onlineLayout.playerNum+"-"+score[onlineLayout.priorityNum]);
@@ -253,13 +256,13 @@ public class OnlineTime extends Thread{
         System.out.println("此时玩家面前的牌可以被点击.分配地主环节结束,地主玩家编号是"+lordIndex);
 //        以下代码为把地主牌加入到手牌中
         if(lordIndex == onlineLayout.playerNum){//本玩家当地主
+            mustPlay = true;//第一手牌是地主牌权 地主不能出不要
+            isFirst = true;//这是玩家第一次出牌
             onlineLayout.playerList[onlineLayout.playerNum].addAll(onlineLayout.lordList);
             openlord(true);
             second(2);
             Common.order(onlineLayout.playerList[onlineLayout.playerNum]);
             onlineLayout.rePosition(onlineLayout,onlineLayout.playerList[onlineLayout.playerNum],1);
-            mustPlay = true;//这是玩家的牌权
-            isFirst = true;//这是玩家第一次出牌
         }
         else{
             onlineLayout.playerList[onlineLayout.playerNum].addAll(onlineLayout.lordList);
@@ -307,6 +310,41 @@ public class OnlineTime extends Thread{
             else {
                 onlineLayout.time[1].setText("倒计时:"+ timeLeft--);
                 onlineLayout.time[1].setVisible(true);
+            }
+        }
+    }
+    public void closeTimeText(int currentIndex){
+        if(currentIndex == 0){//如果是轮到0号
+            if(onlineLayout.playerNum == 0){
+                onlineLayout.time[1].setVisible(false);
+            }
+            else if(onlineLayout.playerNum == 1){
+                onlineLayout.time[0].setVisible(false);
+            }
+            else {
+                onlineLayout.time[2].setVisible(false);
+            }
+        }
+        else if(currentIndex == 1){
+            if(onlineLayout.playerNum == 0){
+                onlineLayout.time[2].setVisible(false);
+            }
+            else if(onlineLayout.playerNum == 1){
+                onlineLayout.time[1].setVisible(false);
+            }
+            else {
+                onlineLayout.time[0].setVisible(false);
+            }
+        }
+        else{//轮到2号
+            if(onlineLayout.playerNum == 0){
+                onlineLayout.time[0].setVisible(false);
+            }
+            else if(onlineLayout.playerNum == 1){
+                onlineLayout.time[2].setVisible(false);
+            }
+            else {
+                onlineLayout.time[1].setVisible(false);
             }
         }
     }
@@ -383,41 +421,6 @@ public class OnlineTime extends Thread{
             }
         }
     }
-    public void showNoNeedText(int currentIndex){
-        if(currentIndex == 0){
-            if(onlineLayout.playerNum == 0){
-                onlineLayout.time[1].setText("不 抢");
-            }
-            else if(onlineLayout.playerNum == 1){
-                onlineLayout.time[0].setText("不 抢");
-            }
-            else {
-                onlineLayout.time[2].setText("不 抢");
-            }
-        }
-        else if(currentIndex == 1){
-            if(onlineLayout.playerNum == 0){
-                onlineLayout.time[2].setText("不 抢");
-            }
-            else if(onlineLayout.playerNum == 1){
-                onlineLayout.time[1].setText("不 抢");
-            }
-            else {
-                onlineLayout.time[0].setText("不 抢");
-            }
-        }
-        else{//currentIndex 为2
-            if(onlineLayout.playerNum == 0){
-                onlineLayout.time[0].setText("不 抢");
-            }
-            else if(onlineLayout.playerNum == 1){
-                onlineLayout.time[2].setText("不 抢");
-            }
-            else {
-                onlineLayout.time[0].setText("不 抢");
-            }
-        }
-    }
     public void openlord(boolean is) {//翻开地主牌
         for (int i = 0; i < 3; i++) {
             if (is) {
@@ -433,4 +436,188 @@ public class OnlineTime extends Thread{
             onlineLayout.lordList.get(i).canClick = true;// 可被点击
         }
     }
+    public void playingGames(){
+        System.out.println("各玩家开始打牌 此时的priorityNum为(即地主 也就是第一个出牌的人)"+onlineLayout.priorityNum);
+        while(winIndex == -1){
+            timeLeft = 30;//每次出牌都有三十秒时间
+            isRun = true;//正在出牌
+            //应该要隐藏掉上次出牌的所有牌
+            for (int i = 0; i < onlineLayout.currentCardsList[onlineLayout.priorityNum].size(); i++) {
+                onlineLayout.currentCardsList[onlineLayout.priorityNum].get(i).setVisible(false);//把上一轮出的牌都要隐藏掉
+            }
+            if(onlineLayout.priorityNum == onlineLayout.playerNum){//轮到本客户端出牌
+                turnOnButton();//显示出牌与不出按钮 注意要考虑mustPlay
+                while (timeLeft >=0){//30秒定时器
+                    second(1);
+                    if(!isRun){//本客户端已经做出决策 isRun则仅在本客户端与不出的按钮处改变
+                        for(int i=0;i<2;i++)//隐藏出牌不出两个按钮
+                            onlineLayout.publishCard[i].setVisible(false);
+                        priorityActionCards = "e:";
+                        System.out.println("本客户端出的牌是：");
+                        if(onlineLayout.currentCardsList[onlineLayout.playerNum].size() == 0){//若本客户端不出牌
+                            priorityActionCards = priorityActionCards.concat("0-0");//这样表示不出牌
+                            onlineLayout.time[1].setText("不 出");
+                            onlineLayout.time[1].setVisible(true);//展现不出信息位
+                            System.out.println("不出");
+                        }
+                        else{//有出牌
+                            onlineLayout.time[1].setVisible(false);
+                            for (int i = 0; i < onlineLayout.currentCardsList[onlineLayout.playerNum].size(); i++) {
+                                System.out.println(onlineLayout.currentCardsList[onlineLayout.playerNum].get(i).name);
+                                priorityActionCards = priorityActionCards.concat(onlineLayout.currentCardsList[onlineLayout.playerNum].get(i).name);
+                            }
+                            onlineLayout.printWriter.println(priorityActionCards);//把出牌信息给server
+                        }
+                        break;//退出三十秒计时器
+                    }
+                    else {//客户端还未做出决策 需要更新面前的计时器
+                        showTimeText(onlineLayout.playerNum);
+                    }
+                }
+                if(timeLeft<0){//我超时了
+                    //todo 超时待完善 计划是出最小的一张牌 然后再告知服务端
+                    winIndex = 3;
+                    System.out.println("玩家"+onlineLayout.playerNum+"超时了，我直接认负");
+                    for (int i = 0; i < 2; i++) {
+                        onlineLayout.publishCard[i].setVisible(false);
+                    }
+                }
+            }
+            else{//如果是其他玩家在出牌
+                while (timeLeft >= 0){
+                    second(1);
+                    if(priorityActionCards != null){//其他玩家已做出决策
+                        onlineLayout.currentCardsList[onlineLayout.priorityNum].clear();//去掉所有的牌
+                        onlineLayout.time[onlineLayout.priorityNum].setVisible(false);//已做出决策就要把time信息位隐藏
+                        if(priorityActionCards.charAt(0) == '0'){//给的是 0-0
+                            showNoSendText(onlineLayout.priorityNum);// 展现“不出”的信息
+                        }
+                        else{//其他玩家有出牌
+                            String[] cards = priorityActionCards.split(";");
+                            System.out.println(onlineLayout.priorityNum+"玩家出的牌是");
+                            //把currentCardsList 数组进行维护
+                            for (int i = 0; i < cards.length; i++) {
+                                System.out.print(cards[i]);
+                                onlineLayout.currentCardsList[onlineLayout.priorityNum].add(new SinglePoker(cards[i],true));
+                                onlineLayout.currentCardsList[onlineLayout.priorityNum].get(i).setLocation(0,0);
+                                onlineLayout.add(onlineLayout.currentCardsList[onlineLayout.priorityNum].get(i));//把new的对象add到面板中去
+                                onlineLayout.currentCardsList[onlineLayout.priorityNum].get(i).setVisible(false);//先让其暂时不可见
+                            }
+//                            已经得到了当前玩家的 currentCardsList list
+                            positionSendedCards();//把当前其他玩家出的牌展现到本客户端的页面处
+//                            这一步代码不知道会不会出问题？？？ 有可能该玩家的牌不会removeAll 要根据后面的println检验
+                            onlineLayout.playerList[onlineLayout.priorityNum].removeAll(onlineLayout.currentCardsList[onlineLayout.priorityNum]);//在玩家手牌中移除掉这些牌
+                        }
+                        System.out.println("输出一下当前其他玩家出的牌");
+                        for (int i = 0; i < onlineLayout.currentCardsList[onlineLayout.priorityNum].size(); i++) {
+                            System.out.println(onlineLayout.currentCardsList[onlineLayout.priorityNum].get(i).name);
+                        }
+                        break;
+                    }
+                    else{//还没做出决策 那就一直显示剩余时间
+                        showTimeText(onlineLayout.priorityNum);//显示正在出牌的玩家的剩余时间
+                    }
+                }
+                if(timeLeft<0){//其他玩家超时了
+                    winIndex = 3;
+                    System.out.println("其他玩家超时了,我赢了");
+                }
+            }
+            priorityActionCards = null;
+            onlineLayout.priorityNum = (onlineLayout.priorityNum+1 )%3;//每次一个人轮完之后 priorityNum自增取模
+            judgeIsEnd();
+        }
+        System.out.println("游戏结束,获胜玩家是:"+winIndex);
+    }
+    public void judgeIsEnd(){//判断游戏是否结束
+        if(onlineLayout.playerList[0].size()==0){
+            winIndex = 0;
+        }
+        else if(onlineLayout.playerList[1].size() == 0){
+            winIndex = 1;
+        }
+        else if(onlineLayout.playerList[2].size() == 0){
+            winIndex = 2;
+        }
+    }
+    public void turnOnButton(){
+        //显示出牌与不出按钮
+        for (int i = 0; i < 2; i++) {
+            onlineLayout.publishCard[i].setVisible(true);
+        }
+        if(mustPlay == true){
+            onlineLayout.publishCard[1].setVisible(false);//不显示 “不出” 按钮
+        }
+    }
+    public void showNoSendText(int currentIndex){
+        if (currentIndex == 0) {
+            if (onlineLayout.playerNum == 0) {
+                onlineLayout.time[1].setText("不 出");
+                onlineLayout.time[1].setVisible(true);
+            } else if (onlineLayout.playerNum == 1) {
+                onlineLayout.time[0].setText("不 出");
+                onlineLayout.time[0].setVisible(true);
+            } else {
+                onlineLayout.time[2].setText("不 出");
+                onlineLayout.time[2].setVisible(true);
+            }
+        } else if (currentIndex == 1) {
+            if (onlineLayout.playerNum == 0) {
+                onlineLayout.time[2].setText("不 出");
+                onlineLayout.time[2].setVisible(true);
+            } else if (onlineLayout.playerNum == 1) {
+                onlineLayout.time[1].setText("不 出");
+                onlineLayout.time[1].setVisible(true);
+            } else {
+                onlineLayout.time[0].setText("不 出");
+                onlineLayout.time[0].setVisible(true);
+            }
+        } else {//currentIndex 为2
+            if (onlineLayout.playerNum == 0) {
+                onlineLayout.time[0].setText("不 出");
+                onlineLayout.time[0].setVisible(true);
+            } else if (onlineLayout.playerNum == 1) {
+                onlineLayout.time[2].setText("不 出");
+                onlineLayout.time[2].setVisible(true);
+            } else {
+                onlineLayout.time[1].setText("不 出");
+                onlineLayout.time[1].setVisible(true);
+            }
+        }
+
+    }
+    public void positionSendedCards(){//把其他玩家出的牌显示到左侧或者右侧 并且要removeAll playList数组
+        Point point = new Point();
+        point.y = 400 - (onlineLayout.currentCardsList[onlineLayout.priorityNum].size() + 1) * 15 / 2;// 屏幕中部
+        if(onlineLayout.playerNum == 0){
+            if(onlineLayout.priorityNum == 1){
+                point.x = 1400;
+            }
+            else if(onlineLayout.priorityNum == 2){
+                point.x = 500;
+            }
+        }
+        else if(onlineLayout.playerNum == 1){
+            if(onlineLayout.priorityNum == 0){
+                point.x = 1400;
+            }
+            else if(onlineLayout.priorityNum == 2){
+                point.x = 500;
+            }
+        }
+        else{
+            if(onlineLayout.priorityNum == 0){
+                point.x = 500;
+            }
+            else if(onlineLayout.priorityNum == 1){
+                point.x = 1400;
+            }
+        }
+//        其中x的取值是根据 priorityNum 和 playNum 而定的
+        for (SinglePoker card : onlineLayout.currentCardsList[onlineLayout.priorityNum]) {
+            Common.move(card, card.getLocation(), point,10);
+            point.y += 30;
+        }
+    }
 }
+

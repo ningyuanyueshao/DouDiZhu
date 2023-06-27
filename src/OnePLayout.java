@@ -238,7 +238,6 @@ public class OnePLayout extends JPanel implements ActionListener {
 
         //如果是出牌按钮
         if(e.getSource()==publishCard[0]){
-
             List<SinglePoker> c = new ArrayList<SinglePoker>();
             //点选出牌
             for(int i=0;i<playerList[1].size();i++)
@@ -253,14 +252,10 @@ public class OnePLayout extends JPanel implements ActionListener {
             /*for(int i=0;i<c.size();i++){
 				System.out.println("点选的牌是："+c.get(i).name);
 			}*/
-
-
             int flag=0;
-
             //如果我主动出牌
             if(time[0].getText().equals("不要")&&time[2].getText().equals("不要"))
             {
-
                 if(Common.jugdeType(c)!=CardType.c0)
                     flag=1;//表示可以出牌
             }//如果我跟牌
@@ -285,7 +280,7 @@ public class OnePLayout extends JPanel implements ActionListener {
                 //抽完牌后重新整理牌
                 Common.rePosition(this, playerList[1], 1);
                 time[1].setVisible(false);
-                this.nextPlayer=true;
+                this.nextPlayer=true;//??????????
             }
         }
     }
