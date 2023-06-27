@@ -187,7 +187,7 @@ public class OnlineLayout extends JPanel implements ActionListener {
             onlineTime.score[playerNum] = 1;
             onlineTime.isRun=false; //时钟终结
         }
-        else {
+        else if(e.getSource()==landlord[0]){
             time[playerNum].setText("不 抢");
             onlineTime.score[playerNum] = 0;
             onlineTime.isRun=false; //时钟终结

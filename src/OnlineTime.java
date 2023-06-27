@@ -199,6 +199,7 @@ public class OnlineTime extends Thread{
                 }
                 if(timeLeft<0){
                     score[onlineLayout.priorityNum] = 0;
+                    System.out.println("已超时");
                     onlineLayout.printWriter.println("c:"+onlineLayout.playerNum+"-"+score[onlineLayout.priorityNum]);
                 }
             }
