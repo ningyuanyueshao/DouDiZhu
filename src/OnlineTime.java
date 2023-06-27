@@ -465,6 +465,7 @@ public class OnlineTime extends Thread{
                             System.out.println("不出");
                         }
                         else{//有出牌
+                            onlineLayout.time[1].setText("要");
                             onlineLayout.time[1].setVisible(false);
                             for (int i = 0; i < onlineLayout.currentCardsList[onlineLayout.playerNum].size(); i++) {
                                 System.out.println(onlineLayout.currentCardsList[onlineLayout.playerNum].get(i).name);
@@ -497,6 +498,7 @@ public class OnlineTime extends Thread{
                             showNoSendText(onlineLayout.priorityNum);// 展现“不出”的信息
                         }
                         else{//其他玩家有出牌
+                            showSendText(onlineLayout.priorityNum);//展现“出”的信息
                             String[] cards = priorityActionCards.split(";");
                             System.out.println(onlineLayout.priorityNum+"玩家出的牌是");
                             //把currentCardsList 数组进行维护
@@ -623,6 +625,43 @@ public class OnlineTime extends Thread{
             card.setVisible(true);
             point.y += 30;
         }
+    }
+    public void showSendText(int currentIndex){
+        if (currentIndex == 0) {
+            if (onlineLayout.playerNum == 0) {
+                onlineLayout.time[1].setText("要");
+                onlineLayout.time[1].setVisible(false);
+            } else if (onlineLayout.playerNum == 1) {
+                onlineLayout.time[0].setText("要");
+                onlineLayout.time[0].setVisible(false);
+            } else {
+                onlineLayout.time[2].setText("要");
+                onlineLayout.time[2].setVisible(false);
+            }
+        } else if (currentIndex == 1) {
+            if (onlineLayout.playerNum == 0) {
+                onlineLayout.time[2].setText("要");
+                onlineLayout.time[2].setVisible(false);
+            } else if (onlineLayout.playerNum == 1) {
+                onlineLayout.time[1].setText("要");
+                onlineLayout.time[1].setVisible(false);
+            } else {
+                onlineLayout.time[0].setText("要");
+                onlineLayout.time[0].setVisible(false);
+            }
+        } else {//currentIndex 为2
+            if (onlineLayout.playerNum == 0) {
+                onlineLayout.time[0].setText("要");
+                onlineLayout.time[0].setVisible(false);
+            } else if (onlineLayout.playerNum == 1) {
+                onlineLayout.time[2].setText("要");
+                onlineLayout.time[2].setVisible(false);
+            } else {
+                onlineLayout.time[1].setText("要");
+                onlineLayout.time[1].setVisible(false);
+            }
+        }
+
     }
 }
 
