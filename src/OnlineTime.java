@@ -28,7 +28,7 @@ public class OnlineTime extends Thread{
         onlineLayout.setLocationAndZorder();
         callPoints();//叫分环节
         allocateLord();//分配地主 并加入地主牌
-        setlord(lordIndex);
+        setlord();
         playingGames();//开始打牌
         returnInfor();//返回字符串消息给后端
     }
@@ -39,20 +39,20 @@ public class OnlineTime extends Thread{
             e.printStackTrace();
         }
     }
-    public void setlord(int i) {
+    public void setlord() {
         Point point = new Point();
-        if (i == 1)// 我是地主
+        if (lordIndex == onlineLayout.playerNum)// 我是地主
         {
             point.x = 300;
             point.y = 650;
             onlineLayout.dizhuFlag = 1;// 设定地主
         }
-        if (i == 0) {
+        if ((lordIndex +1)%3==onlineLayout.playerNum) {
             point.x = 150;
             point.y = 130;
             onlineLayout.dizhuFlag = 0;
         }
-        if (i == 2) {
+        if ((lordIndex +2)%3==onlineLayout.playerNum) {
             point.x = 1600;
             point.y = 130;
             onlineLayout.dizhuFlag = 2;
@@ -107,7 +107,7 @@ public class OnlineTime extends Thread{
             }
             if(onlineLayout.playerNames[(onlineLayout.playerNum-1 + 3)%3] != null){//左侧（本client视角）有玩家进来
                 onlineLayout.namesJText[0].setText(onlineLayout.playerNames[(onlineLayout.playerNum-1+3)%3]);
-                onlineLayout.avatarLabel[0].setVisible(true);//在此显示头像
+                onlineLayout.avatarLabel[1].setVisible(true);//在此显示头像
                 onlineLayout.namesJText[0].setVisible(true);
             }
             if(onlineLayout.playerNames[(onlineLayout.playerNum+1)%3] != null){//右侧（本client视角）有玩家进来
