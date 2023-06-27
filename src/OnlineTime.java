@@ -1,3 +1,4 @@
+import javax.swing.*;
 import java.awt.*;
 import java.util.Arrays;
 import java.util.List;
@@ -700,13 +701,16 @@ public class OnlineTime extends Thread{
                 maxScore = score[i];
             }
         }
-        if(lordIndex == winIndex){
-            System.out.println("地主获胜，获胜玩家编号是"+winIndex);
-            onlineLayout.printWriter.println("g:"+maxScore+"-"+winIndex);
-        }
-        else{
-            System.out.println("农民获胜，获胜玩家编号是"+((lordIndex+1)%3+"+"+((lordIndex+2)%3)) );
-            onlineLayout.printWriter.println("g:"+maxScore+"-"+(lordIndex+1)%3+"-"+(lordIndex+2)%3);
+        if (lordIndex == winIndex) {
+            String message = "地主获胜，获胜玩家编号是" + winIndex;
+            System.out.println(message);
+            onlineLayout.printWriter.println("g:" + maxScore + "-" + winIndex);
+            JOptionPane.showMessageDialog(null, message, "游戏结束", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            String message = "农民获胜，获胜玩家编号是" + ((lordIndex + 1) % 3) + "和" + ((lordIndex + 2) % 3);
+            System.out.println(message);
+            onlineLayout.printWriter.println("g:" + maxScore + "-" + (lordIndex + 1) % 3 + "-" + (lordIndex + 2) % 3);
+            JOptionPane.showMessageDialog(null, message, "游戏结束", JOptionPane.INFORMATION_MESSAGE);
         }
 
     }
