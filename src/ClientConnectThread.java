@@ -108,7 +108,7 @@ public class ClientConnectThread extends Thread{
                 to = null;
                 break;
             case 'p':
-                giveInviteMessageToWindow(from.substring(from.indexOf(':')+1));
+                giveInviteMessageToWindow(from.substring(2));
                 to = null;
                 break;
             case 'r':
