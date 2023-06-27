@@ -403,7 +403,7 @@ public class OnlineLayout extends JPanel implements ActionListener {
             }
         }
         //如果接牌 则返回以下返回值
-        return Common.checkCards(wantedSendCards,currentCardsList);//0代表无法出牌 1代表可以出牌
+        return checkCards(wantedSendCards);//0代表无法出牌 1代表可以出牌
     }
     public void positionSendedCards(){//把出的牌放到牌堆中央,并且调整自己的剩余手牌位置
         Point point=new Point();
@@ -416,6 +416,55 @@ public class OnlineLayout extends JPanel implements ActionListener {
         }
         rePosition(this,playerList[playerNum],1);
         time[1].setVisible(false);
+    }
+    public int checkCards(List<SinglePoker> wantedSendCards){//可以返回1 不能返回0
+        List<SinglePoker> tempList=(currentCardsList[(playerNum+2)%3].size()>0)?currentCardsList[(playerNum+2)%3]:currentCardsList[playerNum+1];
+        CardType cType=Common.jugdeType(wantedSendCards);
+        if(cType!=CardType.c4&&wantedSendCards.size()!=tempList.size())
+            return 0;
+        // 比较我的出牌类型
+        if(Common.jugdeType(wantedSendCards)!=Common.jugdeType(tempList)) {
+            // 两个类型不等的话
+            if(cType!=CardType.c4)// 如果cType不是炸弹的话 直接不能出牌
+                return 0;
+            else{// 如果cType是炸弹，那么肯定可以出牌
+                return 1;
+            }
+        }
+        // 比较出的牌是否要大
+        // 王炸弹
+        if(cType==CardType.c4){
+            if(wantedSendCards.size()==2)
+                return 1;
+            if(tempList.size()==2)
+                return 0;
+        }
+        // 单牌,对子,3带,4炸弹
+        if(cType==CardType.c1||cType==CardType.c2||cType==CardType.c3||cType==CardType.c4){
+            if(Common.getValue(wantedSendCards.get(0))<=Common.getValue(tempList.get(0))) {
+                return 0;
+            } else {
+                return 1;
+            }
+        }
+        // 顺子,连队，飞机裸
+        if(cType==CardType.c123||cType==CardType.c1122||cType==CardType.c111222){
+            if(Common.getValue(wantedSendCards.get(0))<=Common.getValue(tempList.get(0)))
+                return 0;
+            else
+                return 1;
+        }
+        // 按重复多少排序
+        // 3带1,3带2 ,飞机带单，双,4带1,2,只需比较第一个就行，独一无二的
+        if(cType == CardType.c31 || cType == CardType.c32
+                || cType == CardType.c411 || cType == CardType.c422
+                || cType == CardType.c11122234 || cType==CardType.c1112223344){
+            List<SinglePoker> a1 = Common.getOrder2(wantedSendCards); // 我出的牌
+            List<SinglePoker> a2 = Common.getOrder2(tempList);// 当前最大牌
+            if(Common.getValue(a1.get(0)) < Common.getValue(a2.get(0)))
+                return 0;
+        }
+        return 1;
     }
 }
 class onLineNewTimer implements Runnable {
