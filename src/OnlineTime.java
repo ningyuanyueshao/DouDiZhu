@@ -463,6 +463,7 @@ public class OnlineTime extends Thread{
                             onlineLayout.time[1].setText("不要");
                             onlineLayout.time[1].setVisible(true);//展现不出信息位
                             System.out.println("不出");
+                            onlineLayout.printWriter.println(priorityActionCards);//把出牌信息给server
                         }
                         else{//有出牌
                             onlineLayout.time[1].setText("要");
