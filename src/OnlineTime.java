@@ -553,9 +553,6 @@ public class OnlineTime extends Thread{
         for (int i = 0; i < 2; i++) {
             onlineLayout.publishCard[i].setVisible(true);
         }
-        if(mustPlay == true){
-            onlineLayout.publishCard[1].setVisible(false);//不显示 “不出” 按钮
-        }
     }
     public void showNoSendText(int currentIndex){
         if (currentIndex == 0) {
