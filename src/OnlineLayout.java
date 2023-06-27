@@ -55,9 +55,8 @@ public class OnlineLayout extends JPanel implements ActionListener {
         setLayout(null);
         SwingUtilities.invokeLater(new onLineNewTimer(this,10));//开启新的线程 进行准备 发牌 叫分 游戏
         CardsInit();//不在进程中初始化cards 试试能不能在屏幕中显示 说明可以显示
-//        getLord();
         setBackground();
-//        add(backgroundLabel);
+        add(backgroundLabel);
     }
     public void setBackground(){//设置背景图片
         int width = Toolkit.getDefaultToolkit().getScreenSize().width;
@@ -196,6 +195,7 @@ public class OnlineLayout extends JPanel implements ActionListener {
             cards[count].setVisible(false);
             count++;
         }
+
     }
 
 
@@ -366,7 +366,7 @@ public class OnlineLayout extends JPanel implements ActionListener {
             lordListCopy.get(i).turnRear();
             lordListCopy.get(i).setVisible(true);
 //            setComponentZOrder(lordList.get(i), 0);
-//            setComponentZOrder(lordListCopy.get(i), 0);
+            setComponentZOrder(lordListCopy.get(i), 0);
         }
         frame.getContentPane().removeAll();
         frame.getContentPane().add(this);

@@ -706,7 +706,7 @@ public class OnlineTime extends Thread{
         }
         else{
             System.out.println("农民获胜，获胜玩家编号是"+((lordIndex+1)%3+"+"+((lordIndex+2)%3)) );
-            onlineLayout.printWriter.println("g:"+maxScore+"-"+(lordIndex+1)%3+(lordIndex+2)%3);
+            onlineLayout.printWriter.println("g:"+maxScore+"-"+(lordIndex+1)%3+"-"+(lordIndex+2)%3);
         }
 
     }
