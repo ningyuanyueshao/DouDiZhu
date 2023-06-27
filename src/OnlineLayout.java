@@ -157,9 +157,23 @@ public class OnlineLayout extends JPanel implements ActionListener {
         namesJText[0].setBounds(300,300,100,50);
         namesJText[1].setBounds(800,400,100,50);
         namesJText[2].setBounds(1300,300,100,50);
-        dizhu = new JLabel(new ImageIcon("src/img/dizhu.png"));
+
+        ImageIcon originalIcon1 = new ImageIcon("src/img/dizhu.png");
+        Image originalImage1 = originalIcon1.getImage();
+
+        // 计算缩放后的宽度和高度
+        int scaledWidth1 = 50;
+        int scaledHeight1 = 50;
+
+        // 创建缩放后的图像
+        Image scaledImage1 = originalImage1.getScaledInstance(scaledWidth1, scaledHeight1, Image.SCALE_SMOOTH);
+
+        // 创建缩放后的图标
+        ImageIcon scaledIcon1 = new ImageIcon(scaledImage1);
+
+        dizhu = new JLabel(scaledIcon1);
         dizhu.setVisible(false);
-        dizhu.setSize(40,40);
+        dizhu.setSize(scaledWidth, scaledHeight);
         add(dizhu);
         for(int i=0;i<3;i++)
         {
