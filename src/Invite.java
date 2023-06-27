@@ -8,6 +8,14 @@ import java.util.LinkedList;
 public class Invite {
     public static LinkedList<Message> messages = new LinkedList<>(); //存放消息，一有用户端登录就检索
     public static LinkedList<ClientThread> clientThreads = new LinkedList<>(); //存放所有在线的线程，其他类其实也可以使用
+    public static boolean isLogIn(String usernameNow){
+        for (ClientThread clientThread : clientThreads) {
+            String username = clientThread.username;
+            if (username != null &&username.equals(usernameNow))
+                return false;
+        }//检查现在处于登录状态的客户端，若有匹配的，直接发送信息
+        return true;
+    }
     public static void newMessage(String sourceUsername,int roomID,String aimUsername){
         for (ClientThread clientThread : clientThreads) {
             String username = clientThread.username;

@@ -130,5 +130,10 @@ public class Room{
         System.out.println("该房间内的用户"+temp+"的线程已被剔除");
     }//当用户退出的时候，从房间中剔除该用户
 
+    public void giveActionCardsToOthers(String cards){
+        for (ClientThread clientThread:clientThreads) {
+            clientThread.giveActionCardsToClient(cards);
+        }
+    }
     //可以在这个房间里调用每个线程类的方法，就可以修改每个线程里的from和to了
 }

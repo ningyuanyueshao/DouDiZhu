@@ -103,6 +103,10 @@ public class ClientConnectThread extends Thread{
                 giveScoreToFrame(from.charAt(2));
                 to=null;
                 break;
+            case 'f':
+                giveActionCardsToFrame(from.substring(2));
+                to = null;
+                break;
             case 'p':
                 giveInviteMessageToWindow(from.substring(from.indexOf(':')+1));
                 to = null;
@@ -265,7 +269,6 @@ public class ClientConnectThread extends Thread{
     }
 
     public void giveInviteMessageToWindow(String string) {
-        System.out.println("服务器给的信息为" + string);
         String[] str = string.split("-");
         // 创建对话框
         int choice = JOptionPane.showConfirmDialog(null, str[0]+"邀请您进入"+str[1]+"号房间，是否加入？", "邀请", JOptionPane.YES_NO_OPTION);
@@ -275,7 +278,27 @@ public class ClientConnectThread extends Thread{
             setupLayout.roomID = Integer.parseInt(str[1]);
             mainChatInviteFrame.roomID = Integer.parseInt(str[1]);
             printWriter.println("r:同意");
-            //todo: 显示OnlinePanel
+            frame.showOnlineLayout();//展现onlinePanel
+            frame.onlineLayout.printWriter = printWriter;
+            if(str.length == 3){
+                frame.onlineLayout.playerNum = 1;
+                int index = str[2].indexOf("、");
+                frame.onlineLayout.playerNames[0] = str[2].substring(0,index);
+                frame.onlineLayout.playerNames[2] = null;
+                if(str[2].charAt(index+1) == '1')
+                    frame.onlineLayout.preFlag[0] = true;
+            }
+            else if(str.length == 4){
+                frame.onlineLayout.playerNum = 2;
+                int index = str[2].indexOf("、");
+                frame.onlineLayout.playerNames[0] = str[2].substring(0,index);
+                if(str[2].charAt(index+1) == '1')
+                    frame.onlineLayout.preFlag[0] = true;
+                index = str[3].indexOf("、");
+                frame.onlineLayout.playerNames[2] = str[3].substring(0,index);
+                if(str[3].charAt(index+1)=='1')
+                    frame.onlineLayout.preFlag[1] = true;
+            }
         } else {
             System.out.println("用户选择不加入房间");
             printWriter.println("r:拒绝");
@@ -321,5 +344,9 @@ public class ClientConnectThread extends Thread{
                 frame.onlineLayout.onlineTime.score[frame.onlineLayout.priorityNum] = 3;
                 break;
         }
+    }
+
+    public void giveActionCardsToFrame(String cards){
+
     }
 }

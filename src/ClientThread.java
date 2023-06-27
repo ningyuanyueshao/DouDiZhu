@@ -87,6 +87,11 @@ public class ClientThread extends Thread{
                 roomArrayList.get(room).giveScores(from.substring(2));
                 to=null;
                 break;
+            case 'f':
+                //拿到牌的格式为
+                roomArrayList.get(room).giveActionCardsToOthers(from.substring(2));
+                to=null;
+                break;
             case 'o':
                 String fromAll = from.substring(from.indexOf(':')+1);
                 String[] strings = fromAll.split("-");
@@ -127,6 +132,10 @@ public class ClientThread extends Thread{
                 //用户注册，数据库检验用户名是否重复即可,若重复要返回失败
                 break;
             case '1':
+                if(!Invite.isLogIn(all.substring(1,all.indexOf('-')))){
+                    to = to.concat("登录失败");
+                    break;
+                }//与在线玩家冲突
                 username = all.substring(1,all.indexOf('-'));
                 password = all.substring(all.indexOf('-')+1);
                 String pass = DataBase.get_usr_pwd(username);
@@ -200,6 +209,16 @@ public class ClientThread extends Thread{
     }
     public void giveInviteMessage(String sourceUsername,int roomID){
         String to = "p:"+sourceUsername+"-"+roomID;
+        Room temp = roomArrayList.get(roomID);
+        for (int i = 0; i < temp.clientThreads.length; i++) {
+            if (temp.clientThreads[i] != null) {
+                to = to.concat("-" + temp.clientThreads[i].username); //i表示几号位
+                if(temp.positionReady[i])
+                    to = to.concat("、1");
+                else
+                    to = to.concat("、0");
+            }
+        }
         System.out.println("服务器返回的邀请信息为"+to);
         printWriter.println(to);
     }
@@ -208,7 +227,11 @@ public class ClientThread extends Thread{
         System.out.println("服务器返回的聊天信息为"+to);
         printWriter.println(to);
     }
-
+    public void giveActionCardsToClient(String cards){
+        String to = "f:"+ cards;
+        System.out.println("服务器返回的卡牌信息为"+to);
+        printWriter.println(to);
+    }
     public void getAllOnlineUsernames(){
         String to = "v:"+Invite.getAllUsernames();
         System.out.println("服务器返回的所有在线玩家信息为"+to);
