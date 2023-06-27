@@ -106,7 +106,7 @@ public class ClientThread extends Thread{
                 String fromUsername = from.substring(from.indexOf(':')+1,from.indexOf('-'));
                 String temp = from.substring(from.indexOf('-')+1);
                 String targetUsername = temp.substring(0,temp.indexOf('-'));
-                String chatItems = from.substring(from.indexOf('-')+1);
+                String chatItems = temp.substring(temp.indexOf('-')+1);
                 Chat.giveChatStrings(fromUsername,targetUsername,chatItems);
                 to = null;
                 break;
