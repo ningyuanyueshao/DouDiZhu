@@ -331,7 +331,7 @@ public class OnlineLayout extends JPanel implements ActionListener {
         frame.repaint();
         System.out.println("窗口已经刷新");
     }
-    public static void rePosition(OnlineLayout onlineLayout,List<SinglePoker> list, int flag){
+    public void rePosition(OnlineLayout onlineLayout,List<SinglePoker> list, int flag){
         Point p = new Point();
         if(flag == 0) {
             p.x = 250;

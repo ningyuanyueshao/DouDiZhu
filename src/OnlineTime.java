@@ -248,6 +248,20 @@ public class OnlineTime extends Thread{
             card2.canClick = true;// 可被点击 但是点击牌前移动画还没做
 
         System.out.println("此时玩家面前的牌可以被点击.分配地主环节结束,地主玩家编号是"+lordIndex);
+//        以下代码为把地主牌加入到手牌中
+        if(lordIndex == onlineLayout.playerNum){//本玩家当地主
+            onlineLayout.playerList[onlineLayout.playerNum].addAll(onlineLayout.lordList);
+            openlord(true);
+            second(2);
+            Common.order(onlineLayout.playerList[onlineLayout.playerNum]);
+            onlineLayout.rePosition(onlineLayout,onlineLayout.playerList[onlineLayout.playerNum],1);
+            mustPlay = true;//这是玩家的牌权
+            isFirst = true;//这是玩家第一次出牌
+        }
+        else{
+            onlineLayout.playerList[onlineLayout.playerNum].addAll(onlineLayout.lordList);
+            openlord(false);
+        }
     }
     public void showTimeText(int currentIndex){
         if(currentIndex == 0){//如果是轮到0号
@@ -362,6 +376,21 @@ public class OnlineTime extends Thread{
             else {
                 onlineLayout.time[0].setText("不 抢");
             }
+        }
+    }
+    public void openlord(boolean is) {//翻开地主牌
+        for (int i = 0; i < 3; i++) {
+            if (is) {
+                onlineLayout.add(onlineLayout.lordListCopy.get(i));//把这个加入进去
+                onlineLayout.lordListCopy.get(i).setVisible(true);
+                onlineLayout.lordListCopy.get(i).turnFront();
+                onlineLayout.lordList.get(i).turnFront(); // 地主牌翻看
+            }
+            else {
+//                onePLayout.lordListCopy.get(i).turnRear(); bug1 注意如果要盖上地主牌 那么copy不能盖上
+                onlineLayout.lordList.get(i).turnRear(); // 地主牌闭合
+            }
+            onlineLayout.lordList.get(i).canClick = true;// 可被点击
         }
     }
 }
