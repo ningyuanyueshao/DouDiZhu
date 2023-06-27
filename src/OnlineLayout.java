@@ -45,6 +45,7 @@ public class OnlineLayout extends JPanel implements ActionListener {
     SinglePoker nullCardOne = new SinglePoker("1-1",false);//用来放在两侧
     SinglePoker nullCardTwo = new SinglePoker("1-1",false);
 
+    int dizhuFlag;
     JLabel dizhu; //地主图标
 
     OnlineTime onlineTime;
@@ -115,8 +116,8 @@ public class OnlineLayout extends JPanel implements ActionListener {
 
         avatarLabel[0].setLocation(100,850);
         avatarLabel[0].setVisible(true);
-        avatarLabel[1].setLocation(0,400);
-        avatarLabel[2].setLocation(1650,400);
+        avatarLabel[1].setLocation(50,400);
+        avatarLabel[2].setLocation(1800,400);
         avatarLabel[1].setVisible(false);
         avatarLabel[2].setVisible(false);
 
@@ -171,7 +172,7 @@ public class OnlineLayout extends JPanel implements ActionListener {
             playerList[i] = new ArrayList<>();//初始化每个人的牌
         }
         nullCardOne.setLocation(300,400);
-        nullCardTwo.setLocation(1400,400);
+        nullCardTwo.setLocation(1620,400);
         add(nullCardOne);
         add(nullCardTwo);
     }

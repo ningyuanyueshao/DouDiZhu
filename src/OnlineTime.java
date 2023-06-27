@@ -28,6 +28,7 @@ public class OnlineTime extends Thread{
         onlineLayout.setLocationAndZorder();
         callPoints();//叫分环节
         allocateLord();//分配地主 并加入地主牌
+        setlord(lordIndex);
         playingGames();//开始打牌
 
     }
@@ -37,6 +38,27 @@ public class OnlineTime extends Thread{
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+    }
+    public void setlord(int i) {
+        Point point = new Point();
+        if (i == 1)// 我是地主
+        {
+            point.x = 300;
+            point.y = 650;
+            onlineLayout.dizhuFlag = 1;// 设定地主
+        }
+        if (i == 0) {
+            point.x = 150;
+            point.y = 130;
+            onlineLayout.dizhuFlag = 0;
+        }
+        if (i == 2) {
+            point.x = 1600;
+            point.y = 130;
+            onlineLayout.dizhuFlag = 2;
+        }
+        onlineLayout.dizhu.setLocation(point);
+        onlineLayout.dizhu.setVisible(true);
     }
     public void waitForPlayNum(){
         while(true){
