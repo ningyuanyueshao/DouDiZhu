@@ -437,6 +437,10 @@ public class OnlineTime extends Thread{
         }
     }
     public void playingGames(){
+        if(lordIndex == onlineLayout.playerNum){//如果我是地主 那么我需要把其他两家的time置为 不要
+            onlineLayout.time[0].setText("不要");
+            onlineLayout.time[2].setText("不要");
+        }
         System.out.println("各玩家开始打牌 此时的priorityNum为(即地主 也就是第一个出牌的人)"+onlineLayout.priorityNum);
         while(winIndex == -1){
             timeLeft = 30;//每次出牌都有三十秒时间
@@ -456,7 +460,7 @@ public class OnlineTime extends Thread{
                         System.out.println("本客户端出的牌是：");
                         if(onlineLayout.currentCardsList[onlineLayout.playerNum].size() == 0){//若本客户端不出牌
                             priorityActionCards = priorityActionCards.concat("0-0");//这样表示不出牌
-                            onlineLayout.time[1].setText("不 出");
+                            onlineLayout.time[1].setText("不要");
                             onlineLayout.time[1].setVisible(true);//展现不出信息位
                             System.out.println("不出");
                         }
@@ -552,35 +556,35 @@ public class OnlineTime extends Thread{
     public void showNoSendText(int currentIndex){
         if (currentIndex == 0) {
             if (onlineLayout.playerNum == 0) {
-                onlineLayout.time[1].setText("不 出");
+                onlineLayout.time[1].setText("不要");
                 onlineLayout.time[1].setVisible(true);
             } else if (onlineLayout.playerNum == 1) {
-                onlineLayout.time[0].setText("不 出");
+                onlineLayout.time[0].setText("不要");
                 onlineLayout.time[0].setVisible(true);
             } else {
-                onlineLayout.time[2].setText("不 出");
+                onlineLayout.time[2].setText("不要");
                 onlineLayout.time[2].setVisible(true);
             }
         } else if (currentIndex == 1) {
             if (onlineLayout.playerNum == 0) {
-                onlineLayout.time[2].setText("不 出");
+                onlineLayout.time[2].setText("不要");
                 onlineLayout.time[2].setVisible(true);
             } else if (onlineLayout.playerNum == 1) {
-                onlineLayout.time[1].setText("不 出");
+                onlineLayout.time[1].setText("不要");
                 onlineLayout.time[1].setVisible(true);
             } else {
-                onlineLayout.time[0].setText("不 出");
+                onlineLayout.time[0].setText("不要");
                 onlineLayout.time[0].setVisible(true);
             }
         } else {//currentIndex 为2
             if (onlineLayout.playerNum == 0) {
-                onlineLayout.time[0].setText("不 出");
+                onlineLayout.time[0].setText("不要");
                 onlineLayout.time[0].setVisible(true);
             } else if (onlineLayout.playerNum == 1) {
-                onlineLayout.time[2].setText("不 出");
+                onlineLayout.time[2].setText("不要");
                 onlineLayout.time[2].setVisible(true);
             } else {
-                onlineLayout.time[1].setText("不 出");
+                onlineLayout.time[1].setText("不要");
                 onlineLayout.time[1].setVisible(true);
             }
         }

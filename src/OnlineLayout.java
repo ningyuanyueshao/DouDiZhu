@@ -56,7 +56,7 @@ public class OnlineLayout extends JPanel implements ActionListener {
         CardsInit();//不在进程中初始化cards 试试能不能在屏幕中显示 说明可以显示
 //        getLord();
         setBackground();
-        add(backgroundLabel);
+//        add(backgroundLabel);
     }
     public void setBackground(){//设置背景图片
         int width = Toolkit.getDefaultToolkit().getScreenSize().width;
