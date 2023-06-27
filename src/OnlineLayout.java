@@ -69,14 +69,21 @@ public class OnlineLayout extends JPanel implements ActionListener {
     }
     public void Init(){
         prepare = new RoundRectButton("准 备");
+        Font font = new Font ("微软雅黑",Font.PLAIN,15);
 
         //初始化自己面前的四个按钮
         landlord[0]=new RoundRectButton("3 分");
         landlord[1]=new RoundRectButton("2 分");
         landlord[2]=new RoundRectButton("1 分");
         landlord[3]=new RoundRectButton("不 抢");
+        for (int i = 0; i < landlord.length; i++) {
+            landlord[i].setFont(font);
+        }
         publishCard[0]= new RoundRectButton("出 牌");
         publishCard[1]= new RoundRectButton("不 要");
+        for (int i = 0; i < publishCard.length; i++) {
+            publishCard[i].setFont(font);
+        }
 
         prepare.setBounds(1000,850,60,40);
         add(prepare);
