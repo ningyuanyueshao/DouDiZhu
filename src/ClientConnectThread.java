@@ -111,6 +111,10 @@ public class ClientConnectThread extends Thread{
                 giveInviteMessageToWindow(from.substring(from.indexOf(':')+1));
                 to = null;
                 break;
+            case 'r':
+                JOptionPane.showMessageDialog(null,"对方"+from.substring(2)+"了您的邀请请求","通知",JOptionPane.PLAIN_MESSAGE);
+                to = null;
+                break;
             case 't':
                 giveChatItemsToWindow(from.substring(from.indexOf(':')+1));
                 to = null;
@@ -277,7 +281,7 @@ public class ClientConnectThread extends Thread{
             System.out.println("用户选择加入房间");
             setupLayout.roomID = Integer.parseInt(str[1]);
             mainChatInviteFrame.roomID = Integer.parseInt(str[1]);
-            printWriter.println("r:同意");
+            printWriter.println("q:同意"+"-"+str[0]);
             frame.showOnlineLayout();//展现onlinePanel
             frame.onlineLayout.printWriter = printWriter;
             if(str.length == 3){
@@ -301,7 +305,7 @@ public class ClientConnectThread extends Thread{
             }
         } else {
             System.out.println("用户选择不加入房间");
-            printWriter.println("r:拒绝");
+            printWriter.println("q:拒绝"+"-"+str[0]);
         }
     }
 

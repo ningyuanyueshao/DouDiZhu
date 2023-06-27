@@ -11,9 +11,11 @@ public class Invite {
     public static boolean isLogIn(String usernameNow){
         for (ClientThread clientThread : clientThreads) {
             String username = clientThread.username;
-            if (username != null &&username.equals(usernameNow))
+            if (username != null &&username.equals(usernameNow)){
+                System.out.print(username+"----");
                 return false;
-        }//检查现在处于登录状态的客户端，若有匹配的，直接发送信息
+            }
+        }//检查现在处于登录状态的客户端
         return true;
     }
     public static void newMessage(String sourceUsername,int roomID,String aimUsername){

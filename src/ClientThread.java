@@ -98,8 +98,13 @@ public class ClientThread extends Thread{
                 Invite.newMessage(strings[0],Integer.parseInt(strings[1]),strings[2]);
                 to = null;
                 break;
-            case 'r':
-                JOptionPane.showMessageDialog(null,"对方"+from.substring(2)+"了您的邀请请求","通知",JOptionPane.PLAIN_MESSAGE);
+            case 'q':
+                String string = from.substring(2);
+                String[] str = string.split("-");
+                for (ClientThread clientThread:Invite.clientThreads) {
+                    if(clientThread.username.equals(str[1]))
+                        clientThread.printWriter.println("r:"+str[0]);
+                }
                 to = null;
                 break;
             case 's':
@@ -132,10 +137,10 @@ public class ClientThread extends Thread{
                 //用户注册，数据库检验用户名是否重复即可,若重复要返回失败
                 break;
             case '1':
-                if(!Invite.isLogIn(all.substring(1,all.indexOf('-')))){
+                /*if(!Invite.isLogIn(all.substring(1,all.indexOf('-')))){
                     to = to.concat("登录失败");
                     break;
-                }//与在线玩家冲突
+                }//与在线玩家冲突*/
                 username = all.substring(1,all.indexOf('-'));
                 password = all.substring(all.indexOf('-')+1);
                 String pass = DataBase.get_usr_pwd(username);
