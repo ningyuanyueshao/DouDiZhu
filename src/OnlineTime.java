@@ -44,12 +44,12 @@ public class OnlineTime extends Thread{
         Point point = new Point();
         if (lordIndex == onlineLayout.playerNum)// 我是地主
         {
-            point.x = 300;
-            point.y = 650;
+            point.x = 400;
+            point.y = 800;
             onlineLayout.dizhuFlag = 1;// 设定地主
         }
         if ((lordIndex +1)%3==onlineLayout.playerNum) {
-            point.x = 150;
+            point.x = 100;
             point.y = 130;
             onlineLayout.dizhuFlag = 0;
         }

@@ -141,12 +141,12 @@ public class Time extends Thread{
         Point point = new Point();
         if (i == 1)// 我是地主
         {
-            point.x = 300;
-            point.y = 650;
+            point.x = 400;
+            point.y = 800;
             onePLayout.dizhuFlag = 1;// 设定地主
         }
         if (i == 0) {
-            point.x = 150;
+            point.x = 100;
             point.y = 130;
             onePLayout.dizhuFlag = 0;
         }
