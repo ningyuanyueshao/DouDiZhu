@@ -33,8 +33,6 @@ public class SinglePoker extends JLabel implements MouseListener {
     }
     public void turnFront() {
         this.setIcon(new ImageIcon("src/img/poker/" + name + ".png"));
-//		D:\java\GitHub\Chinese-poker-game
-//		D:\java\2\DouDiZhu\images
         this.up = true;
 
     }
