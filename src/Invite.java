@@ -6,7 +6,7 @@ import java.util.LinkedList;
  */
 //该类放在服务端
 public class Invite {
-    public static LinkedList<Message> messages = new LinkedList<>(); //存放消息，一有用户端登录就检索
+    //public static LinkedList<Message> messages = new LinkedList<>(); //存放消息，一有用户端登录就检索
     public static LinkedList<ClientThread> clientThreads = new LinkedList<>(); //存放所有在线的线程，其他类其实也可以使用
     public static LinkedList<String> onlineUsers = new LinkedList<>();
     public static boolean isLogIn(String usernameNow){
@@ -25,7 +25,7 @@ public class Invite {
                 clientThread.giveInviteMessage(sourceUsername,roomID);
         }//检查现在处于登录状态的客户端，若有匹配的，直接发送信息
         //若没有，新建一个Message对象，填入messages中等待处理
-        messages.add(new Message(sourceUsername, roomID, aimUsername));
+        //messages.add(new Message(sourceUsername, roomID, aimUsername));
     }
 
     public static String getAllUsernames(){
@@ -37,10 +37,10 @@ public class Invite {
         }
         return usernames;
     }
-    public static void checkMessages(ClientThread clientThread){
+    /*public static void checkMessages(ClientThread clientThread){
         for (Message temp : messages) {
             if (temp.aimUsername.equals(clientThread.username))
                 clientThread.giveInviteMessage(temp.sourceUsername, temp.roomID);
         }
-    }//查看未处理的消息中是否有与新登录的用户所匹配(好像用不上，因为都是给在线用户发邀请)
+    }//查看未处理的消息中是否有与新登录的用户所匹配(好像用不上，因为都是给在线用户发邀请)*/
 }

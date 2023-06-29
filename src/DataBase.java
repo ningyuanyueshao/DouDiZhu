@@ -24,7 +24,7 @@ public class DataBase {
             // “jdbc:mysql://数据库的地址（mysql server 的地址）/数据库名字?（要mysql中操作的数据库的名字）”
             // 后面再 + 上用来登录的用户名和密码
             // 同时，使用这个函数，必须处理异常
-            connect = DriverManager.getConnection("jdbc:mysql://localhost:3306/login_information", "root", "1357188405whb.");
+            connect = DriverManager.getConnection("jdbc:mysql://localhost:3306/login_information", "root", "123456");
             String out_name;
             if (connect != null) {
                 System.out.println("Connect successfully!");
@@ -66,7 +66,7 @@ public class DataBase {
             // “jdbc:mysql://数据库的地址（mysql server 的地址）/数据库名字?（要mysql中操作的数据库的名字）”
             // 后面再 + 上用来登录的用户名和密码
             // 同时，使用这个函数，必须处理异常
-            connect = DriverManager.getConnection("jdbc:mysql://localhost:3306/login_information", "root", "1357188405whb.");
+            connect = DriverManager.getConnection("jdbc:mysql://localhost:3306/login_information", "root", "123456");
             String out_user_score;
             if (connect != null) {
                 System.out.println("Connect successfully!");
@@ -107,7 +107,7 @@ public class DataBase {
             // “jdbc:mysql://数据库的地址（mysql server 的地址）/数据库名字?（要mysql中操作的数据库的名字）”
             // 后面再 + 上用来登录的用户名和密码
             // 同时，使用这个函数，必须处理异常
-            connect = DriverManager.getConnection("jdbc:mysql://localhost:3306/login_information", "root", "1357188405whb.");
+            connect = DriverManager.getConnection("jdbc:mysql://localhost:3306/login_information", "root", "123456");
             String out_user_score;
             if (connect != null) {
                 System.out.println("Connect successfully!");
@@ -149,7 +149,7 @@ public class DataBase {
             // “jdbc:mysql://数据库的地址（mysql server 的地址）/数据库名字?（要mysql中操作的数据库的名字）”
             // 后面再 + 上用来登录的用户名和密码
             // 同时，使用这个函数，必须处理异常
-            connect = DriverManager.getConnection("jdbc:mysql://localhost:3306/login_information", "root", "1357188405whb.");
+            connect = DriverManager.getConnection("jdbc:mysql://localhost:3306/login_information", "root", "123456");
             if (connect != null) {
                 System.out.println("Connect successfully!");
             }
@@ -191,7 +191,7 @@ public class DataBase {
             // “jdbc:mysql://数据库的地址（mysql server 的地址）/数据库名字?（要mysql中操作的数据库的名字）”
             // 后面再 + 上用来登录的用户名和密码
             // 同时，使用这个函数，必须处理异常
-            connect = DriverManager.getConnection("jdbc:mysql://localhost:3306/login_information", "root", "1357188405whb.");
+            connect = DriverManager.getConnection("jdbc:mysql://localhost:3306/login_information", "root", "123456");
             String out_user_score;
             if (connect != null) {
                 System.out.println("Connect successfully!");
@@ -222,7 +222,7 @@ public class DataBase {
             // “jdbc:mysql://数据库的地址（mysql server 的地址）/数据库名字?（要mysql中操作的数据库的名字）”
             // 后面再 + 上用来登录的用户名和密码
             // 同时，使用这个函数，必须处理异常
-            connect = DriverManager.getConnection("jdbc:mysql://localhost:3306/login_information", "root", "1357188405whb.");
+            connect = DriverManager.getConnection("jdbc:mysql://localhost:3306/login_information", "root", "123456");
 
             if (connect != null) {
                 System.out.println("Connect successfully!");
@@ -257,7 +257,7 @@ public class DataBase {
             // “jdbc:mysql://数据库的地址（mysql server 的地址）/数据库名字?（要mysql中操作的数据库的名字）”
             // 后面再 + 上用来登录的用户名和密码
             // 同时，使用这个函数，必须处理异常
-            connect = DriverManager.getConnection("jdbc:mysql://localhost:3306/login_information", "root", "1357188405whb.");
+            connect = DriverManager.getConnection("jdbc:mysql://localhost:3306/login_information", "root", "123456");
             if (connect != null) {
                 System.out.println("Connect successfully!");
             }

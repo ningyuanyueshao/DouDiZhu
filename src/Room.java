@@ -18,7 +18,6 @@ public class Room{
 
     ClientThread[] clientThreads = new ClientThread[3]; //存放3个用户线程，用这个下标表示座位
 
-    ClientThread tempClientThread;//tempClientThread表示要被调用的线程
 
     public void setEveryClientThread(ClientThread clientThread){
         int i;
